@@ -4,10 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.*;
-import android.os.Process;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -49,14 +46,7 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
 
         @Override
         public void run() {
-            boolean once = true;
             while (_running) {
-
-                if (once) {
-                    long id  = Thread.currentThread().getId();
-                    Log.d("run()", "Thread ID: " + Long.toString(id));
-                    once = false;
-                }
 
                 Canvas c = null;
                 try {
@@ -86,7 +76,7 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
             float oneFoot = _canvasWidth / 160.0f;
             float oneInch = oneFoot / 12.0f;
 
-            for (int i = 0; i < 20; i++) {
+            for (int i = 1; i < 20; i++) {
                 if (i % 5 == 0) {
                     float leftHash = oneFoot * 70.0f + oneInch * 9.0f;
                     float rightHash = _canvasWidth - (oneFoot * 70.0f + oneInch * 9.0f);
