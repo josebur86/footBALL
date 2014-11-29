@@ -120,8 +120,6 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
 
     private PlayThread _thread = null;
 
-
-
     public PlayView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
