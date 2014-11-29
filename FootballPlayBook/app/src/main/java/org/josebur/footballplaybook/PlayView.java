@@ -92,9 +92,9 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         private void drawVerticalHashMark(Canvas c, int yardLine) {
-            float hashLengthY = _fieldTransform.getVerticalYardLength() * (1.0f/3.0f);
-            PointF leftHash = _fieldTransform.getPointFromFeet(72.75f, yardLine * 3.0f);
-            PointF rightHash = _fieldTransform.getPointFromFeet(87.25f, yardLine * 3.0f);
+            float hashLengthY = _fieldTransform.getPointFromFeet(0.0f, 1.0f).y;
+            PointF leftHash = _fieldTransform.getPointFromFeet(Field.getLeftVerticalHashPosition(), yardLine * 3.0f);
+            PointF rightHash = _fieldTransform.getPointFromFeet(Field.getRightVerticalHashPosition(), yardLine * 3.0f);
 
             c.drawLine(leftHash.x, leftHash.y - hashLengthY * 0.5f, leftHash.x, leftHash.y + hashLengthY * 0.5f, _yardLinePaint);
             c.drawLine(rightHash.x, rightHash.y - hashLengthY * 0.5f, rightHash.x, rightHash.y + hashLengthY * 0.5f, _yardLinePaint);
@@ -104,15 +104,15 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
 
             float hashLengthX = _fieldTransform.getPointFromFeet(2.0f, 0.0f).x;
 
-            float leftSideline = _fieldTransform.getPointFromFeet(0.5f, 0.0f).x;
-            float rightSideline = _fieldTransform.getPointFromFeet(159.5f, 0.0f).x;
+            float leftSideline = _fieldTransform.getPointFromFeet(Field.getLeftSideLineHashPosition(), 0.0f).x;
+            float rightSideline = _fieldTransform.getPointFromFeet(Field.getRightSideLineHashPosition(), 0.0f).x;
             float yardPoint = _fieldTransform.getYardPoint(yardLine);
 
             c.drawLine(leftSideline, yardPoint, leftSideline + hashLengthX, yardPoint, _yardLinePaint);
             c.drawLine(rightSideline - hashLengthX, yardPoint, rightSideline, yardPoint, _yardLinePaint);
 
-            float leftHash = _fieldTransform.getPointFromFeet(70.75f, 0.0f).x;
-            float rightHash = _fieldTransform.getPointFromFeet(89.25f, 0.0f).x;
+            float leftHash = _fieldTransform.getPointFromFeet(Field.getLeftHashPosition(), 0.0f).x;
+            float rightHash = _fieldTransform.getPointFromFeet(Field.getRightHashPosition(), 0.0f).x;
             c.drawLine(leftHash, yardPoint, leftHash + hashLengthX, yardPoint, _yardLinePaint);
             c.drawLine(rightHash - hashLengthX, yardPoint, rightHash, yardPoint, _yardLinePaint);
         }
