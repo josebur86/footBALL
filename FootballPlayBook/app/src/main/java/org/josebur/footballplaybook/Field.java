@@ -13,6 +13,7 @@ public class Field {
     public Field() {
         _yardLinePaint = new Paint();
         _yardLinePaint.setColor(Color.WHITE);
+        _yardLinePaint.setAlpha(190);
         _yardLinePaint.setStrokeWidth(5);
     }
 
@@ -33,6 +34,30 @@ public class Field {
                 drawHashMark(c, yardLine);
             }
         }
+
+        // Test Player Color: #0B162A rgb(11, 22, 42)
+        Paint playerPaint = new Paint();
+        playerPaint.setColor(Color.WHITE);
+        Paint playerRingPaint = new Paint();
+        playerRingPaint.setStyle(Paint.Style.STROKE);
+        playerRingPaint.setColor(Color.RED);
+        playerRingPaint.setStrokeWidth(3);
+        playerRingPaint.setAlpha(127);
+
+
+        float playerRadius = 25;
+        float playerRingRadius = 20;
+        float gap = _transform.xFeetLengthFromPoint(playerRadius * 2);
+        PointF center = _transform.getPointFromFeet(getFieldWidth() / 2.0f, 10 * FieldTransform.kFeetPerYard);
+        PointF rightGuard = _transform.getPointFromFeet(getFieldWidth() / 2.0f + gap + 1.0f, 10 * FieldTransform.kFeetPerYard);
+        PointF rightTackle = _transform.getPointFromFeet(getFieldWidth() / 2.0f + 2.0f * gap + 2.0f, 10 * FieldTransform.kFeetPerYard);
+
+        c.drawCircle(center.x, center.y, playerRadius, playerPaint);
+        c.drawCircle(center.x, center.y, playerRingRadius, playerRingPaint);
+        c.drawCircle(rightGuard.x, rightGuard.y, playerRadius, playerPaint);
+        c.drawCircle(rightGuard.x, rightGuard.y, playerRingRadius, playerRingPaint);
+        c.drawCircle(rightTackle.x, rightTackle.y, playerRadius, playerPaint);
+        c.drawCircle(rightTackle.x, rightTackle.y, playerRingRadius, playerRingPaint);
     }
 
     private void drawFiveYardIncrementLine(Canvas c, int yardLine) {

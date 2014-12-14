@@ -6,6 +6,7 @@ import android.graphics.PointF;
 public class FieldTransform {
 
     private Matrix _feetToPointTransform;
+    private Matrix _pointToFeetTransform;
 
     public static int kFeetPerYard = 3;
 
@@ -13,11 +14,21 @@ public class FieldTransform {
         _feetToPointTransform = new Matrix();
         _feetToPointTransform.setScale(width / (float)fieldWidthFeet,
                                        height / (float)fieldLengthFeet);
+
+        _pointToFeetTransform = new Matrix();
+        _feetToPointTransform.invert(_pointToFeetTransform);
     }
 
     public PointF getPointFromFeet(float x, float y) {
         float[] pts = { x, y };
         _feetToPointTransform.mapPoints(pts);
+
+        return new PointF(pts[0], pts[1]);
+    }
+
+    public PointF getFeetFromPoint(float x, float y) {
+        float[] pts = { x, y };
+        _pointToFeetTransform.mapPoints(pts);
 
         return new PointF(pts[0], pts[1]);
     }
@@ -31,5 +42,10 @@ public class FieldTransform {
 
     public float getVerticalYardLength() {
         return getYardPoint(1);
+    }
+
+    public float xFeetLengthFromPoint(float xPoint)
+    {
+        return getFeetFromPoint(xPoint, 0).x;
     }
 }
