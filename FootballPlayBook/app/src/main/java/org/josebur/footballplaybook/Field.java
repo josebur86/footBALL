@@ -35,29 +35,16 @@ public class Field {
             }
         }
 
-        // Test Player Color: #0B162A rgb(11, 22, 42)
-        Paint playerPaint = new Paint();
-        playerPaint.setColor(Color.WHITE);
-        Paint playerRingPaint = new Paint();
-        playerRingPaint.setStyle(Paint.Style.STROKE);
-        playerRingPaint.setColor(Color.RED);
-        playerRingPaint.setStrokeWidth(3);
-        playerRingPaint.setAlpha(127);
-
-
         float playerRadius = 25;
-        float playerRingRadius = 20;
         float gap = _transform.xFeetLengthFromPoint(playerRadius * 2);
-        PointF center = _transform.getPointFromFeet(getFieldWidth() / 2.0f, 10 * FieldTransform.kFeetPerYard);
-        PointF rightGuard = _transform.getPointFromFeet(getFieldWidth() / 2.0f + gap + 1.0f, 10 * FieldTransform.kFeetPerYard);
-        PointF rightTackle = _transform.getPointFromFeet(getFieldWidth() / 2.0f + 2.0f * gap + 2.0f, 10 * FieldTransform.kFeetPerYard);
 
-        c.drawCircle(center.x, center.y, playerRadius, playerPaint);
-        c.drawCircle(center.x, center.y, playerRingRadius, playerRingPaint);
-        c.drawCircle(rightGuard.x, rightGuard.y, playerRadius, playerPaint);
-        c.drawCircle(rightGuard.x, rightGuard.y, playerRingRadius, playerRingPaint);
-        c.drawCircle(rightTackle.x, rightTackle.y, playerRadius, playerPaint);
-        c.drawCircle(rightTackle.x, rightTackle.y, playerRingRadius, playerRingPaint);
+        Player center = new Player(new PointF(getFieldWidth() / 2.0f, 10 * FieldTransform.kFeetPerYard));
+        Player rightGuard = new Player(new PointF(getFieldWidth() / 2.0f + gap + 1.0f, 10 * FieldTransform.kFeetPerYard));
+        Player rightTackle = new Player(new PointF(getFieldWidth() / 2.0f + 2.0f * gap + 2.0f, 10 * FieldTransform.kFeetPerYard));
+
+        center.draw(c, _transform);
+        rightGuard.draw(c, _transform);
+        rightTackle.draw(c, _transform);
     }
 
     private void drawFiveYardIncrementLine(Canvas c, int yardLine) {
