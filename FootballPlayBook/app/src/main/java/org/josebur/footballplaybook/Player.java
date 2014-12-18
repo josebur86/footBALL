@@ -9,6 +9,8 @@ public class Player {
 
     private PointF _fieldPosition;
 
+    public static float kPlayerRadius = 25;
+
     public Player(PointF fieldPosition)
     {
         _fieldPosition = fieldPosition;
@@ -30,8 +32,7 @@ public class Player {
 
         public void draw(Canvas c)
         {
-          float playerRadius = 25;
-          float playerRingRadius = 20;
+          float playerRingRadius = kPlayerRadius - 5;
 
           Paint playerPaint = new Paint();
           playerPaint.setColor(Color.WHITE);
@@ -42,7 +43,7 @@ public class Player {
           playerRingPaint.setStrokeWidth(3);
           playerRingPaint.setAlpha(127);
 
-          c.drawCircle(_pixelPosition.x, _pixelPosition.y, playerRadius, playerPaint);
+          c.drawCircle(_pixelPosition.x, _pixelPosition.y, kPlayerRadius, playerPaint);
           c.drawCircle(_pixelPosition.x, _pixelPosition.y, playerRingRadius, playerRingPaint);
         }
     }

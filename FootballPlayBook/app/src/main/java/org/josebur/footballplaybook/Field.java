@@ -41,10 +41,16 @@ public class Field {
         Player center = new Player(new PointF(getFieldWidth() / 2.0f, 10 * FieldTransform.kFeetPerYard));
         Player rightGuard = new Player(new PointF(getFieldWidth() / 2.0f + gap + 1.0f, 10 * FieldTransform.kFeetPerYard));
         Player rightTackle = new Player(new PointF(getFieldWidth() / 2.0f + 2.0f * gap + 2.0f, 10 * FieldTransform.kFeetPerYard));
+        Player tightEnd = new Player(new PointF(getFieldWidth() / 2.0f + 3.0f * gap + 3.0f, 10 * FieldTransform.kFeetPerYard));
 
         center.draw(c, _transform);
         rightGuard.draw(c, _transform);
         rightTackle.draw(c, _transform);
+        tightEnd.draw(c, _transform);
+
+        // 1 Right From Center = 2.0 * Player Radius + 1 Foot
+        // 2 Right From Center = 4.0 * Player Radius + 2 Feet
+        // 3 Right From Center = 6.0 * Player Radius + 3 Feet
     }
 
     private void drawFiveYardIncrementLine(Canvas c, int yardLine) {
