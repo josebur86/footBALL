@@ -1,6 +1,7 @@
 package org.josebur.footballplaybook;
 
 import android.app.Activity;
+import android.graphics.PointF;
 import android.os.*;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,15 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         _playView = (PlayView)findViewById(R.id.play_view);
+
+        Formation formation = new Formation();
+        formation.addPlayer(new Player(62, 30));
+        formation.addPlayer(new Player(71, 30));
+        formation.addPlayer(new Player(80, 30));
+        formation.addPlayer(new Player(89, 30));
+        formation.addPlayer(new Player(98, 30));
+
+        _playView.setFormation(formation);
     }
 
 

@@ -26,6 +26,8 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
             _field = new Field();
         }
 
+        public void setFormation(Formation formation) { _field.setFormation(formation); }
+
         public void setSurfaceSize(int width, int height) {
             _field.setCanvasSize(width, height);
         }
@@ -71,6 +73,10 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
         surfaceHolder.addCallback(this);
 
         _thread = new PlayThread(surfaceHolder, context);
+    }
+
+    public void setFormation(Formation formation) {
+        _thread.setFormation(formation);
     }
 
     @Override

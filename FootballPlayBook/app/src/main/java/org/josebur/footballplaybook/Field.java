@@ -7,14 +7,21 @@ import android.graphics.PointF;
 
 public class Field {
 
+    private Formation _formation;
     private FieldTransform _transform;
     private Paint _yardLinePaint;
 
     public Field() {
+        _formation = new Formation();
+
         _yardLinePaint = new Paint();
         _yardLinePaint.setColor(Color.WHITE);
         _yardLinePaint.setAlpha(190);
         _yardLinePaint.setStrokeWidth(5);
+    }
+
+    public void setFormation(Formation formation) {
+        _formation = formation;
     }
 
     public void setCanvasSize(int width, int length) {
@@ -35,25 +42,7 @@ public class Field {
             }
         }
 
-        float playerRadius = 25;
-        float gap = _transform.xFeetLengthFromPoint(playerRadius * 2);
-
-        Player center = new Player(new PointF(getFieldWidth() / 2.0f, 10 * FieldTransform.kFeetPerYard));
-        Player rightGuard = new Player(new PointF(getFieldWidth() / 2.0f + gap + 1.0f, 10 * FieldTransform.kFeetPerYard));
-        Player rightTackle = new Player(new PointF(getFieldWidth() / 2.0f + 2.0f * gap + 2.0f, 10 * FieldTransform.kFeetPerYard));
-        Player tightEnd = new Player(new PointF(getFieldWidth() / 2.0f + 3.0f * gap + 3.0f, 10 * FieldTransform.kFeetPerYard));
-
-        Formation f = new Formation();
-        f.addPlayer(center);
-        f.addPlayer(rightGuard);
-        f.addPlayer(rightTackle);
-        f.addPlayer(tightEnd);
-
-        f.draw(c, _transform);
-
-        // 1 Right From Center = 2.0 * Player Radius + 1 Foot
-        // 2 Right From Center = 4.0 * Player Radius + 2 Feet
-        // 3 Right From Center = 6.0 * Player Radius + 3 Feet
+        _formation.draw(c, _transform);
     }
 
     private void drawFiveYardIncrementLine(Canvas c, int yardLine) {

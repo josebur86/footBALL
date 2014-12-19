@@ -11,9 +11,9 @@ public class Player {
 
     public static float kPlayerRadius = 25;
 
-    public Player(PointF fieldPositionFeet)
+    public Player(float xFeet, float yFeet)
     {
-        _fieldPositionFeet = fieldPositionFeet;
+        _fieldPositionFeet = new PointF(xFeet, yFeet);
     }
 
     public void draw(Canvas c, FieldTransform fieldTransform)
