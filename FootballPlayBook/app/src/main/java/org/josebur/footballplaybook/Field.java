@@ -43,10 +43,13 @@ public class Field {
         Player rightTackle = new Player(new PointF(getFieldWidth() / 2.0f + 2.0f * gap + 2.0f, 10 * FieldTransform.kFeetPerYard));
         Player tightEnd = new Player(new PointF(getFieldWidth() / 2.0f + 3.0f * gap + 3.0f, 10 * FieldTransform.kFeetPerYard));
 
-        center.draw(c, _transform);
-        rightGuard.draw(c, _transform);
-        rightTackle.draw(c, _transform);
-        tightEnd.draw(c, _transform);
+        Formation f = new Formation();
+        f.addPlayer(center);
+        f.addPlayer(rightGuard);
+        f.addPlayer(rightTackle);
+        f.addPlayer(tightEnd);
+
+        f.draw(c, _transform);
 
         // 1 Right From Center = 2.0 * Player Radius + 1 Foot
         // 2 Right From Center = 4.0 * Player Radius + 2 Feet
