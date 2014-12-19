@@ -7,27 +7,27 @@ import android.graphics.PointF;
 
 public class Player {
 
-    private PointF _fieldPosition;
+    private PointF _fieldPositionFeet;
 
     public static float kPlayerRadius = 25;
 
-    public Player(PointF fieldPosition)
+    public Player(PointF fieldPositionFeet)
     {
-        _fieldPosition = fieldPosition;
+        _fieldPositionFeet = fieldPositionFeet;
     }
 
     public void draw(Canvas c, FieldTransform fieldTransform)
     {
-        new DrawablePlayer(fieldTransform, _fieldPosition).draw(c);
+        new DrawablePlayer(this, fieldTransform).draw(c);
     }
 
     private class DrawablePlayer
     {
         private PointF _pixelPosition;
 
-        public DrawablePlayer(FieldTransform fieldTransform, PointF fieldPosition)
+        public DrawablePlayer(Player player, FieldTransform fieldTransform)
         {
-            _pixelPosition = fieldTransform.getPointFromFeet(fieldPosition.x, fieldPosition.y);
+            _pixelPosition = fieldTransform.getPointFromFeet(player._fieldPositionFeet);
         }
 
         public void draw(Canvas c)

@@ -19,6 +19,11 @@ public class FieldTransform {
         _feetToPointTransform.invert(_pointToFeetTransform);
     }
 
+    public PointF getPointFromFeet(PointF pointFeet)
+    {
+        return getPointFromFeet(pointFeet.x, pointFeet.y);
+    }
+
     public PointF getPointFromFeet(float x, float y) {
         float[] pts = { x, y };
         _feetToPointTransform.mapPoints(pts);
