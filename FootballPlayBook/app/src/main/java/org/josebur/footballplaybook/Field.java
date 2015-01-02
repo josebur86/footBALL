@@ -45,6 +45,10 @@ public class Field {
         _formation.draw(c, _transform);
     }
 
+    public Player hitTest(float pixelX, float pixelY) {
+        return  _formation.hitTest(pixelX, pixelY, _transform);
+    }
+
     private void drawFiveYardIncrementLine(Canvas c, int yardLine) {
         float yardPoint = _transform.getYardPoint(yardLine);
         float canvasWidth = _transform.getPointFromFeet(getFieldWidth(), 0.0f).x;

@@ -20,9 +20,18 @@ public class Formation {
 
     public void draw(Canvas c, FieldTransform fieldTransform)
     {
-        for (Player p : _players)
-        {
+        for (Player p : _players) {
             p.draw(c, fieldTransform);
         }
+    }
+
+    public Player hitTest(float xPixel, float yPixel, FieldTransform fieldTransform) {
+        for (Player p : _players) {
+            if (p.hitTest(xPixel, yPixel, fieldTransform)) {
+                return p;
+            }
+        }
+
+        return null;
     }
 }

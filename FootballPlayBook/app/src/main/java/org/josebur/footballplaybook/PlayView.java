@@ -42,6 +42,10 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
             }
         }
 
+        public Player hitTest(float x, float y) {
+            return _field.hitTest(x, y);
+        }
+
         @Override
         public void run() {
             while (_running) {
@@ -124,7 +128,13 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
 
         @Override
         public void onLongPress(MotionEvent e) {
-            Log.d("LongPress", "onLongPress");
+            Player p = _thread.hitTest(e.getX(), e.getY());
+            if (p != null) {
+                Log.d("onLongPress", p.label());
+            }
+            else {
+                Log.d("onLongPress", "No Player");
+            }
         }
     }
 }

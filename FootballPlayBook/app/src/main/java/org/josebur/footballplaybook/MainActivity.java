@@ -19,11 +19,11 @@ public class MainActivity extends Activity {
         _playView = (PlayView)findViewById(R.id.play_view);
 
         Formation formation = new Formation();
-        formation.addPlayer(new Player(62, 30));
-        formation.addPlayer(new Player(71, 30));
-        formation.addPlayer(new Player(80, 30));
-        formation.addPlayer(new Player(89, 30));
-        formation.addPlayer(new Player(98, 30));
+        formation.addPlayer(new Player("LT", 62, 30));
+        formation.addPlayer(new Player("LG", 71, 30));
+        formation.addPlayer(new Player("C", 80, 30));
+        formation.addPlayer(new Player("RG", 89, 30));
+        formation.addPlayer(new Player("RT", 98, 30));
 
         _playView.setFormation(formation);
     }
