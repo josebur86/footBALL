@@ -1,7 +1,13 @@
 package org.josebur.footballplaybook;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
+import android.graphics.drawable.shapes.Shape;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -122,7 +128,7 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
 
     private class PlayerLongPressGesture extends GestureDetector.SimpleOnGestureListener {
 
-        private PlayerLongPressGesture() {
+        public PlayerLongPressGesture() {
             setLongClickable(true);
         }
 
@@ -131,10 +137,42 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
             Player p = _thread.hitTest(e.getX(), e.getY());
             if (p != null) {
                 Log.d("onLongPress", p.label());
+
+                PlayerDragShadowBuilder shadowBuilder = new PlayerDragShadowBuilder();
+                ClipData dragData = ClipData.newPlainText("Player", p.label());
+
+                startDrag(dragData, shadowBuilder, null, 0);
             }
             else {
                 Log.d("onLongPress", "No Player");
             }
+        }
+    }
+
+    private class PlayerDragShadowBuilder extends DragShadowBuilder {
+        private ShapeDrawable _shadow;
+
+        PlayerDragShadowBuilder(/* Player p*/) {
+            super(null);
+
+            Shape s = new OvalShape();
+            s.resize(240.f, 240.f); // TODO: these are magic numbers ATM.
+            _shadow = new ShapeDrawable(s);
+            _shadow.getPaint().setColor(Color.RED);
+        }
+
+        @Override
+        public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
+
+            int width = 240;
+            int height = 240;
+            shadowSize.set(width, height); // TODO: these are the same magic numbers as in the ctor.
+            shadowTouchPoint.set(width / 2, height / 2);
+        }
+
+        @Override
+        public void onDrawShadow(Canvas canvas) {
+            _shadow.draw(canvas);
         }
     }
 }
