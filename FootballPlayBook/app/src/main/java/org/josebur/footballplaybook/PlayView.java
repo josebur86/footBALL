@@ -3,8 +3,12 @@ package org.josebur.footballplaybook;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 
 public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
@@ -65,6 +69,7 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private PlayThread _thread = null;
+    private GestureDetector _gestureDetector;
 
     public PlayView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -73,10 +78,17 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
         surfaceHolder.addCallback(this);
 
         _thread = new PlayThread(surfaceHolder, context);
+
+        _gestureDetector = new GestureDetector(context, new PlayerLongPressGesture());
     }
 
     public void setFormation(Formation formation) {
         _thread.setFormation(formation);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return _gestureDetector.onTouchEvent(event) || super.onTouchEvent(event);
     }
 
     @Override
@@ -101,6 +113,18 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
             } catch (InterruptedException e) {
 
             }
+        }
+    }
+
+    private class PlayerLongPressGesture extends GestureDetector.SimpleOnGestureListener {
+
+        private PlayerLongPressGesture() {
+            setLongClickable(true);
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+            Log.d("LongPress", "onLongPress");
         }
     }
 }
