@@ -18,13 +18,15 @@ import android.view.SurfaceView;
 
 public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
 
+    private Field _field;
+    private FieldTransform _transform;
     private FieldDrawThread _thread = null;
     private GestureDetector _gestureDetector;
-    private ActivePlayerListener _listener;
+    private FieldViewListener _listener;
 
-    public interface ActivePlayerListener {
-        void onPlayerActivated(Player p);
-        void onPlayerDeactivated(Player p);
+    public interface FieldViewListener {
+        void onPlayerLongPressed(Player p);
+        void onDrag(float deltaX, float deltaY);
     }
 
     public FieldView(Context context, AttributeSet attrs) {
@@ -38,12 +40,18 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void setField(Field field) {
+        _field = field;
+
         _thread.setRunning(false);
         _thread.setField(field);
         _thread.setRunning(true);
     }
 
-    public void setActivePlayerListener(ActivePlayerListener listener) {
+    public FieldTransform fieldTransform() {
+        return _transform;
+    }
+
+    public void setFieldViewListener(FieldViewListener listener) {
         _listener = listener;
     }
 
@@ -60,7 +68,10 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        _thread.setSurfaceSize(width, height);
+        if (_field != null) {
+            _transform = new FieldTransform(width, height, _field.getFieldWidth(), _field.getFieldLength());
+            _thread.setFieldTransform(_transform);
+        }
     }
 
     @Override
@@ -86,6 +97,7 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
         private boolean _running = false;
 
         private Field _field = null;
+        private FieldTransform _transform;
 
         public FieldDrawThread(SurfaceHolder surfaceHolder, Context context) {
             _surfaceHolder = surfaceHolder;
@@ -96,10 +108,8 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
             _field = field;
         }
 
-        public void setSurfaceSize(int width, int height) {
-            if (_field != null) {
-                _field.setCanvasSize(width, height);
-            }
+        public void setFieldTransform(FieldTransform transform) {
+            _transform = transform;
         }
 
         public void setRunning(boolean running) {
@@ -110,7 +120,7 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
 
         public Player hitTest(float x, float y) {
             if (_field != null) {
-                return _field.hitTest(x, y);
+                return _field.hitTest(x, y, _transform);
             }
 
             return null;
@@ -139,9 +149,11 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
 
         private void doDraw(Canvas c) {
             if (_field != null) {
-                _field.draw(c);
+                _field.draw(c, _transform);
             }
         }
+
+
     }
 
     private class PlayerLongPressGesture extends GestureDetector.SimpleOnGestureListener {
@@ -154,17 +166,10 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
         public void onLongPress(MotionEvent e) {
             Player p = _thread.hitTest(e.getX(), e.getY());
             if (p != null) {
-                Log.d("onLongPress", p.label());
-
                 if (_listener != null)
                 {
-                    _listener.onPlayerActivated(p);
+                    _listener.onPlayerLongPressed(p);
                 }
-
-                PlayerDragShadowBuilder shadowBuilder = new PlayerDragShadowBuilder();
-                ClipData dragData = ClipData.newPlainText("Player", p.label());
-
-                startDrag(dragData, shadowBuilder, null, 0);
             }
             else {
                 Log.d("onLongPress", "No Player");
@@ -172,8 +177,8 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    private class PlayerDragShadowBuilder extends DragShadowBuilder {
-        private ShapeDrawable _shadow;
+    public static class PlayerDragShadowBuilder extends DragShadowBuilder {
+        private static ShapeDrawable _shadow;
 
         PlayerDragShadowBuilder(/* Player p*/) {
             super(null);

@@ -9,7 +9,6 @@ import android.util.Log;
 public class Field {
 
     private Formation _formation;
-    private FieldTransform _transform;
     private Paint _yardLinePaint;
 
     public Field() {
@@ -21,74 +20,73 @@ public class Field {
         _yardLinePaint.setStrokeWidth(5);
     }
 
+    public int getFieldWidth() {
+        return 160;
+    }
+
+    public int getFieldLength() {
+        return 60;
+    }
+
     public void setFormation(Formation formation) {
         _formation = formation;
     }
 
-    public void setCanvasSize(int width, int length) {
-        _transform = new FieldTransform(width, length, getFieldWidth(), getFieldLength());
+    public Formation formation() {
+        return _formation;
     }
 
-    public void draw(Canvas c) {
+    public void draw(Canvas c, FieldTransform transform) {
         c.drawRGB(0, 100, 0);
 
         int totalYards = getFieldLength() / FieldTransform.kFeetPerYard;
         for (int yardLine = 1; yardLine < totalYards; yardLine++) {
             if (yardLine % 5 == 0) {
-                drawFiveYardIncrementLine(c, yardLine);
-                drawVerticalHashMark(c, yardLine);
+                drawFiveYardIncrementLine(c, transform, yardLine);
+                drawVerticalHashMark(c, transform, yardLine);
             }
             else {
-                drawHashMark(c, yardLine);
+                drawHashMark(c, transform, yardLine);
             }
         }
 
-        _formation.draw(c, _transform);
+        _formation.draw(c, transform);
     }
 
-    public Player hitTest(float pixelX, float pixelY) {
-        Log.d("Field.hitTest", Integer.toString(android.os.Process.myTid()));
-        return  _formation.hitTest(pixelX, pixelY, _transform);
+    public Player hitTest(float pixelX, float pixelY, FieldTransform transform) {
+        return  _formation.hitTest(pixelX, pixelY, transform);
     }
 
-    private void drawFiveYardIncrementLine(Canvas c, int yardLine) {
-        float yardPoint = _transform.getYardPoint(yardLine);
-        float canvasWidth = _transform.getPointFromFeet(getFieldWidth(), 0.0f).x;
+    private void drawFiveYardIncrementLine(Canvas c, FieldTransform transform, int yardLine) {
+        float yardPoint = transform.getYardPoint(yardLine);
+        float canvasWidth = transform.getPointFromFeet(getFieldWidth(), 0.0f).x;
         c.drawLine(0, yardPoint, canvasWidth, yardPoint, _yardLinePaint);
     }
 
-    private void drawVerticalHashMark(Canvas c, int yardLine) {
-        float hashLengthY = _transform.getPointFromFeet(0.0f, 1.0f).y;
-        PointF leftHash = _transform.getPointFromFeet(getLeftVerticalHashPosition(), yardLine * 3.0f);
-        PointF rightHash = _transform.getPointFromFeet(getRightVerticalHashPosition(), yardLine * 3.0f);
+    private void drawVerticalHashMark(Canvas c, FieldTransform transform, int yardLine) {
+        float hashLengthY = transform.getPointFromFeet(0.0f, 1.0f).y;
+        PointF leftHash = transform.getPointFromFeet(getLeftVerticalHashPosition(), yardLine * 3.0f);
+        PointF rightHash = transform.getPointFromFeet(getRightVerticalHashPosition(), yardLine * 3.0f);
 
         c.drawLine(leftHash.x, leftHash.y - hashLengthY * 0.5f, leftHash.x, leftHash.y + hashLengthY * 0.5f, _yardLinePaint);
         c.drawLine(rightHash.x, rightHash.y - hashLengthY * 0.5f, rightHash.x, rightHash.y + hashLengthY * 0.5f, _yardLinePaint);
     }
 
-    private void drawHashMark(Canvas c, int yardLine) {
+    private void drawHashMark(Canvas c, FieldTransform transform, int yardLine) {
 
-        float hashLengthX = _transform.getPointFromFeet(2.0f, 0.0f).x;
+        float hashLengthX = transform.getPointFromFeet(2.0f, 0.0f).x;
 
-        float leftSideline = _transform.getPointFromFeet(getLeftSideLineHashPosition(), 0.0f).x;
-        float rightSideline = _transform.getPointFromFeet(getRightSideLineHashPosition(), 0.0f).x;
-        float yardPoint = _transform.getYardPoint(yardLine);
+        float leftSideline = transform.getPointFromFeet(getLeftSideLineHashPosition(), 0.0f).x;
+        float rightSideline = transform.getPointFromFeet(getRightSideLineHashPosition(), 0.0f).x;
+        float yardPoint = transform.getYardPoint(yardLine);
 
         c.drawLine(leftSideline, yardPoint, leftSideline + hashLengthX, yardPoint, _yardLinePaint);
         c.drawLine(rightSideline - hashLengthX, yardPoint, rightSideline, yardPoint, _yardLinePaint);
 
-        float leftHash = _transform.getPointFromFeet(getLeftHashPosition(), 0.0f).x;
-        float rightHash = _transform.getPointFromFeet(getRightHashPosition(), 0.0f).x;
+        float leftHash = transform.getPointFromFeet(getLeftHashPosition(), 0.0f).x;
+        float rightHash = transform.getPointFromFeet(getRightHashPosition(), 0.0f).x;
         c.drawLine(leftHash, yardPoint, leftHash + hashLengthX, yardPoint, _yardLinePaint);
         c.drawLine(rightHash - hashLengthX, yardPoint, rightHash, yardPoint, _yardLinePaint);
-    }
-
-    private int getFieldWidth() {
-        return 160;
-    }
-
-    private int getFieldLength() {
-        return 60;
     }
 
     private float getLeftSideLineHashPosition() {

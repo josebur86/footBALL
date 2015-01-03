@@ -18,6 +18,12 @@ public class Formation {
         _players.add(p);
     }
 
+    public void unselectAllPlayers() {
+        for (Player p : _players) {
+            p.setSelected(false);
+        }
+    }
+
     public void draw(Canvas c, FieldTransform fieldTransform)
     {
         for (Player p : _players) {

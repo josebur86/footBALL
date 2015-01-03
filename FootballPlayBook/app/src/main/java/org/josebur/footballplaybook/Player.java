@@ -10,7 +10,7 @@ public class Player {
 
     private String _label;
     private PointF _fieldPositionFeet;
-    private boolean _active;
+    private boolean _selected;
 
     public static float kPlayerRadius = 25;
 
@@ -18,23 +18,32 @@ public class Player {
     {
         _label = label;
         _fieldPositionFeet = new PointF(xFeet, yFeet);
-        _active = false;
+        _selected = false;
     }
 
     public String label() {
         return _label;
     }
 
-    public boolean isActive() {
-        return _active;
+    public boolean isSelected() {
+        return _selected;
     }
 
-    public void setActive(boolean a) {
-        _active = a;
+    public void setSelected(boolean s) {
+        _selected = s;
+    }
+
+    public void moveTo(PointF positionFeet) {
+        _fieldPositionFeet = positionFeet;
+    }
+
+    public void move(float deltaXFeet, float deltaYFeet) {
+        _fieldPositionFeet.x += deltaXFeet;
+        _fieldPositionFeet.y += deltaYFeet;
     }
 
     public void draw(Canvas c, FieldTransform fieldTransform) {
-        new DrawablePlayer(this, fieldTransform).draw(c);
+        new DrawablePlayer(this, fieldTransform).setSelected(_selected).draw(c);
     }
 
     public boolean hitTest(float xPixel, float yPixel, FieldTransform fieldTransform) {
@@ -44,21 +53,28 @@ public class Player {
     private class DrawablePlayer {
         private PointF _pixelPosition;
         private FieldTransform _fieldTransform;
+        private boolean _selected;
 
         public DrawablePlayer(Player player, FieldTransform fieldTransform) {
             _fieldTransform = fieldTransform;
             _pixelPosition = _fieldTransform.getPointFromFeet(player._fieldPositionFeet);
+            _selected = false;
+        }
+
+        public DrawablePlayer setSelected(boolean s) {
+            _selected = s;
+            return this;
         }
 
         public void draw(Canvas c) {
           float playerRingRadius = kPlayerRadius - 5;
 
           Paint playerPaint = new Paint();
-          playerPaint.setColor(Color.WHITE);
+          playerPaint.setColor(_selected ? Color.RED : Color.WHITE);
 
           Paint playerRingPaint = new Paint();
           playerRingPaint.setStyle(Paint.Style.STROKE);
-          playerRingPaint.setColor(Color.RED);
+          playerRingPaint.setColor(_selected ? Color.WHITE : Color.RED);
           playerRingPaint.setStrokeWidth(3);
           playerRingPaint.setAlpha(127);
 

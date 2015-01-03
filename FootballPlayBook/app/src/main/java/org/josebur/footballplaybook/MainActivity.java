@@ -1,6 +1,8 @@
 package org.josebur.footballplaybook;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.graphics.PointF;
 import android.os.*;
 import android.util.Log;
 import android.view.DragEvent;
@@ -9,7 +11,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements FieldView.FieldViewListener {
+
+    private Field _field;
+    private Player _selectedPlayer = null;
 
     private FieldView _fieldView;
     private PlayerDragListener _dragListener;
@@ -23,6 +28,7 @@ public class MainActivity extends Activity {
 
         _dragListener = new PlayerDragListener();
         _fieldView.setOnDragListener(_dragListener);
+        _fieldView.setFieldViewListener(this);
 
         Formation formation = new Formation();
         formation.addPlayer(new Player("LT", 62, 30));
@@ -31,10 +37,10 @@ public class MainActivity extends Activity {
         formation.addPlayer(new Player("RG", 89, 30));
         formation.addPlayer(new Player("RT", 98, 30));
 
-        Field field = new Field();
-        field.setFormation(formation);
+        _field = new Field();
+        _field.setFormation(formation);
 
-        _fieldView.setField(field);
+        _fieldView.setField(_field);
     }
 
 
@@ -60,6 +66,23 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onPlayerLongPressed(Player p) {
+        _field.formation().unselectAllPlayers();
+        p.setSelected(true);
+        _selectedPlayer = p;
+
+        FieldView.PlayerDragShadowBuilder shadowBuilder = new FieldView.PlayerDragShadowBuilder();
+        ClipData dragData = ClipData.newPlainText("Player", p.label());
+
+        _fieldView.startDrag(dragData, shadowBuilder, null, 0);
+    }
+
+    @Override
+    public void onDrag(float deltaX, float deltaY) {
+        // TODO: this method may not be needed.
+    }
+
     private class PlayerDragListener implements View.OnDragListener {
 
         @Override
@@ -83,6 +106,11 @@ public class MainActivity extends Activity {
                     Log.d("DragEvent.Location", "X: " + event.getX());
                     Log.d("DragEvent.Location", "Y: " + event.getX());
 
+                    if (_selectedPlayer == null) return true;
+
+                    _selectedPlayer.moveTo(_fieldView.fieldTransform().
+                            getFeetFromPoint(event.getX(), event.getY()));
+
                     v.invalidate();
                     return true;
 
@@ -94,6 +122,9 @@ public class MainActivity extends Activity {
                     // TODO: Update the active player's location one last time.
                     // TODO: Make sure that the player is no longer active.
                     Log.d("DragEvent.Drop", "Dropped");
+
+                    _field.formation().unselectAllPlayers();
+                    _selectedPlayer = null;
 
                     v.invalidate();
                     return true; //DragEvent.getResult() value
