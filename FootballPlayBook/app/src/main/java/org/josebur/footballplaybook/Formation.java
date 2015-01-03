@@ -13,6 +13,10 @@ public class Formation {
         _players = new ArrayList<Player>();
     }
 
+    public boolean isValid() {
+        return _players.size() == 11;
+    }
+
     public void addPlayer(Player p)
     {
         _players.add(p);

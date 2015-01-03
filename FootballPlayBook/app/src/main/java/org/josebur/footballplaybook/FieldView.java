@@ -14,9 +14,12 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 
 public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
+
+    private Context _context;
 
     private Field _field;
     private FieldTransform _transform;
@@ -30,6 +33,8 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
 
     public FieldView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        _context = context;
 
         SurfaceHolder surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);
@@ -61,6 +66,11 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        Log.d("FieldView", "surfaceCreated");
+        Log.d("FieldView", "Thread State: " + _thread.getState().toString());
+        if (_thread.getState() != Thread.State.NEW) {
+            _thread = new FieldDrawThread(getHolder(), _context);
+        }
         _thread.setRunning(true);
         _thread.start();
     }
@@ -75,6 +85,7 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        Log.d("FieldView", "surfaceDestroyed");
         boolean retry = true;
         _thread.setRunning(false);
         while (retry) {
@@ -85,6 +96,27 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
                 Log.e("FieldView.killThread", "Interrupted Exception thrown.");
             }
         }
+    }
+
+    @Override
+    protected void onWindowVisibilityChanged(int visibility) {
+
+        switch (visibility) {
+            case View.GONE:
+                Log.d("FieldView.onWindowVisibilityChanged", "Gone"); break;
+            case View.INVISIBLE:
+                Log.d("FieldView.onWindowVisibilityChanged", "Invisible"); break;
+            case View.VISIBLE:
+                Log.d("FieldView.onWindowVisibilityChanged", "Visible"); break;
+            default:
+                Log.d("FieldView.onWindowVisibilityChanged", "Unknown"); break;
+        }
+
+        super.onWindowVisibilityChanged(visibility);
+    }
+
+    public Thread.State getThreadState() {
+        return _thread.getState();
     }
 
     public class FieldDrawThread extends Thread {
