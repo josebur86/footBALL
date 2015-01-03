@@ -10,7 +10,6 @@ public class Player implements IPlayer {
 
     private String _label;
     private PointF _fieldPositionFeet;
-    private boolean _selected;
 
     public static float kPlayerRadius = 25;
 
@@ -18,7 +17,6 @@ public class Player implements IPlayer {
     {
         _label = label;
         _fieldPositionFeet = new PointF(xFeet, yFeet);
-        _selected = false;
     }
 
     @Override
@@ -28,12 +26,7 @@ public class Player implements IPlayer {
 
     @Override
     public boolean isSelected() {
-        return _selected;
-    }
-
-    @Override
-    public void setSelected(boolean s) {
-        _selected = s;
+        return false;
     }
 
     @Override
@@ -56,12 +49,29 @@ public class Player implements IPlayer {
 
     @Override
     public void draw(Canvas c, FieldTransform fieldTransform) {
-        new DrawablePlayer(this, fieldTransform).setSelected(_selected).draw(c);
+        new DrawablePlayer(this, fieldTransform).setSelected(isSelected()).draw(c);
     }
 
     @Override
     public boolean hitTest(float xPixel, float yPixel, FieldTransform fieldTransform) {
         return new DrawablePlayer(this, fieldTransform).hitTest(xPixel, yPixel);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Player player = (Player) o;
+
+        if (!_label.equals(player._label)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return _label.hashCode();
     }
 
     private class DrawablePlayer {

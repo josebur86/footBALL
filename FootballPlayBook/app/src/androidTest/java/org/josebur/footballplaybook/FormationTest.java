@@ -13,4 +13,13 @@ public class FormationTest extends TestCase {
         }
         assertTrue(f.isValid());
     }
+
+    public void testNoTwoPlayersHaveTheSameLabel() {
+        Formation f = new Formation();
+
+        for (int i = 0; i < 11; i++) {
+            f.addPlayer(new Player("Same", i, i));
+        }
+        assertFalse(f.isValid());
+    }
 }

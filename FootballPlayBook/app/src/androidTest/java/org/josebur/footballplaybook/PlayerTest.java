@@ -11,17 +11,24 @@ public class PlayerTest extends TestCase {
         assertEquals("Test Label", p.label());
     }
 
-    public void testSelectedState() {
+    public void testPlayerIsNotSelected() {
         IPlayer p = new Player("Test", 0, 0);
 
-        // Player should start not selected.
         assertFalse(p.isSelected());
+    }
 
-        p.setSelected(true);
-        assertTrue(p.isSelected());
+    public void testHashCodeAndEquals() {
+        IPlayer a = new Player("Test", 0, 0);
+        IPlayer b = new Player("Test", 0, 0);
+        IPlayer c = new Player("Test", 1, 1);
+        IPlayer d = new Player("Different", 1, 1);
 
-        p.setSelected(false);
-        assertFalse(p.isSelected());
+        assertEquals(a, a);
+        assertEquals(a, b);
+        assertEquals(a, c);
+        assertEquals(b, c);
+        assertFalse(a.equals(d));
+        assertFalse(c.equals(d));
     }
 
     public void testMoveTo() {

@@ -3,7 +3,9 @@ package org.josebur.footballplaybook;
 import android.graphics.Canvas;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Formation {
     private List<IPlayer> _players;
@@ -14,7 +16,13 @@ public class Formation {
     }
 
     public boolean isValid() {
-        return _players.size() == 11;
+        if (_players.size() != 11) return false;
+
+        // Check for duplicates.
+        Set<IPlayer> set = new HashSet<>(_players);
+        if (set.size() != _players.size()) return false;
+
+        return true;
     }
 
     public void addPlayer(IPlayer p)
@@ -23,9 +31,9 @@ public class Formation {
     }
 
     public void unselectAllPlayers() {
-        for (IPlayer p : _players) {
-            p.setSelected(false);
-        }
+//        for (IPlayer p : _players) {
+//            p.setSelected(false);
+//        } FIXME:
     }
 
     public void draw(Canvas c, FieldTransform fieldTransform)
