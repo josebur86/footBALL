@@ -34,12 +34,13 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
         surfaceHolder.addCallback(this);
 
         _thread = new FieldDrawThread(surfaceHolder, context);
-
         _gestureDetector = new GestureDetector(context, new PlayerLongPressGesture());
     }
 
-    public void setFormation(Formation formation) {
-        _thread.setFormation(formation);
+    public void setField(Field field) {
+        _thread.setRunning(false);
+        _thread.setField(field);
+        _thread.setRunning(true);
     }
 
     public void setActivePlayerListener(ActivePlayerListener listener) {
@@ -71,7 +72,7 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
                 _thread.join();
                 retry = false;
             } catch (InterruptedException e) {
-
+                Log.e("FieldView.killThread", "Interrupted Exception thrown.");
             }
         }
     }
@@ -79,24 +80,26 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
     public class FieldDrawThread extends Thread {
 
         private Context _context;
-        private SurfaceHolder _surfaceHolder;
+        private final SurfaceHolder _surfaceHolder;
 
         private final Object _runLock = new Object();
         private boolean _running = false;
 
-        private Field _field;
+        private Field _field = null;
 
         public FieldDrawThread(SurfaceHolder surfaceHolder, Context context) {
             _surfaceHolder = surfaceHolder;
             _context = context;
-
-            _field = new Field();
         }
 
-        public void setFormation(Formation formation) { _field.setFormation(formation); }
+        public void setField(Field field) {
+            _field = field;
+        }
 
         public void setSurfaceSize(int width, int height) {
-            _field.setCanvasSize(width, height);
+            if (_field != null) {
+                _field.setCanvasSize(width, height);
+            }
         }
 
         public void setRunning(boolean running) {
@@ -106,7 +109,11 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         public Player hitTest(float x, float y) {
-            return _field.hitTest(x, y);
+            if (_field != null) {
+                return _field.hitTest(x, y);
+            }
+
+            return null;
         }
 
         @Override
@@ -131,7 +138,9 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         private void doDraw(Canvas c) {
-            _field.draw(c);
+            if (_field != null) {
+                _field.draw(c);
+            }
         }
     }
 

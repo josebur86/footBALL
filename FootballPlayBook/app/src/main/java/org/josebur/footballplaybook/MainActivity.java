@@ -31,7 +31,10 @@ public class MainActivity extends Activity {
         formation.addPlayer(new Player("RG", 89, 30));
         formation.addPlayer(new Player("RT", 98, 30));
 
-        _fieldView.setFormation(formation);
+        Field field = new Field();
+        field.setFormation(formation);
+
+        _fieldView.setField(field);
     }
 
 
