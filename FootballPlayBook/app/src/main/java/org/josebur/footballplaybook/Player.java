@@ -42,6 +42,14 @@ public class Player {
         _fieldPositionFeet.y += deltaYFeet;
     }
 
+    public float feetX() {
+        return _fieldPositionFeet.x;
+    }
+
+    public float feetY() {
+        return _fieldPositionFeet.y;
+    }
+
     public void draw(Canvas c, FieldTransform fieldTransform) {
         new DrawablePlayer(this, fieldTransform).setSelected(_selected).draw(c);
     }
