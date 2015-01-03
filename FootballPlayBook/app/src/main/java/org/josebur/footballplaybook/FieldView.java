@@ -1,6 +1,5 @@
 package org.josebur.footballplaybook;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,8 +11,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 
 
@@ -27,7 +24,7 @@ public class FieldView extends View {
     private FieldViewListener _listener;
 
     public interface FieldViewListener {
-        void onPlayerLongPressed(Player p);
+        void onPlayerLongPressed(IPlayer p);
     }
 
     public FieldView(Context context, AttributeSet attrs) {
@@ -84,7 +81,7 @@ public class FieldView extends View {
 
         @Override
         public void onLongPress(MotionEvent e) {
-            Player p = _field.hitTest(e.getX(), e.getY(), _transform);
+            IPlayer p = _field.hitTest(e.getX(), e.getY(), _transform);
             if (p != null) {
                 if (_listener != null)
                 {

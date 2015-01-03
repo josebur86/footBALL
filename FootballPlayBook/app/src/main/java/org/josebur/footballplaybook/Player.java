@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
-public class Player {
+public class Player implements IPlayer {
 
     private String _label;
     private PointF _fieldPositionFeet;
@@ -21,18 +21,22 @@ public class Player {
         _selected = false;
     }
 
+    @Override
     public String label() {
         return _label;
     }
 
+    @Override
     public boolean isSelected() {
         return _selected;
     }
 
+    @Override
     public void setSelected(boolean s) {
         _selected = s;
     }
 
+    @Override
     public void moveTo(PointF positionFeet) {
         _fieldPositionFeet = positionFeet;
     }
@@ -50,10 +54,12 @@ public class Player {
         return _fieldPositionFeet.y;
     }
 
+    @Override
     public void draw(Canvas c, FieldTransform fieldTransform) {
         new DrawablePlayer(this, fieldTransform).setSelected(_selected).draw(c);
     }
 
+    @Override
     public boolean hitTest(float xPixel, float yPixel, FieldTransform fieldTransform) {
         return new DrawablePlayer(this, fieldTransform).hitTest(xPixel, yPixel);
     }

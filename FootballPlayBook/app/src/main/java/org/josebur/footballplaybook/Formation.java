@@ -6,37 +6,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Formation {
-    private List<Player> _players;
+    private List<IPlayer> _players;
 
     public Formation()
     {
-        _players = new ArrayList<Player>();
+        _players = new ArrayList<IPlayer>();
     }
 
     public boolean isValid() {
         return _players.size() == 11;
     }
 
-    public void addPlayer(Player p)
+    public void addPlayer(IPlayer p)
     {
         _players.add(p);
     }
 
     public void unselectAllPlayers() {
-        for (Player p : _players) {
+        for (IPlayer p : _players) {
             p.setSelected(false);
         }
     }
 
     public void draw(Canvas c, FieldTransform fieldTransform)
     {
-        for (Player p : _players) {
+        for (IPlayer p : _players) {
             p.draw(c, fieldTransform);
         }
     }
 
-    public Player hitTest(float xPixel, float yPixel, FieldTransform fieldTransform) {
-        for (Player p : _players) {
+    public IPlayer hitTest(float xPixel, float yPixel, FieldTransform fieldTransform) {
+        for (IPlayer p : _players) {
             if (p.hitTest(xPixel, yPixel, fieldTransform)) {
                 return p;
             }

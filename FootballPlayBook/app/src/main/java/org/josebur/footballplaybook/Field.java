@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
-import android.util.Log;
 
 public class Field {
 
@@ -53,7 +52,7 @@ public class Field {
         _formation.draw(c, transform);
     }
 
-    public Player hitTest(float pixelX, float pixelY, FieldTransform transform) {
+    public IPlayer hitTest(float pixelX, float pixelY, FieldTransform transform) {
         return  _formation.hitTest(pixelX, pixelY, transform);
     }
 

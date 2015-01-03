@@ -2,7 +2,6 @@ package org.josebur.footballplaybook;
 
 import android.app.Activity;
 import android.content.ClipData;
-import android.graphics.PointF;
 import android.os.*;
 import android.util.Log;
 import android.view.DragEvent;
@@ -14,7 +13,7 @@ import android.view.View;
 public class MainActivity extends Activity implements FieldView.FieldViewListener {
 
     private Field _field;
-    private Player _selectedPlayer = null;
+    private IPlayer _selectedPlayer = null;
 
     private FieldView _fieldView;
 
@@ -64,7 +63,7 @@ public class MainActivity extends Activity implements FieldView.FieldViewListene
     }
 
     @Override
-    public void onPlayerLongPressed(Player p) {
+    public void onPlayerLongPressed(IPlayer p) {
         _field.formation().unselectAllPlayers();
         p.setSelected(true);
         _selectedPlayer = p;

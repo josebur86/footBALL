@@ -6,13 +6,13 @@ import junit.framework.TestCase;
 
 public class PlayerTest extends TestCase {
     public void testLabel() {
-        Player p = new Player("Test Label", 0, 0);
+        IPlayer p = new Player("Test Label", 0, 0);
 
         assertEquals("Test Label", p.label());
     }
 
     public void testSelectedState() {
-        Player p = new Player("Test", 0, 0);
+        IPlayer p = new Player("Test", 0, 0);
 
         // Player should start not selected.
         assertFalse(p.isSelected());
@@ -37,7 +37,7 @@ public class PlayerTest extends TestCase {
     }
 
     public void testHitTest() {
-        Player p = new Player("Hit Test", 16, 52);
+        IPlayer p = new Player("Hit Test", 16, 52);
 
         FieldTransform ft = new FieldTransform(100, 100, 100, 100);
         assertTrue(p.hitTest(16, 52, ft));
