@@ -17,7 +17,6 @@ public class MainActivity extends Activity implements FieldView.FieldViewListene
     private Player _selectedPlayer = null;
 
     private FieldView _fieldView;
-    private PlayerDragListener _dragListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +24,7 @@ public class MainActivity extends Activity implements FieldView.FieldViewListene
         setContentView(R.layout.activity_main);
 
         _fieldView = (FieldView)findViewById(R.id.field_view);
-
-        _dragListener = new PlayerDragListener();
-        _fieldView.setOnDragListener(_dragListener);
+        _fieldView.setOnDragListener(new PlayerDragListener());
         _fieldView.setFieldViewListener(this);
 
         Formation formation = new Formation();

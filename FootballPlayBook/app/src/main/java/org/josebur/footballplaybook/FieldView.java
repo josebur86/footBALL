@@ -17,13 +17,12 @@ import android.view.SurfaceView;
 import android.view.View;
 
 
-public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
+public class FieldView extends View {
 
     private Context _context;
 
     private Field _field;
     private FieldTransform _transform;
-    private FieldDrawThread _thread = null;
     private GestureDetector _gestureDetector;
     private FieldViewListener _listener;
 
@@ -36,19 +35,11 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
 
         _context = context;
 
-        SurfaceHolder surfaceHolder = getHolder();
-        surfaceHolder.addCallback(this);
-
-        _thread = new FieldDrawThread(surfaceHolder, context);
         _gestureDetector = new GestureDetector(context, new PlayerLongPressGesture());
     }
 
     public void setField(Field field) {
         _field = field;
-
-        _thread.setRunning(false);
-        _thread.setField(field);
-        _thread.setRunning(true);
     }
 
     public FieldTransform fieldTransform() {
@@ -65,126 +56,21 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-        Log.d("FieldView", "surfaceCreated");
-        Log.d("FieldView", "Thread State: " + _thread.getState().toString());
-        if (_thread.getState() != Thread.State.NEW) {
-            _thread = new FieldDrawThread(getHolder(), _context);
-        }
-        _thread.setRunning(true);
-        _thread.start();
+    protected void onDraw(Canvas canvas) {
+        doDraw(canvas);
     }
 
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+    private void doDraw(Canvas c) {
         if (_field != null) {
-            _transform = new FieldTransform(width, height, _field.getFieldWidth(), _field.getFieldLength());
-            _thread.setFieldTransform(_transform);
+            _field.draw(c, _transform);
         }
     }
 
     @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        Log.d("FieldView", "surfaceDestroyed");
-        boolean retry = true;
-        _thread.setRunning(false);
-        while (retry) {
-            try {
-                _thread.join();
-                retry = false;
-            } catch (InterruptedException e) {
-                Log.e("FieldView.killThread", "Interrupted Exception thrown.");
-            }
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        if (_field != null) {
+            _transform = new FieldTransform(w, h, _field.getFieldWidth(), _field.getFieldLength());
         }
-    }
-
-    @Override
-    protected void onWindowVisibilityChanged(int visibility) {
-
-        switch (visibility) {
-            case View.GONE:
-                Log.d("FieldView.onWindowVisibilityChanged", "Gone"); break;
-            case View.INVISIBLE:
-                Log.d("FieldView.onWindowVisibilityChanged", "Invisible"); break;
-            case View.VISIBLE:
-                Log.d("FieldView.onWindowVisibilityChanged", "Visible"); break;
-            default:
-                Log.d("FieldView.onWindowVisibilityChanged", "Unknown"); break;
-        }
-
-        super.onWindowVisibilityChanged(visibility);
-    }
-
-    public Thread.State getThreadState() {
-        return _thread.getState();
-    }
-
-    public class FieldDrawThread extends Thread {
-
-        private Context _context;
-        private final SurfaceHolder _surfaceHolder;
-
-        private final Object _runLock = new Object();
-        private boolean _running = false;
-
-        private Field _field = null;
-        private FieldTransform _transform;
-
-        public FieldDrawThread(SurfaceHolder surfaceHolder, Context context) {
-            _surfaceHolder = surfaceHolder;
-            _context = context;
-        }
-
-        public void setField(Field field) {
-            _field = field;
-        }
-
-        public void setFieldTransform(FieldTransform transform) {
-            _transform = transform;
-        }
-
-        public void setRunning(boolean running) {
-            synchronized (_runLock) {
-                _running = running;
-            }
-        }
-
-        public Player hitTest(float x, float y) {
-            if (_field != null) {
-                return _field.hitTest(x, y, _transform);
-            }
-
-            return null;
-        }
-
-        @Override
-        public void run() {
-            while (_running) {
-
-                Canvas c = null;
-                try {
-                    c = _surfaceHolder.lockCanvas();
-
-                    synchronized (_surfaceHolder) {
-                        synchronized (_runLock) {
-                            if (_running) doDraw(c);
-                        }
-                    }
-                } finally {
-                    if (c != null) {
-                        _surfaceHolder.unlockCanvasAndPost(c);
-                    }
-                }
-            }
-        }
-
-        private void doDraw(Canvas c) {
-            if (_field != null) {
-                _field.draw(c, _transform);
-            }
-        }
-
-
     }
 
     private class PlayerLongPressGesture extends GestureDetector.SimpleOnGestureListener {
@@ -195,7 +81,7 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
 
         @Override
         public void onLongPress(MotionEvent e) {
-            Player p = _thread.hitTest(e.getX(), e.getY());
+            Player p = _field.hitTest(e.getX(), e.getY(), _transform);
             if (p != null) {
                 if (_listener != null)
                 {
