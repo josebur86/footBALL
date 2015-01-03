@@ -36,6 +36,9 @@ public class FieldView extends View {
         _context = context;
 
         _gestureDetector = new GestureDetector(context, new PlayerLongPressGesture());
+
+        // Setup a fake transform initially.
+        _transform = new FieldTransform(1,1,1,1);
     }
 
     public void setField(Field field) {
