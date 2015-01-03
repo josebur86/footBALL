@@ -9,11 +9,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.Collections;
+import java.util.List;
+
 
 public class MainActivity extends Activity implements FieldView.FieldViewListener {
 
     private Field _field;
-    private IPlayer _selectedPlayer = null;
+    private List<IPlayer> _selectedPlayers = Collections.emptyList();
 
     private FieldView _fieldView;
 
@@ -65,7 +68,8 @@ public class MainActivity extends Activity implements FieldView.FieldViewListene
     @Override
     public void onPlayerLongPressed(IPlayer p) {
         _field.formation().unselectAllPlayers();
-        _selectedPlayer = new SelectedPlayer(p);
+        _field.formation().selectPlayer(p.label());
+        _selectedPlayers = _field.formation().selectedPlayers();
 
         FieldView.PlayerDragShadowBuilder shadowBuilder = new FieldView.PlayerDragShadowBuilder();
         ClipData dragData = ClipData.newPlainText("Player", p.label());
@@ -94,10 +98,12 @@ public class MainActivity extends Activity implements FieldView.FieldViewListene
                     return true;
 
                 case DragEvent.ACTION_DRAG_LOCATION:
-                    if (_selectedPlayer == null) return true;
+                    if (_selectedPlayers.isEmpty()) return true;
 
-                    _selectedPlayer.moveTo(_fieldView.fieldTransform().
-                            getFeetFromPoint(event.getX(), event.getY()));
+                    for (IPlayer p : _selectedPlayers) {
+                        p.moveTo(_fieldView.fieldTransform().
+                                getFeetFromPoint(event.getX(), event.getY()));
+                    }
 
                     v.invalidate();
                     return true;
@@ -108,7 +114,7 @@ public class MainActivity extends Activity implements FieldView.FieldViewListene
 
                 case DragEvent.ACTION_DROP:
                     _field.formation().unselectAllPlayers();
-                    _selectedPlayer = null;
+                    _selectedPlayers = Collections.emptyList();
 
                     v.invalidate();
                     return true; //DragEvent.getResult() value

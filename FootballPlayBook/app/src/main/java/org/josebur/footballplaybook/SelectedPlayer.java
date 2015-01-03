@@ -11,6 +11,10 @@ public class SelectedPlayer implements IPlayer {
         _player = player;
     }
 
+    IPlayer getInnerPlayer() {
+        return _player;
+    }
+
     @Override
     public String label() {
         return _player.label();

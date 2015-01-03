@@ -19,6 +19,9 @@ public class SelectedPlayerTest extends TestCase {
 
         p = new SelectedPlayer(new Player("Another Player", 0,0));
         assertEquals("Another Player", p.label());
+
+        SelectedPlayer sp = new SelectedPlayer(_fakePlayer);
+        assertEquals(_fakePlayer, sp.getInnerPlayer());
     }
 
     public void testPlayerIsSelected() {

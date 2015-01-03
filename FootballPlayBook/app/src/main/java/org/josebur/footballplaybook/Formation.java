@@ -30,10 +30,56 @@ public class Formation {
         _players.add(p);
     }
 
+    public IPlayer findPlayer(String label) {
+        for (int i = 0; i < _players.size(); i++) {
+            IPlayer p = _players.get(i);
+            if (p.label().equals(label)) return p;
+        }
+
+        return null;
+    }
+
+    public boolean selectPlayer(String label) {
+        IPlayer p = findPlayer(label);
+        return p != null && replacePlayer(p, new SelectedPlayer(p));
+    }
+
+    private boolean replacePlayer(IPlayer oldPlayer, IPlayer newPlayer) {
+        for (int i = 0; i < _players.size(); i++) {
+            IPlayer p = _players.get(i);
+            if (p.equals(oldPlayer))
+            {
+                _players.set(i, newPlayer);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void unselectAllPlayers() {
-//        for (IPlayer p : _players) {
-//            p.setSelected(false);
-//        } FIXME:
+        for (int i = 0; i < _players.size(); i++) {
+            IPlayer p = _players.get(i);
+            if (p.isSelected())
+            {
+                SelectedPlayer sp = (SelectedPlayer)p;
+                replacePlayer(sp, sp.getInnerPlayer());
+            }
+        }
+    }
+
+    public List<IPlayer> selectedPlayers() {
+        List<IPlayer> selected = new ArrayList<>();
+
+        for (int i = 0; i < _players.size(); i++) {
+            IPlayer p = _players.get(i);
+            if (p.isSelected())
+            {
+                selected.add(p);
+            }
+        }
+
+        return selected;
     }
 
     public void draw(Canvas c, FieldTransform fieldTransform)
