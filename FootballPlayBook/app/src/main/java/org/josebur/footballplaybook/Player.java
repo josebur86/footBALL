@@ -10,6 +10,7 @@ public class Player {
 
     private String _label;
     private PointF _fieldPositionFeet;
+    private boolean _active;
 
     public static float kPlayerRadius = 25;
 
@@ -17,10 +18,19 @@ public class Player {
     {
         _label = label;
         _fieldPositionFeet = new PointF(xFeet, yFeet);
+        _active = false;
     }
 
     public String label() {
         return _label;
+    }
+
+    public boolean isActive() {
+        return _active;
+    }
+
+    public void setActive(boolean a) {
+        _active = a;
     }
 
     public void draw(Canvas c, FieldTransform fieldTransform) {

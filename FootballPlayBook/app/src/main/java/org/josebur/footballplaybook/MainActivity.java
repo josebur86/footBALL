@@ -69,6 +69,7 @@ public class MainActivity extends Activity {
             switch (action) {
                 case DragEvent.ACTION_DRAG_STARTED:
                     if (v != _playView) return false;
+//                    event.getClipData().getItemAt(0).
                     // TODO: somehow block other drags from executing.
                     return true;
 

@@ -80,6 +80,12 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
 
     private PlayThread _thread = null;
     private GestureDetector _gestureDetector;
+    private ActivePlayerListener _listener;
+
+    public interface ActivePlayerListener {
+        void onPlayerActivated(Player p);
+        void onPlayerDeactivated(Player p);
+    }
 
     public PlayView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -94,6 +100,10 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void setFormation(Formation formation) {
         _thread.setFormation(formation);
+    }
+
+    public void setActivePlayerListener(ActivePlayerListener listener) {
+        _listener = listener;
     }
 
     @Override
@@ -137,6 +147,11 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
             Player p = _thread.hitTest(e.getX(), e.getY());
             if (p != null) {
                 Log.d("onLongPress", p.label());
+
+                if (_listener != null)
+                {
+                    _listener.onPlayerActivated(p);
+                }
 
                 PlayerDragShadowBuilder shadowBuilder = new PlayerDragShadowBuilder();
                 ClipData dragData = ClipData.newPlainText("Player", p.label());
