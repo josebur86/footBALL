@@ -26,7 +26,6 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
 
     public interface FieldViewListener {
         void onPlayerLongPressed(Player p);
-        void onDrag(float deltaX, float deltaY);
     }
 
     public FieldView(Context context, AttributeSet attrs) {

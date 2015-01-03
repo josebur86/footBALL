@@ -78,11 +78,6 @@ public class MainActivity extends Activity implements FieldView.FieldViewListene
         _fieldView.startDrag(dragData, shadowBuilder, null, 0);
     }
 
-    @Override
-    public void onDrag(float deltaX, float deltaY) {
-        // TODO: this method may not be needed.
-    }
-
     private class PlayerDragListener implements View.OnDragListener {
 
         @Override
@@ -93,8 +88,10 @@ public class MainActivity extends Activity implements FieldView.FieldViewListene
             switch (action) {
                 case DragEvent.ACTION_DRAG_STARTED:
                     if (v != _fieldView) return false;
-//                    event.getClipData().getItemAt(0).
-                    // TODO: somehow block other drags from executing.
+
+                    String label = event.getClipDescription().getLabel().toString();
+                    if (!label.equals("Player")) return false;
+
                     return true;
 
                 case DragEvent.ACTION_DRAG_ENTERED:
@@ -102,10 +99,6 @@ public class MainActivity extends Activity implements FieldView.FieldViewListene
                     return true;
 
                 case DragEvent.ACTION_DRAG_LOCATION:
-                    // TODO: Update the active player's location.
-                    Log.d("DragEvent.Location", "X: " + event.getX());
-                    Log.d("DragEvent.Location", "Y: " + event.getX());
-
                     if (_selectedPlayer == null) return true;
 
                     _selectedPlayer.moveTo(_fieldView.fieldTransform().
@@ -119,10 +112,6 @@ public class MainActivity extends Activity implements FieldView.FieldViewListene
                     return true;
 
                 case DragEvent.ACTION_DROP:
-                    // TODO: Update the active player's location one last time.
-                    // TODO: Make sure that the player is no longer active.
-                    Log.d("DragEvent.Drop", "Dropped");
-
                     _field.formation().unselectAllPlayers();
                     _selectedPlayer = null;
 
