@@ -18,6 +18,64 @@ import android.view.SurfaceView;
 
 public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
 
+    private FieldDrawThread _thread = null;
+    private GestureDetector _gestureDetector;
+    private ActivePlayerListener _listener;
+
+    public interface ActivePlayerListener {
+        void onPlayerActivated(Player p);
+        void onPlayerDeactivated(Player p);
+    }
+
+    public FieldView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+
+        SurfaceHolder surfaceHolder = getHolder();
+        surfaceHolder.addCallback(this);
+
+        _thread = new FieldDrawThread(surfaceHolder, context);
+
+        _gestureDetector = new GestureDetector(context, new PlayerLongPressGesture());
+    }
+
+    public void setFormation(Formation formation) {
+        _thread.setFormation(formation);
+    }
+
+    public void setActivePlayerListener(ActivePlayerListener listener) {
+        _listener = listener;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return _gestureDetector.onTouchEvent(event) || super.onTouchEvent(event);
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        _thread.setRunning(true);
+        _thread.start();
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        _thread.setSurfaceSize(width, height);
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        boolean retry = true;
+        _thread.setRunning(false);
+        while (retry) {
+            try {
+                _thread.join();
+                retry = false;
+            } catch (InterruptedException e) {
+
+            }
+        }
+    }
+
     public class FieldDrawThread extends Thread {
 
         private Context _context;
@@ -74,64 +132,6 @@ public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
 
         private void doDraw(Canvas c) {
             _field.draw(c);
-        }
-    }
-
-    private FieldDrawThread _thread = null;
-    private GestureDetector _gestureDetector;
-    private ActivePlayerListener _listener;
-
-    public interface ActivePlayerListener {
-        void onPlayerActivated(Player p);
-        void onPlayerDeactivated(Player p);
-    }
-
-    public FieldView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-
-        SurfaceHolder surfaceHolder = getHolder();
-        surfaceHolder.addCallback(this);
-
-        _thread = new FieldDrawThread(surfaceHolder, context);
-
-        _gestureDetector = new GestureDetector(context, new PlayerLongPressGesture());
-    }
-
-    public void setFormation(Formation formation) {
-        _thread.setFormation(formation);
-    }
-
-    public void setActivePlayerListener(ActivePlayerListener listener) {
-        _listener = listener;
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return _gestureDetector.onTouchEvent(event) || super.onTouchEvent(event);
-    }
-
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-        _thread.setRunning(true);
-        _thread.start();
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        _thread.setSurfaceSize(width, height);
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        boolean retry = true;
-        _thread.setRunning(false);
-        while (retry) {
-            try {
-                _thread.join();
-                retry = false;
-            } catch (InterruptedException e) {
-
-            }
         }
     }
 
