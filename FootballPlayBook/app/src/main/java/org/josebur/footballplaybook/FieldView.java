@@ -14,12 +14,11 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
 
-public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
+public class FieldView extends SurfaceView implements SurfaceHolder.Callback {
 
-    public class PlayThread extends Thread {
+    public class FieldDrawThread extends Thread {
 
         private Context _context;
         private SurfaceHolder _surfaceHolder;
@@ -29,7 +28,7 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
 
         private Field _field;
 
-        public PlayThread(SurfaceHolder surfaceHolder, Context context) {
+        public FieldDrawThread(SurfaceHolder surfaceHolder, Context context) {
             _surfaceHolder = surfaceHolder;
             _context = context;
 
@@ -78,7 +77,7 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    private PlayThread _thread = null;
+    private FieldDrawThread _thread = null;
     private GestureDetector _gestureDetector;
     private ActivePlayerListener _listener;
 
@@ -87,13 +86,13 @@ public class PlayView extends SurfaceView implements SurfaceHolder.Callback {
         void onPlayerDeactivated(Player p);
     }
 
-    public PlayView(Context context, AttributeSet attrs) {
+    public FieldView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         SurfaceHolder surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);
 
-        _thread = new PlayThread(surfaceHolder, context);
+        _thread = new FieldDrawThread(surfaceHolder, context);
 
         _gestureDetector = new GestureDetector(context, new PlayerLongPressGesture());
     }

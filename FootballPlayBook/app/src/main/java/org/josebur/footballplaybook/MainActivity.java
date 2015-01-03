@@ -1,19 +1,17 @@
 package org.josebur.footballplaybook;
 
 import android.app.Activity;
-import android.graphics.PointF;
 import android.os.*;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
 
-    private PlayView _playView;
+    private FieldView _fieldView;
     private PlayerDragListener _dragListener;
 
     @Override
@@ -21,10 +19,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        _playView = (PlayView)findViewById(R.id.play_view);
+        _fieldView = (FieldView)findViewById(R.id.field_view);
 
         _dragListener = new PlayerDragListener();
-        _playView.setOnDragListener(_dragListener);
+        _fieldView.setOnDragListener(_dragListener);
 
         Formation formation = new Formation();
         formation.addPlayer(new Player("LT", 62, 30));
@@ -33,7 +31,7 @@ public class MainActivity extends Activity {
         formation.addPlayer(new Player("RG", 89, 30));
         formation.addPlayer(new Player("RT", 98, 30));
 
-        _playView.setFormation(formation);
+        _fieldView.setFormation(formation);
     }
 
 
@@ -68,7 +66,7 @@ public class MainActivity extends Activity {
 
             switch (action) {
                 case DragEvent.ACTION_DRAG_STARTED:
-                    if (v != _playView) return false;
+                    if (v != _fieldView) return false;
 //                    event.getClipData().getItemAt(0).
                     // TODO: somehow block other drags from executing.
                     return true;
