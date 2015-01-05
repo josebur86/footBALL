@@ -8,14 +8,12 @@ import android.graphics.RectF;
 
 public class DrawablePlayer {
     private PointF _pixelPosition;
-    private FieldTransform _fieldTransform;
     private boolean _selected;
 
     public static float kPlayerRadius = 25;
 
     public DrawablePlayer(IPlayer player, FieldTransform fieldTransform) {
-        _fieldTransform = fieldTransform;
-        _pixelPosition = _fieldTransform.getPointFromFeet(player.getPosition());
+        _pixelPosition = fieldTransform.getPointFromFeet(player.getPosition());
         _selected = false;
     }
 
