@@ -21,6 +21,11 @@ public class SelectedPlayer implements IPlayer {
     }
 
     @Override
+    public PointF getPosition() {
+        return _player.getPosition();
+    }
+
+    @Override
     public boolean isSelected() {
         return true;
     }
@@ -32,7 +37,7 @@ public class SelectedPlayer implements IPlayer {
 
     @Override
     public void draw(Canvas c, FieldTransform fieldTransform) {
-        _player.draw(c, fieldTransform);
+        new DrawablePlayer(this, fieldTransform).setSelected(isSelected()).draw(c);
     }
 
     @Override

@@ -17,8 +17,10 @@ public class SelectedPlayerTest extends TestCase {
         IPlayer p = new SelectedPlayer(_fakePlayer);
         assertEquals(_fakePlayer.label(), p.label());
 
-        p = new SelectedPlayer(new Player("Another Player", 0,0));
+        p = new SelectedPlayer(new Player("Another Player", 50, 100));
         assertEquals("Another Player", p.label());
+        assertEquals(50.f, p.getPosition().x);
+        assertEquals(100.f, p.getPosition().y);
 
         SelectedPlayer sp = new SelectedPlayer(_fakePlayer);
         assertEquals(_fakePlayer, sp.getInnerPlayer());

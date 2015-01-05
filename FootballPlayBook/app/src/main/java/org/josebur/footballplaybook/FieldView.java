@@ -25,6 +25,7 @@ public class FieldView extends View {
 
     public interface FieldViewListener {
         void onPlayerLongPressed(IPlayer p);
+        void onPlayerTapped(IPlayer p);
     }
 
     public FieldView(Context context, AttributeSet attrs) {
@@ -87,10 +88,22 @@ public class FieldView extends View {
                 {
                     _listener.onPlayerLongPressed(p);
                 }
-            }
-            else {
+            } else {
                 Log.d("onLongPress", "No Player");
             }
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            IPlayer p = _field.hitTest(e.getX(), e.getY(), _transform);
+            if (p != null && _listener != null) {
+               _listener.onPlayerTapped(p);
+                return true;
+            } else {
+                Log.d("onSingleTapConfirmed", "No Player");
+            }
+
+            return false;
         }
     }
 

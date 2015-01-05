@@ -13,4 +13,6 @@ public interface IPlayer {
     void draw(Canvas c, FieldTransform fieldTransform);
 
     boolean hitTest(float xPixel, float yPixel, FieldTransform fieldTransform);
+
+    PointF getPosition();
 }

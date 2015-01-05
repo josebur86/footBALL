@@ -67,14 +67,23 @@ public class MainActivity extends Activity implements FieldView.FieldViewListene
 
     @Override
     public void onPlayerLongPressed(IPlayer p) {
+//        _field.formation().unselectAllPlayers();
+//        _field.formation().selectPlayer(p.label());
+//        _selectedPlayers = _field.formation().selectedPlayers();
+//
+//        FieldView.PlayerDragShadowBuilder shadowBuilder = new FieldView.PlayerDragShadowBuilder();
+//        ClipData dragData = ClipData.newPlainText("Player", p.label());
+//
+//        _fieldView.startDrag(dragData, shadowBuilder, null, 0);
+    }
+
+    @Override
+    public void onPlayerTapped(IPlayer p) {
         _field.formation().unselectAllPlayers();
         _field.formation().selectPlayer(p.label());
         _selectedPlayers = _field.formation().selectedPlayers();
 
-        FieldView.PlayerDragShadowBuilder shadowBuilder = new FieldView.PlayerDragShadowBuilder();
-        ClipData dragData = ClipData.newPlainText("Player", p.label());
-
-        _fieldView.startDrag(dragData, shadowBuilder, null, 0);
+        _fieldView.invalidate();
     }
 
     private class PlayerDragListener implements View.OnDragListener {

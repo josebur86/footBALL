@@ -11,6 +11,12 @@ public class PlayerTest extends TestCase {
         assertEquals("Test Label", p.label());
     }
 
+    public void testPointIsPreserved() {
+        IPlayer p = new Player("Test Label", 100, 50);
+        assertEquals(100.f, p.getPosition().x);
+        assertEquals(50.f, p.getPosition().y);
+    }
+
     public void testPlayerIsNotSelected() {
         IPlayer p = new Player("Test", 0, 0);
 
@@ -51,14 +57,14 @@ public class PlayerTest extends TestCase {
 
         assertFalse(p.hitTest(116, 152, ft));
 
-        assertFalse(p.hitTest(16 + Player.kPlayerRadius + 1, 52, ft));
-        assertFalse(p.hitTest(16 - Player.kPlayerRadius - 1, 52, ft));
-        assertFalse(p.hitTest(16, 52 + Player.kPlayerRadius + 1, ft));
-        assertFalse(p.hitTest(16, 52 - Player.kPlayerRadius - 1, ft));
+        assertFalse(p.hitTest(16 + DrawablePlayer.kPlayerRadius + 1, 52, ft));
+        assertFalse(p.hitTest(16 - DrawablePlayer.kPlayerRadius - 1, 52, ft));
+        assertFalse(p.hitTest(16, 52 + DrawablePlayer.kPlayerRadius + 1, ft));
+        assertFalse(p.hitTest(16, 52 - DrawablePlayer.kPlayerRadius - 1, ft));
 
-        assertTrue(p.hitTest(16 + Player.kPlayerRadius - 1, 52, ft));
-        assertTrue(p.hitTest(16 - Player.kPlayerRadius, 52, ft));
-        assertTrue(p.hitTest(16, 52 + Player.kPlayerRadius - 1, ft));
-        assertTrue(p.hitTest(16, 52 - Player.kPlayerRadius, ft));
+        assertTrue(p.hitTest(16 + DrawablePlayer.kPlayerRadius - 1, 52, ft));
+        assertTrue(p.hitTest(16 - DrawablePlayer.kPlayerRadius, 52, ft));
+        assertTrue(p.hitTest(16, 52 + DrawablePlayer.kPlayerRadius - 1, ft));
+        assertTrue(p.hitTest(16, 52 - DrawablePlayer.kPlayerRadius, ft));
     }
 }
