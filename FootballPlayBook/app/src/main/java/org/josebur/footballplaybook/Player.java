@@ -58,6 +58,11 @@ public class Player implements IPlayer {
     }
 
     @Override
+    public boolean dragHitTest(float xPixel, float yPixel, FieldTransform fieldTransform) {
+        return false;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

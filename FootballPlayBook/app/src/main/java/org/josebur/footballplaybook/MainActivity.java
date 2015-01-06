@@ -2,15 +2,19 @@ package org.josebur.footballplaybook;
 
 import android.app.Activity;
 import android.content.ClipData;
+import android.graphics.PointF;
 import android.os.*;
 import android.util.Log;
+import android.util.Pair;
 import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class MainActivity extends Activity implements FieldView.FieldViewListener {
@@ -67,14 +71,10 @@ public class MainActivity extends Activity implements FieldView.FieldViewListene
 
     @Override
     public void onPlayerLongPressed(IPlayer p) {
-//        _field.formation().unselectAllPlayers();
-//        _field.formation().selectPlayer(p.label());
-//        _selectedPlayers = _field.formation().selectedPlayers();
-//
-//        FieldView.PlayerDragShadowBuilder shadowBuilder = new FieldView.PlayerDragShadowBuilder();
-//        ClipData dragData = ClipData.newPlainText("Player", p.label());
-//
-//        _fieldView.startDrag(dragData, shadowBuilder, null, 0);
+        FieldView.PlayerDragShadowBuilder shadowBuilder = new FieldView.PlayerDragShadowBuilder();
+        ClipData dragData = ClipData.newPlainText("Player", p.label());
+
+        _fieldView.startDrag(dragData, shadowBuilder, null, 0);
     }
 
     @Override
@@ -88,6 +88,12 @@ public class MainActivity extends Activity implements FieldView.FieldViewListene
 
     private class PlayerDragListener implements View.OnDragListener {
 
+        private Map<IPlayer, PointF> _lastKnownPositions;
+
+        public PlayerDragListener() {
+            _lastKnownPositions = new HashMap<>();
+        }
+
         @Override
         public boolean onDrag(View v, DragEvent event) {
 
@@ -100,6 +106,10 @@ public class MainActivity extends Activity implements FieldView.FieldViewListene
                     String label = event.getClipDescription().getLabel().toString();
                     if (!label.equals("Player")) return false;
 
+                    if (_selectedPlayers.isEmpty()) return false;
+
+                    _lastKnownPositions.clear();
+
                     return true;
 
                 case DragEvent.ACTION_DRAG_ENTERED:
@@ -110,8 +120,20 @@ public class MainActivity extends Activity implements FieldView.FieldViewListene
                     if (_selectedPlayers.isEmpty()) return true;
 
                     for (IPlayer p : _selectedPlayers) {
-                        p.moveTo(_fieldView.fieldTransform().
-                                getFeetFromPoint(event.getX(), event.getY()));
+                        PointF lastPosition = _lastKnownPositions.get(p);
+                        PointF currentPosition = new PointF(event.getX(), event.getY());
+                        if (lastPosition == null) {
+                            _lastKnownPositions.put(p, currentPosition);
+                            continue;
+                        }
+
+                        PointF lastFeet = _fieldView.fieldTransform().getFeetFromPoint(lastPosition);
+                        PointF curFeet = _fieldView.fieldTransform().getFeetFromPoint(currentPosition);
+
+                        p.move(curFeet.x - lastFeet.x,
+                               curFeet.y - lastFeet.y);
+
+                        _lastKnownPositions.put(p, currentPosition);
                     }
 
                     v.invalidate();
@@ -122,9 +144,6 @@ public class MainActivity extends Activity implements FieldView.FieldViewListene
                     return true;
 
                 case DragEvent.ACTION_DROP:
-                    _field.formation().unselectAllPlayers();
-                    _selectedPlayers = Collections.emptyList();
-
                     v.invalidate();
                     return true; //DragEvent.getResult() value
 
@@ -135,6 +154,8 @@ public class MainActivity extends Activity implements FieldView.FieldViewListene
                     } else {
                         Log.d("DragEvent.Ended", "Drop was not handled correctly.");
                     }
+
+                    _lastKnownPositions.clear();
 
                     return true;
 

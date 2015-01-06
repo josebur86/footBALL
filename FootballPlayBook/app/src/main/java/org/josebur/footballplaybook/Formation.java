@@ -98,4 +98,14 @@ public class Formation {
 
         return null;
     }
+
+    public IPlayer dragHitTest(float xPixel, float yPixel, FieldTransform fieldTransform) {
+        for (IPlayer p : _players) {
+            if (p.dragHitTest(xPixel, yPixel, fieldTransform)) {
+                return p;
+            }
+        }
+
+        return null;
+    }
 }

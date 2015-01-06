@@ -31,6 +31,10 @@ public class FieldTransform {
         return new PointF(pts[0], pts[1]);
     }
 
+    public PointF getFeetFromPoint(PointF pointPixel) {
+        return getFeetFromPoint(pointPixel.x, pointPixel.y);
+    }
+
     public PointF getFeetFromPoint(float x, float y) {
         float[] pts = { x, y };
         _pointToFeetTransform.mapPoints(pts);

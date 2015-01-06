@@ -56,6 +56,10 @@ public class Field {
         return  _formation.hitTest(pixelX, pixelY, transform);
     }
 
+    public IPlayer dragHitTest(float pixelX, float pixelY, FieldTransform transform) {
+        return _formation.dragHitTest(pixelX, pixelY, transform);
+    }
+
     private void drawFiveYardIncrementLine(Canvas c, FieldTransform transform, int yardLine) {
         float yardPoint = transform.getYardPoint(yardLine);
         float canvasWidth = transform.getPointFromFeet(getFieldWidth(), 0.0f).x;

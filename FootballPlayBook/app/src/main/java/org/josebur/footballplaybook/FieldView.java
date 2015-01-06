@@ -82,7 +82,7 @@ public class FieldView extends View {
 
         @Override
         public void onLongPress(MotionEvent e) {
-            IPlayer p = _field.hitTest(e.getX(), e.getY(), _transform);
+            IPlayer p = _field.dragHitTest(e.getX(), e.getY(), _transform);
             if (p != null) {
                 if (_listener != null)
                 {
@@ -108,29 +108,19 @@ public class FieldView extends View {
     }
 
     public static class PlayerDragShadowBuilder extends DragShadowBuilder {
-        private static ShapeDrawable _shadow;
-
         PlayerDragShadowBuilder(/* Player p*/) {
             super(null);
-
-            Shape s = new OvalShape();
-            s.resize(240.f, 240.f); // TODO: these are magic numbers ATM.
-            _shadow = new ShapeDrawable(s);
-            _shadow.getPaint().setColor(Color.RED);
         }
 
         @Override
         public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
-
-            int width = 240;
-            int height = 240;
-            shadowSize.set(width, height); // TODO: these are the same magic numbers as in the ctor.
-            shadowTouchPoint.set(width / 2, height / 2);
+            shadowSize.set(0, 0);
+            shadowTouchPoint.set(0, 0);
         }
 
         @Override
         public void onDrawShadow(Canvas canvas) {
-            _shadow.draw(canvas);
+            // Don't draw any shadow.
         }
     }
 }
