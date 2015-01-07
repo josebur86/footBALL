@@ -52,12 +52,8 @@ public class Field {
         _formation.draw(c, transform);
     }
 
-    public IPlayer hitTest(float pixelX, float pixelY, FieldTransform transform) {
+    public HitTestResult hitTest(float pixelX, float pixelY, FieldTransform transform) {
         return  _formation.hitTest(pixelX, pixelY, transform);
-    }
-
-    public IPlayer dragHitTest(float pixelX, float pixelY, FieldTransform transform) {
-        return _formation.dragHitTest(pixelX, pixelY, transform);
     }
 
     private void drawFiveYardIncrementLine(Canvas c, FieldTransform transform, int yardLine) {

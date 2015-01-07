@@ -38,11 +38,11 @@ public class DrawablePlayer {
         c.drawCircle(_pixelPosition.x, _pixelPosition.y, playerRingRadius, playerRingPaint);
     }
 
-    public boolean hitTest(float xPixel, float yPixel) {
+    public HitTarget hitTest(float xPixel, float yPixel) {
         RectF r = new RectF(_pixelPosition.x - kPlayerRadius,
                 _pixelPosition.y - kPlayerRadius,
                 _pixelPosition.x + kPlayerRadius,
                 _pixelPosition.y + kPlayerRadius);
-        return r.contains(xPixel, yPixel);
+        return r.contains(xPixel, yPixel) ? HitTarget.Player : HitTarget.None;
     }
 }

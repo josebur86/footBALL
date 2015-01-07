@@ -31,4 +31,15 @@ public class SelectedPlayerTest extends TestCase {
 
         assertTrue(p.isSelected());
     }
+
+    public void testHitTest() {
+
+        FieldTransform ft = new FieldTransform(600, 600, 600, 600);
+
+        IPlayer p = new SelectedPlayer(new Player("Hit Test", 300, 300));
+
+        assertEquals(HitTarget.Player, p.hitTest(300, 300, ft));
+        assertEquals(HitTarget.DragHandle, p.hitTest(300, 50, ft));
+        assertEquals(HitTarget.None, p.hitTest(50, 50, ft));
+    }
 }

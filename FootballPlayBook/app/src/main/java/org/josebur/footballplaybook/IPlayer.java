@@ -4,8 +4,9 @@ import android.graphics.Canvas;
 import android.graphics.PointF;
 
 public interface IPlayer {
-    String label();
 
+    String label();
+    PointF getPosition();
     boolean isSelected();
 
     void moveTo(PointF positionFeet);
@@ -13,8 +14,5 @@ public interface IPlayer {
 
     void draw(Canvas c, FieldTransform fieldTransform);
 
-    boolean hitTest(float xPixel, float yPixel, FieldTransform fieldTransform);
-    boolean dragHitTest(float xPixel, float yPixel, FieldTransform fieldTransform);
-
-    PointF getPosition();
+    HitTarget hitTest(float xPixel, float yPixel, FieldTransform fieldTransform);
 }

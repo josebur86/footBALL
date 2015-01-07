@@ -53,13 +53,8 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public boolean hitTest(float xPixel, float yPixel, FieldTransform fieldTransform) {
+    public HitTarget hitTest(float xPixel, float yPixel, FieldTransform fieldTransform) {
         return new DrawablePlayer(this, fieldTransform).hitTest(xPixel, yPixel);
-    }
-
-    @Override
-    public boolean dragHitTest(float xPixel, float yPixel, FieldTransform fieldTransform) {
-        return false;
     }
 
     @Override

@@ -96,20 +96,11 @@ public class Formation {
         }
     }
 
-    public IPlayer hitTest(float xPixel, float yPixel, FieldTransform fieldTransform) {
+    public HitTestResult hitTest(float xPixel, float yPixel, FieldTransform fieldTransform) {
         for (IPlayer p : _players) {
-            if (p.hitTest(xPixel, yPixel, fieldTransform)) {
-                return p;
-            }
-        }
-
-        return null;
-    }
-
-    public IPlayer dragHitTest(float xPixel, float yPixel, FieldTransform fieldTransform) {
-        for (IPlayer p : _players) {
-            if (p.dragHitTest(xPixel, yPixel, fieldTransform)) {
-                return p;
+            HitTarget ht = p.hitTest(xPixel, yPixel, fieldTransform);
+            if (ht != HitTarget.None) {
+                return new HitTestResult(p, ht);
             }
         }
 

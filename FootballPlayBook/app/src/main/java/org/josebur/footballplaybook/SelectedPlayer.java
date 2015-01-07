@@ -60,13 +60,12 @@ public class SelectedPlayer implements IPlayer {
     }
 
     @Override
-    public boolean hitTest(float xPixel, float yPixel, FieldTransform fieldTransform) {
-        return _player.hitTest(xPixel, yPixel, fieldTransform);
-    }
+    public HitTarget hitTest(float xPixel, float yPixel, FieldTransform fieldTransform) {
+        if (getDragBounds(fieldTransform).contains((int)xPixel, (int)yPixel)) {
+            return HitTarget.DragHandle;
+        }
 
-    @Override
-    public boolean dragHitTest(float xPixel, float yPixel, FieldTransform fieldTransform) {
-        return getDragBounds(fieldTransform).contains((int)xPixel, (int)yPixel);
+        return _player.hitTest(xPixel, yPixel, fieldTransform);
     }
 
     private Rect getDragBounds(FieldTransform fieldTransform) {

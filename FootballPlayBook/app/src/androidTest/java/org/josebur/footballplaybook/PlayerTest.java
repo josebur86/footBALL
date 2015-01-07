@@ -53,18 +53,18 @@ public class PlayerTest extends TestCase {
         IPlayer p = new Player("Hit Test", 16, 52);
 
         FieldTransform ft = new FieldTransform(100, 100, 100, 100);
-        assertTrue(p.hitTest(16, 52, ft));
+        assertEquals(HitTarget.Player, p.hitTest(16, 52, ft));
 
-        assertFalse(p.hitTest(116, 152, ft));
+        assertEquals(HitTarget.None, p.hitTest(116, 152, ft));
 
-        assertFalse(p.hitTest(16 + DrawablePlayer.kPlayerRadius + 1, 52, ft));
-        assertFalse(p.hitTest(16 - DrawablePlayer.kPlayerRadius - 1, 52, ft));
-        assertFalse(p.hitTest(16, 52 + DrawablePlayer.kPlayerRadius + 1, ft));
-        assertFalse(p.hitTest(16, 52 - DrawablePlayer.kPlayerRadius - 1, ft));
+        assertEquals(HitTarget.None, p.hitTest(16 + DrawablePlayer.kPlayerRadius + 1, 52, ft));
+        assertEquals(HitTarget.None, p.hitTest(16 - DrawablePlayer.kPlayerRadius - 1, 52, ft));
+        assertEquals(HitTarget.None, p.hitTest(16, 52 + DrawablePlayer.kPlayerRadius + 1, ft));
+        assertEquals(HitTarget.None, p.hitTest(16, 52 - DrawablePlayer.kPlayerRadius - 1, ft));
 
-        assertTrue(p.hitTest(16 + DrawablePlayer.kPlayerRadius - 1, 52, ft));
-        assertTrue(p.hitTest(16 - DrawablePlayer.kPlayerRadius, 52, ft));
-        assertTrue(p.hitTest(16, 52 + DrawablePlayer.kPlayerRadius - 1, ft));
-        assertTrue(p.hitTest(16, 52 - DrawablePlayer.kPlayerRadius, ft));
+        assertEquals(HitTarget.Player, p.hitTest(16 + DrawablePlayer.kPlayerRadius - 1, 52, ft));
+        assertEquals(HitTarget.Player, p.hitTest(16 - DrawablePlayer.kPlayerRadius, 52, ft));
+        assertEquals(HitTarget.Player, p.hitTest(16, 52 + DrawablePlayer.kPlayerRadius - 1, ft));
+        assertEquals(HitTarget.Player, p.hitTest(16, 52 - DrawablePlayer.kPlayerRadius, ft));
     }
 }

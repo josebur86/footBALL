@@ -82,12 +82,12 @@ public class FieldView extends View {
 
         @Override
         public void onLongPress(MotionEvent e) {
-            IPlayer p = _field.dragHitTest(e.getX(), e.getY(), _transform);
-            if (p != null) {
-                if (_listener != null)
-                {
-                    _listener.onPlayerLongPressed(p);
-                }
+            HitTestResult hitTestResult = _field.hitTest(e.getX(), e.getY(), _transform);
+            if (hitTestResult != null &&
+                    hitTestResult.hitTarget() == HitTarget.DragHandle &&
+                    _listener != null)
+            {
+                _listener.onPlayerLongPressed(hitTestResult.player());
             } else {
                 Log.d("onLongPress", "No Player");
             }
@@ -95,9 +95,11 @@ public class FieldView extends View {
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
-            IPlayer p = _field.hitTest(e.getX(), e.getY(), _transform);
-            if (p != null && _listener != null) {
-               _listener.onPlayerTapped(p);
+            HitTestResult hitTestResult = _field.hitTest(e.getX(), e.getY(), _transform);
+            if (hitTestResult != null &&
+                    hitTestResult.hitTarget() == HitTarget.Player &&
+                    _listener != null) {
+               _listener.onPlayerTapped(hitTestResult.player());
                 return true;
             } else {
                 Log.d("onSingleTapConfirmed", "No Player");
