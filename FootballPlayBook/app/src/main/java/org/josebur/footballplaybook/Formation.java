@@ -85,6 +85,13 @@ public class Formation {
     public void draw(Canvas c, FieldTransform fieldTransform)
     {
         for (IPlayer p : _players) {
+            if (!p.isSelected())
+            {
+                p.draw(c, fieldTransform);
+            }
+        }
+
+        for (IPlayer p : selectedPlayers()) {
             p.draw(c, fieldTransform);
         }
     }
