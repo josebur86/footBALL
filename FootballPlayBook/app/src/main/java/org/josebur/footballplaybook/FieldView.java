@@ -81,16 +81,19 @@ public class FieldView extends View {
         }
 
         @Override
-        public void onLongPress(MotionEvent e) {
+        public boolean onDown(MotionEvent e) {
             HitTestResult hitTestResult = _field.hitTest(e.getX(), e.getY(), _transform);
             if (hitTestResult != null &&
                     hitTestResult.hitTarget() == HitTarget.DragHandle &&
                     _listener != null)
             {
                 _listener.onPlayerLongPressed(hitTestResult.player());
+                return true;
             } else {
                 Log.d("onLongPress", "No Player");
             }
+
+            return false;
         }
 
         @Override
