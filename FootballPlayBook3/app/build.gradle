@@ -19,8 +19,15 @@ android {
     }
 }
 
+apply plugin: 'android-unit-test'
+
 dependencies {
+    // core android modules
     compile project(':libgridiron')
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.+'
+
+    // testing
+    testCompile 'org.robolectric:robolectric:2.4'
+    testCompile 'junit:junit:4.+'
 }
