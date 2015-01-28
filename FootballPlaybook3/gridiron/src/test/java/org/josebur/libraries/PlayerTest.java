@@ -40,4 +40,14 @@ public class PlayerTest {
 
         assertEquals(15.f, p.feetY(), _feetDelta);
     }
+
+    @Test
+    public void moveTo_validPosition_PlayerIsMovedToNewPosition() {
+        Player p = new Player.Builder("Charlie").build();
+
+        p.moveTo(100.f, 200.f);
+
+        assertEquals(100.f, p.feetX(), _feetDelta);
+        assertEquals(200.f, p.feetY(), _feetDelta);
+    }
 }
