@@ -1,12 +1,16 @@
 package org.josebur.libraries;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
 public class PlayerCollectionTest {
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void constructor_HasZeroPlayers() {
@@ -16,7 +20,7 @@ public class PlayerCollectionTest {
     }
 
     @Test
-    public void fromList_NonZeroList_CollectionHoldsTheCorrectNumberOfPlayers() {
+    public void fromList_NonZeroList_CollectionHoldsTheCorrectNumberOfPlayers() throws PlayerCollection.DuplicatePlayerException {
         ArrayList<Player> playerList = new ArrayList<>();
         playerList.add(new Player.Builder("Kyle").build());
         playerList.add(new Player.Builder("Brandon").build());
@@ -27,7 +31,31 @@ public class PlayerCollectionTest {
     }
 
     @Test
-    public void fromList_NullList_CollectionHasZeroPlayers() {
+    public void fromList_ListWithDuplicatePlayers_ExceptionIsThrown() throws PlayerCollection.DuplicatePlayerException {
+        thrown.expect(PlayerCollection.DuplicatePlayerException.class);
+
+        ArrayList<Player> playerList = new ArrayList<>();
+        playerList.add(new Player.Builder("Kyle").build());
+        playerList.add(new Player.Builder("Brandon").build());
+        playerList.add(new Player.Builder("kyle").build());
+
+        PlayerCollection.fromList(playerList);
+    }
+
+    @Test
+    public void fromList_ListWithANullPlayer_NullPlayersAreNotIncluded() throws PlayerCollection.DuplicatePlayerException {
+        ArrayList<Player> playerList = new ArrayList<>();
+        playerList.add(new Player.Builder("Kyle").build());
+        playerList.add(new Player.Builder("Brandon").build());
+        playerList.add(null);
+
+        PlayerCollection pc = PlayerCollection.fromList(playerList);
+
+        assertEquals(2, pc.size());
+    }
+
+    @Test
+    public void fromList_NullList_CollectionHasZeroPlayers() throws PlayerCollection.DuplicatePlayerException {
         PlayerCollection pc = PlayerCollection.fromList(null);
 
         assertEquals(0, pc.size());
@@ -37,17 +65,30 @@ public class PlayerCollectionTest {
     public void add_ValidPlayer_CollectionIsIncrementedByOne() {
         PlayerCollection pc = new PlayerCollection();
 
-        pc.add(new Player.Builder("Jay").build());
+        boolean result = pc.add(new Player.Builder("Jay").build());
 
+        assertTrue(result);
         assertEquals(1, pc.size());
+    }
+
+    @Test
+    public void add_DuplicatePlayer_PlayerIsNotAdded() {
+        Player.Builder builder = new Player.Builder("Jay");
+        PlayerCollection pc = new PlayerCollection();
+        pc.add(builder.build());
+
+        boolean result = pc.add(builder.build());
+
+        assertFalse(result);
     }
 
     @Test
     public void add_Null_CollectionIsNotIncrementedByOne() {
         PlayerCollection pc = new PlayerCollection();
 
-        pc.add(null);
+        boolean result = pc.add(null);
 
+        assertFalse(result);
         assertEquals(0, pc.size());
     }
 
