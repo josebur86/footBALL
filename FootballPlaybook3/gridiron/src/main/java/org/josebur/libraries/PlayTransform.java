@@ -7,8 +7,8 @@ public class PlayTransform {
     private PlayFieldProperties _play;
     private ViewPort _view;
 
-    private Matrix2D _matrix;
-    private Matrix2D _inverted;
+    private Matrix2D _pixelToFeet;
+    private Matrix2D _feetToPixel;
 
     public PlayTransform(PlayFieldProperties playFieldProperties, ViewPort viewPort) {
         _play = playFieldProperties;
@@ -18,27 +18,27 @@ public class PlayTransform {
         float viewHeightInFeet = _view.height() * scale;
         float viewTopInFeet = _play.ballSpotFeetY() - viewHeightInFeet * 0.5f;
 
-        _matrix = new Matrix2D();
-        _matrix.scaleX(scale);
-        _matrix.scaleY(scale);
-        _matrix.translateY(viewTopInFeet);
+        _pixelToFeet = new Matrix2D();
+        _pixelToFeet.scaleX(scale);
+        _pixelToFeet.scaleY(scale);
+        _pixelToFeet.translateY(viewTopInFeet);
 
-        _inverted = _matrix.invert(); // FIXME: this could return null.
+        _feetToPixel = _pixelToFeet.invert(); // FIXME: this could return null.
     }
 
     public float pixelToFeetX(float pixel) {
-        return _matrix.multiplyPointX(pixel);
+        return _pixelToFeet.multiplyPointX(pixel);
     }
 
     public float pixelToFeetY(float pixel) {
-        return _matrix.multiplyPointY(pixel);
+        return _pixelToFeet.multiplyPointY(pixel);
     }
 
     public float feetToPixelX(float x) {
-        return _inverted.multiplyPointX(x);
+        return _feetToPixel.multiplyPointX(x);
     }
 
     public float feetToPixelY(float y) {
-        return _inverted.multiplyPointY(y);
+        return _feetToPixel.multiplyPointY(y);
     }
 }
