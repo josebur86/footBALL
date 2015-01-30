@@ -8,6 +8,7 @@ public class PlayTransform {
     private ViewPort _view;
 
     private Matrix2D _matrix;
+    private Matrix2D _inverted;
 
     public PlayTransform(PlayFieldProperties playFieldProperties, ViewPort viewPort) {
         _play = playFieldProperties;
@@ -21,6 +22,8 @@ public class PlayTransform {
         _matrix.scaleX(scale);
         _matrix.scaleY(scale);
         _matrix.translateY(viewTopInFeet);
+
+        _inverted = _matrix.invert(); // FIXME: this could return null.
     }
 
     public float pixelToFeetX(float pixel) {
@@ -31,5 +34,11 @@ public class PlayTransform {
         return _matrix.multiplyPointY(pixel);
     }
 
-    // TODO: feet to pixel
+    public float feetToPixelX(float x) {
+        return _inverted.multiplyPointX(x);
+    }
+
+    public float feetToPixelY(float y) {
+        return _inverted.multiplyPointY(y);
+    }
 }
