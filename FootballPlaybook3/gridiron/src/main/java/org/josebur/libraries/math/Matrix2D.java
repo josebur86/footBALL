@@ -16,6 +16,10 @@ public class Matrix2D {
         _matrix = CommonOps.identity(kDim);
     }
 
+    private Matrix2D(DenseMatrix64F matrix) {
+        _matrix = matrix;
+    }
+
     public boolean isIdentity() {
         return MatrixFeatures.isIdentity(_matrix, 0.1);
     }
@@ -57,5 +61,11 @@ public class Matrix2D {
         MatrixVectorMult.mult(_matrix, point, result);
 
         return (float)result.get(1, 0);
+    }
+
+    public Matrix2D invert() {
+        DenseMatrix64F inverted = new DenseMatrix64F(kDim, kDim);
+        if (!CommonOps.invert(_matrix, inverted)) return null;
+        return new Matrix2D(inverted);
     }
 }

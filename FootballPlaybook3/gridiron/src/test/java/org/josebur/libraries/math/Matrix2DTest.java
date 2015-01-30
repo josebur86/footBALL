@@ -75,4 +75,22 @@ public class Matrix2DTest {
         assertEquals(100, m.multiplyPointX(0), 0.1);
         assertEquals(250, m.multiplyPointY(50), 0.1);
     }
+
+    @Test
+    public void invert_scaleAndTranslate_invertReturnsToOriginalPoint() {
+        Matrix2D m = new Matrix2D();
+        m.scaleX(2);
+        m.scaleY(4);
+        m.translateX(100);
+        m.translateY(200);
+
+        float x = 5;
+        float y = 5;
+        float xx = m.multiplyPointX(x);
+        float yy = m.multiplyPointY(y);
+        Matrix2D inverted = m.invert();
+
+        assertEquals(x, inverted.multiplyPointX(xx), 0.001);
+        assertEquals(y, inverted.multiplyPointY(yy), 0.001);
+    }
 }
