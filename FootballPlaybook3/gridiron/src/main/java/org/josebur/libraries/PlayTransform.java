@@ -18,10 +18,10 @@ public class PlayTransform {
         float viewHeightInFeet = _view.height() * scale;
         float viewTopInFeet = _play.ballSpotFeetY() - viewHeightInFeet * 0.5f;
 
-        _pixelToFeet = new Matrix2D();
-        _pixelToFeet.scaleX(scale);
-        _pixelToFeet.scaleY(scale);
-        _pixelToFeet.translateY(viewTopInFeet);
+        _pixelToFeet = new Matrix2D()
+            .scaleX(scale)
+            .scaleY(scale)
+            .translateY(viewTopInFeet);
 
         _feetToPixel = _pixelToFeet.invert(); // FIXME: this could return null.
     }

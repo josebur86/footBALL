@@ -24,20 +24,24 @@ public class Matrix2D {
         return MatrixFeatures.isIdentity(_matrix, 0.1);
     }
 
-    public void scaleX(float x) {
+    public Matrix2D scaleX(float x) {
         _matrix.set(0, 0, x);
+        return this;
     }
 
-    public void scaleY(float y) {
+    public Matrix2D scaleY(float y) {
         _matrix.set(1, 1, y);
+        return this;
     }
 
-    public void translateX(float x) {
+    public Matrix2D translateX(float x) {
         _matrix.set(0, 2, x);
+        return this;
     }
 
-    public void translateY(float y) {
+    public Matrix2D translateY(float y) {
         _matrix.set(1, 2, y);
+        return this;
     }
 
     public float multiplyPointX(float x) {
@@ -68,4 +72,5 @@ public class Matrix2D {
         if (!CommonOps.invert(_matrix, inverted)) return null;
         return new Matrix2D(inverted);
     }
+
 }
