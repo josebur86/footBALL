@@ -6,14 +6,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.josebur.libraries.Field;
+import org.josebur.libraries.PlayFieldProperties;
+import org.josebur.libraries.PlayTransform;
 
-public class MainActivity extends Activity {
+
+public class MainActivity extends Activity implements PlayFieldProperties {
+
+    PlayView _view;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
 
+        _view = (PlayView)findViewById(R.id.play_view);
+        _view.setField(new Field(this));
+        _view.setPlayFieldProperties(this);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -35,5 +45,25 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public float width() {
+        return 1000;
+    }
+
+    @Override
+    public float length() {
+        return 500;
+    }
+
+    @Override
+    public float ballSpotFeetX() {
+        return 500;
+    }
+
+    @Override
+    public float ballSpotFeetY() {
+        return 250;
     }
 }
