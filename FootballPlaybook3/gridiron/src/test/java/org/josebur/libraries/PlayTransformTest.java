@@ -1,67 +1,12 @@
 package org.josebur.libraries;
 
+import org.josebur.libraries.helpers.FakePlayFieldProperties;
+import org.josebur.libraries.helpers.FakeViewPort;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class PlayTransformTest {
-
-    public static class FakeViewPort implements ViewPort {
-
-        private int _width;
-        private int _height;
-
-        FakeViewPort(int width, int height) {
-            _width = width;
-            _height = height;
-        }
-
-        @Override
-        public int width() {
-            return _width;
-        }
-
-        @Override
-        public int height() {
-            return _height;
-        }
-    }
-
-    // TODO: Create and implement PlayFieldProperties interface.
-    public static class FakePlayFieldProperties implements PlayFieldProperties {
-
-        private float _width;
-        private float _height;
-        private float _ballSpotX;
-        private float _ballSpotY;
-
-        public FakePlayFieldProperties(float width, float height) {
-            _width = width;
-            _height = height;
-            _ballSpotX = width / 2;
-            _ballSpotY = height / 2;
-        }
-
-        @Override
-        public float width() {
-            return _width;
-        }
-
-        @Override
-        public float length() {
-            return _height;
-        }
-
-        @Override
-        public float ballSpotFeetX() {
-            return _ballSpotX;
-        }
-
-        @Override
-        public float ballSpotFeetY() {
-            return _ballSpotY;
-        }
-    }
 
     @Test
     public void pixelToFeet_ViewPortAndPlayFieldPropertiesHaveIdenticalDimensions_IdentityMatrix() {
@@ -219,5 +164,22 @@ public class PlayTransformTest {
         pixelY = transform.feetToPixelY(play.ballSpotFeetY());
         assertEquals(250.f, pixelX, 0.001);
         assertEquals(500.f, pixelY, 0.001);
+    }
+
+    @Test
+    public void pixelToFeet_bigScreenSmallField_ValuesAreCorrect() {
+        ViewPort port = new FakeViewPort(1000, 1000);
+        PlayFieldProperties play = new FakePlayFieldProperties(1000.f, 500.f);
+
+        PlayTransform transform = new PlayTransform(play, port);
+
+        float feetY = transform.pixelToFeetY(0);
+        assertEquals(-250.f, feetY, 0.001);
+
+        feetY = transform.pixelToFeetY(1000);
+        assertEquals(750.f, feetY, 0.001);
+
+        feetY = transform.pixelToFeetY(500);
+        assertEquals(250.f, feetY, 0.001);
     }
 }
