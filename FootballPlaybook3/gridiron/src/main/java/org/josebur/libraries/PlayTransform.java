@@ -14,16 +14,23 @@ public class PlayTransform {
         _play = playFieldProperties;
         _view = viewPort;
 
-        float scale = _play.width() / _view.width();
-        float viewHeightInFeet = _view.height() * scale;
-        float viewTopInFeet = _play.ballSpotFeetY() - viewHeightInFeet * 0.5f;
+        float feetToPixelScale = _view.width() / FieldMeasurements.FullFieldWidth();
 
-        _pixelToFeet = new Matrix2D()
-            .scaleX(scale)
-            .scaleY(scale)
-            .translateY(viewTopInFeet);
+        // X Offset
+        float fieldWidthInPixels = FieldMeasurements.FullFieldWidth() * feetToPixelScale;
+        float offsetX = -(fieldWidthInPixels - _view.width()) * 0.5f;
 
-        _feetToPixel = _pixelToFeet.invert(); // FIXME: this could return null.
+        // Y Offset
+        float fieldLengthInPixels = FieldMeasurements.FullFieldLength() * feetToPixelScale;
+        float offsetY = -(fieldLengthInPixels - _view.height()) * 0.5f;
+
+        _feetToPixel = new Matrix2D()
+                .scaleX(feetToPixelScale)
+                .scaleY(feetToPixelScale)
+                .translateX(offsetX)
+                .translateY(offsetY);
+
+        _pixelToFeet = _feetToPixel.invert();
     }
 
     public float pixelToFeetX(float pixel) {
@@ -40,5 +47,13 @@ public class PlayTransform {
 
     public float feetToPixelY(float y) {
         return _feetToPixel.multiplyPointY(y);
+    }
+
+    public float widthFromFeet(float width) {
+        return width * _feetToPixel.scaleX();
+    }
+
+    public float lengthFromFeet(float length) {
+        return length * _feetToPixel.scaleY();
     }
 }

@@ -44,6 +44,14 @@ public class Matrix2D {
         return this;
     }
 
+    public float scaleX() {
+        return (float)_matrix.get(0, 0);
+    }
+
+    public float scaleY() {
+        return (float)_matrix.get(1, 1);
+    }
+
     public float multiplyPointX(float x) {
         DenseMatrix64F point = new DenseMatrix64F(kDim, 1);
         point.set(0, 0, x);

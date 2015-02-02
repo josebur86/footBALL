@@ -1,5 +1,6 @@
 package org.josebur.libraries.helpers;
 
+import org.josebur.libraries.FieldMeasurements;
 import org.josebur.libraries.PlayFieldProperties;
 
 public class FakePlayFieldProperties implements PlayFieldProperties {
@@ -12,8 +13,10 @@ public class FakePlayFieldProperties implements PlayFieldProperties {
     public FakePlayFieldProperties(float width, float height) {
         _width = width;
         _height = height;
-        _ballSpotX = width / 2;
-        _ballSpotY = height / 2;
+        _ballSpotX = (FieldMeasurements.Width + FieldMeasurements.BorderSize * 2) / 2.f;
+        _ballSpotY = (FieldMeasurements.Length +
+                      FieldMeasurements.EndZoneLength * 2 +
+                      FieldMeasurements.BorderSize * 2) / 2.f;
     }
 
     @Override

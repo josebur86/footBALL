@@ -9,19 +9,19 @@ import static org.mockito.Mockito.*;
 public class FieldTest {
 
     @Test
-    public void draw_bigScreenSmallField_FieldBorderIsDrawn() {
-        ViewPort view = new FakeViewPort(1000, 1000);
-        PlayFieldProperties play = new FakePlayFieldProperties(1000, 500);
+    public void draw_nflSizeFieldNexus5Resolution() {
+        ViewPort view = new FakeViewPort(1080, 1920);
+        PlayFieldProperties play = new FakePlayFieldProperties(172, 372);
         PlayTransform transform = new PlayTransform(play, view);
         Field field = new Field(play);
 
         FieldPainter mockPainter = mock(FieldPainter.class);
         field.draw(mockPainter, transform);
 
-        verify(mockPainter).drawSideline(0.f, 250.f, 0.f, 750.f);
-        verify(mockPainter).drawSideline(1000.f, 250.f, 1000.f, 750.f);
+        verify(mockPainter).drawSideline(0.f, -207.90698f, 0.f, 2127.907f);
+        verify(mockPainter).drawSideline(1042.3256f, -207.90698f, 1042.3256f, 2127.907f);
 
-        verify(mockPainter).drawEndline(0.f, 250.f, 1000.f, 250.f);
-        verify(mockPainter).drawEndline(0.f, 750.f, 1000.f, 750.f);
+        verify(mockPainter).drawEndline(37.67442f, -207.90698f, 1042.3256f, -207.90698f);
+        verify(mockPainter).drawEndline(37.67442f, 2090.23256f, 1042.3256f, 2090.23256f);
     }
 }

@@ -83,4 +83,22 @@ public class Matrix2DTest {
         assertEquals(x, inverted.multiplyPointX(xx), 0.001);
         assertEquals(y, inverted.multiplyPointY(yy), 0.001);
     }
+
+    @Test
+    public void scaleGetter_ScaleSetterHasNotBeenCalled_ScaleIsOne() {
+        Matrix2D m = new Matrix2D();
+
+        assertEquals(1.f, m.scaleX(), 0.01);
+        assertEquals(1.f, m.scaleY(), 0.01);
+    }
+
+    @Test
+    public void scaleGetter_ScaleSetterHasBeenCalled_ScaleMatchesValuePassedIntoSetter() {
+        Matrix2D m = new Matrix2D()
+                .scaleX(0.1234f)
+                .scaleY(0.5678f);
+
+        assertEquals(0.1234f, m.scaleX(), 0.00001);
+        assertEquals(0.5678f, m.scaleY(), 0.00001);
+    }
 }

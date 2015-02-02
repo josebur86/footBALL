@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.josebur.libraries.Field;
+import org.josebur.libraries.FieldMeasurements;
 import org.josebur.libraries.PlayFieldProperties;
 import org.josebur.libraries.PlayTransform;
 
@@ -49,21 +50,22 @@ public class MainActivity extends Activity implements PlayFieldProperties {
 
     @Override
     public float width() {
-        return 1000;
+        return FieldMeasurements.Width + 2 * FieldMeasurements.BorderSize;
     }
 
     @Override
     public float length() {
-        return 500;
+        return FieldMeasurements.Length + 2 * FieldMeasurements.BorderSize
+                                        + 2 * FieldMeasurements.EndZoneLength;
     }
 
     @Override
     public float ballSpotFeetX() {
-        return 500;
+        return width() / 2.f;
     }
 
     @Override
     public float ballSpotFeetY() {
-        return 250;
+        return length() / 2.f;
     }
 }
