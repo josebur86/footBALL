@@ -82,7 +82,6 @@ public class PlayView extends View implements ViewPort {
         if (_field == null || _playTransform == null) return;
 
         _painter.setCanvas(canvas);
-        _painter.drawGrass(); // FIXME: this should be moved to the field draw method.
         _field.draw(_painter, _playTransform);
     }
 
@@ -104,6 +103,7 @@ public class PlayView extends View implements ViewPort {
             _canvas = canvas;
         }
 
+        @Override
         public void drawGrass() {
             _canvas.drawRGB(0, 100, 0);
         }

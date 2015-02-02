@@ -9,6 +9,8 @@ public class Field {
     }
 
     public void draw(FieldPainter painter, PlayTransform transform) {
+        painter.drawGrass();
+
         drawSidelines(painter, transform);
         drawEndlines(painter, transform);
     }
