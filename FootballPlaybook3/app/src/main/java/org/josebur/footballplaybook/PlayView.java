@@ -109,13 +109,13 @@ public class PlayView extends View implements ViewPort {
         }
 
         @Override
-        public void drawSideline(float startX, float startY, float endX, float endY) {
-            _canvas.drawLine(startX, startY, endX, endY, _linePaint);
+        public void drawSideline(float left, float top, float right, float bottom) {
+            _canvas.drawRect(left, top, right, bottom, _linePaint);
         }
 
         @Override
-        public void drawEndline(float startX, float startY, float endX, float endY) {
-            _canvas.drawLine(startX, startY, endX, endY, _linePaint);
+        public void drawEndline(float left, float top, float right, float bottom) {
+            _canvas.drawRect(left, top, right, bottom, _linePaint);
         }
     }
 }

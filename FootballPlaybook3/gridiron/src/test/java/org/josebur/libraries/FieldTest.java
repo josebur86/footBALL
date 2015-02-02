@@ -18,10 +18,10 @@ public class FieldTest {
         FieldPainter mockPainter = mock(FieldPainter.class);
         field.draw(mockPainter, transform);
 
-        verify(mockPainter).drawSideline(0.f, -207.90698f, 0.f, 2127.907f);
-        verify(mockPainter).drawSideline(1042.3256f, -207.90698f, 1042.3256f, 2127.907f);
+        verify(mockPainter).drawSideline(0.f, -207.90698f, 37.67442f, 2127.907f);
+        verify(mockPainter).drawSideline(1042.3256f, -207.90698f, 1080.f, 2127.907f);
 
-        verify(mockPainter).drawEndline(37.67442f, -207.90698f, 1042.3256f, -207.90698f);
-        verify(mockPainter).drawEndline(37.67442f, 2090.23256f, 1042.3256f, 2090.23256f);
+        verify(mockPainter).drawEndline(37.67442f, -207.90698f, 1042.3256f, -170.23256f);
+        verify(mockPainter).drawEndline(37.67442f, 2090.23256f, 1042.3256f, 2127.90698f);
     }
 }
