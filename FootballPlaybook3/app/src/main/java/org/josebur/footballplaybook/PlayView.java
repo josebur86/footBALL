@@ -105,7 +105,7 @@ public class PlayView extends View implements ViewPort {
 
         @Override
         public void drawGrass() {
-            _canvas.drawRGB(0, 100, 0);
+            _canvas.drawRGB(99, 214, 74);
         }
 
         @Override
