@@ -13,6 +13,18 @@ public class Field {
 
         drawSidelines(painter, transform);
         drawEndlines(painter, transform);
+
+        // North Endzone
+        float left = transform.feetToPixelX(FieldMeasurements.BorderSize);
+        float right = transform.feetToPixelX(FieldMeasurements.BorderSize + FieldMeasurements.Width);
+        float fieldPosition = transform.feetToPixelY(FieldMeasurements.BorderSize + FieldMeasurements.EndZoneLength);
+        painter.drawYardLine(left, right, fieldPosition);
+
+        // South Endzone
+        fieldPosition = transform.feetToPixelY(FieldMeasurements.FullFieldLength() -
+                FieldMeasurements.BorderSize - FieldMeasurements.EndZoneLength);
+        painter.drawYardLine(left, right, fieldPosition);
+
     }
 
     private void drawSidelines(FieldPainter painter, PlayTransform transform) {
