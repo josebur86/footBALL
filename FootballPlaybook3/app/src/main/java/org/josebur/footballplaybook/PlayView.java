@@ -89,14 +89,21 @@ public class PlayView extends View implements ViewPort {
 
         Canvas _canvas;
         Paint _borderPaint;
+        Paint _linePaint;
 
         public CanvasFieldPainter(Canvas canvas)
         {
             _canvas = canvas;
+
             _borderPaint = new Paint();
             _borderPaint.setAlpha(190);
             _borderPaint.setColor(Color.WHITE);
             _borderPaint.setStyle(Paint.Style.FILL);
+
+            _linePaint = new Paint();
+            _linePaint.setAlpha(190);
+            _linePaint.setColor(Color.WHITE);
+            _linePaint.setStrokeWidth(5);
         }
 
         public void setCanvas(Canvas canvas) {
@@ -116,6 +123,11 @@ public class PlayView extends View implements ViewPort {
         @Override
         public void drawEndline(float left, float top, float right, float bottom) {
             _canvas.drawRect(left, top, right, bottom, _borderPaint);
+        }
+
+        @Override
+        public void drawYardLine(float left, float right, float fieldPosition) {
+            _canvas.drawLine(left, fieldPosition, right, fieldPosition, _linePaint);
         }
     }
 }

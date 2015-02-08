@@ -26,7 +26,6 @@ public class FieldTest {
         verify(mockPainter).drawEndline(37.67442f, -207.90698f, 1042.3256f, -170.23256f);
         verify(mockPainter).drawEndline(37.67442f, 2090.23256f, 1042.3256f, 2127.90698f);
 
-        verify(mockPainter).drawYardLine(37.67442f, 1042.3256f, 18.139534f);
-        verify(mockPainter).drawYardLine(37.67442f, 1042.3256f, 1901.860465f);
+        verify(mockPainter, times(21)).drawYardLine(anyFloat(), anyFloat(), anyFloat());
     }
 }
