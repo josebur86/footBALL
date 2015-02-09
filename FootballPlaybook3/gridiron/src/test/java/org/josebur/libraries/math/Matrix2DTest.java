@@ -21,11 +21,35 @@ public class Matrix2DTest {
     }
 
     @Test
+    public void scaleX_doubleThenHalf_xRemainsThatSame() {
+        Matrix2D m = new Matrix2D().scaleX(2.f);
+
+        assertFalse(m.isIdentity());
+        assertEquals(16.f, m.multiplyPointX(8.f), 0.1);
+
+        m = m.scaleX(0.5f);
+        assertTrue(m.isIdentity());
+        assertEquals(8.f, m.multiplyPointX(8.f), 0.1);
+    }
+
+    @Test
     public void scaleY_double_yIsDoubled() {
         Matrix2D m = new Matrix2D().scaleY(2.f);
 
         assertFalse(m.isIdentity());
         assertEquals(64.f, m.multiplyPointY(32.f), 0.1);
+    }
+
+    @Test
+    public void scaleY_doubleThenHalf_yRemainsThatSame() {
+        Matrix2D m = new Matrix2D().scaleY(2.f);
+
+        assertFalse(m.isIdentity());
+        assertEquals(16.f, m.multiplyPointY(8.f), 0.1);
+
+        m = m.scaleY(0.5f);
+        assertTrue(m.isIdentity());
+        assertEquals(8.f, m.multiplyPointY(8.f), 0.1);
     }
 
     @Test
@@ -48,11 +72,27 @@ public class Matrix2DTest {
     }
 
     @Test
-    public void translateY_by200_xIsIncreasedBy200() {
+    public void translateX_by100ThenNeg50_xIsIncreasedBy50() {
+        Matrix2D m = new Matrix2D().translateX(100.f).translateX(-50.f);
+
+        assertFalse(m.isIdentity());
+        assertEquals(50, m.multiplyPointX(0), 0.1);
+    }
+
+    @Test
+    public void translateY_by200_yIsIncreasedBy200() {
         Matrix2D m = new Matrix2D().translateY(200.f);
 
         assertFalse(m.isIdentity());
         assertEquals(250, m.multiplyPointY(50), 0.1);
+    }
+
+    @Test
+    public void translateY_by200ThenNeg100_yIsIncreasedBy100() {
+        Matrix2D m = new Matrix2D().translateY(200.f).translateY(-100);
+
+        assertFalse(m.isIdentity());
+        assertEquals(150, m.multiplyPointY(50), 0.1);
     }
 
     @Test

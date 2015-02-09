@@ -25,22 +25,26 @@ public class Matrix2D {
     }
 
     public Matrix2D scaleX(float x) {
-        _matrix.set(0, 0, x);
+        double orig = _matrix.get(0, 0);
+        _matrix.set(0, 0, orig * x);
         return this;
     }
 
     public Matrix2D scaleY(float y) {
-        _matrix.set(1, 1, y);
+        double orig = _matrix.get(1, 1);
+        _matrix.set(1, 1, orig * y);
         return this;
     }
 
     public Matrix2D translateX(float x) {
-        _matrix.set(0, 2, x);
+        double orig = _matrix.get(0, 2);
+        _matrix.set(0, 2, orig + x);
         return this;
     }
 
     public Matrix2D translateY(float y) {
-        _matrix.set(1, 2, y);
+        double orig = _matrix.get(1, 2);
+        _matrix.set(1, 2, orig + y);
         return this;
     }
 

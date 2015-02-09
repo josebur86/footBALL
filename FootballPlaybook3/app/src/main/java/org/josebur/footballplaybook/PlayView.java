@@ -5,6 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 
 import org.josebur.libraries.Field;
@@ -20,11 +24,18 @@ public class PlayView extends View implements ViewPort {
     PlayTransform _playTransform;
     CanvasFieldPainter _painter;
 
+    ScaleGestureDetector _zoomDetector;
+    GestureDetector _panDetector;
+
+
     public PlayView(Context context, AttributeSet attrs) {
         super(context, attrs);
         _painter = new CanvasFieldPainter(null);
         _field = null;
         _playTransform = null;
+
+        _zoomDetector = new ScaleGestureDetector(context, new ZoomFieldListener());
+        _panDetector = new GestureDetector(context, new PanFieldListener());
     }
 
     public void setField(Field field) {
@@ -128,6 +139,52 @@ public class PlayView extends View implements ViewPort {
         @Override
         public void drawYardLine(float left, float right, float fieldPosition) {
             _canvas.drawLine(left, fieldPosition, right, fieldPosition, _linePaint);
+        }
+    }
+
+    /**
+     * Implement this method to handle touch screen motion events.
+     * <p/>
+     * If this method is used to detect click actions, it is recommended that
+     * the actions be performed by implementing and calling
+     * {@link #performClick()}. This will ensure consistent system behavior,
+     * including:
+     * <ul>
+     * <li>obeying click sound preferences
+     * <li>dispatching OnClickListener calls
+     * <li>handling {@link AccessibilityNodeInfo#ACTION_CLICK ACTION_CLICK} when
+     * accessibility features are enabled
+     * </ul>
+     *
+     * @param event The motion event.
+     * @return True if the event was handled, false otherwise.
+     */
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        boolean result = _zoomDetector.onTouchEvent(event);
+        result = _panDetector.onTouchEvent(event) || result;
+        return result || super.onTouchEvent(event);
+    }
+
+    private class ZoomFieldListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            if (_playTransform.zoom(detector.getScaleFactor())) {
+                invalidate();
+                return true;
+            }
+            return false;
+        }
+    }
+
+    private class PanFieldListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            if (e1.getPointerCount() > 1 || e2.getPointerCount() > 1) return false;
+//            Log.d("Scroll", "distanceX " + Float.toString(distanceX) + " distanceY " + Float.toString(distanceY));
+            _playTransform.pan(-distanceX, -distanceY);
+            invalidate();
+            return true;
         }
     }
 }
