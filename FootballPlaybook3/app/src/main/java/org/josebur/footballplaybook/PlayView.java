@@ -142,23 +142,6 @@ public class PlayView extends View implements ViewPort {
         }
     }
 
-    /**
-     * Implement this method to handle touch screen motion events.
-     * <p/>
-     * If this method is used to detect click actions, it is recommended that
-     * the actions be performed by implementing and calling
-     * {@link #performClick()}. This will ensure consistent system behavior,
-     * including:
-     * <ul>
-     * <li>obeying click sound preferences
-     * <li>dispatching OnClickListener calls
-     * <li>handling {@link AccessibilityNodeInfo#ACTION_CLICK ACTION_CLICK} when
-     * accessibility features are enabled
-     * </ul>
-     *
-     * @param event The motion event.
-     * @return True if the event was handled, false otherwise.
-     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         boolean result = _zoomDetector.onTouchEvent(event);
@@ -181,8 +164,7 @@ public class PlayView extends View implements ViewPort {
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
             if (e1.getPointerCount() > 1 || e2.getPointerCount() > 1) return false;
-//            Log.d("Scroll", "distanceX " + Float.toString(distanceX) + " distanceY " + Float.toString(distanceY));
-            _playTransform.pan(-distanceX, -distanceY);
+            _playTransform.pan(distanceX, distanceY);
             invalidate();
             return true;
         }

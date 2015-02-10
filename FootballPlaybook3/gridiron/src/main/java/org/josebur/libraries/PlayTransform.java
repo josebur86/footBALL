@@ -55,17 +55,16 @@ public class PlayTransform {
 
         return true;
     }
+    // ----------------- //
 
     public boolean pan(float xOffset, float yOffset) {
         _feetToPixel = _feetToPixel
-                .translateX(xOffset)
-                .translateY(yOffset);
+                .translateX(-xOffset)
+                .translateY(-yOffset);
 
         _pixelToFeet = _feetToPixel.invert();
         return true;
     }
-
-    // ----------------- //
 
     public float pixelToFeetX(float pixel) {
         return _pixelToFeet.multiplyPointX(pixel);
@@ -88,6 +87,15 @@ public class PlayTransform {
     }
 
     public float lengthFromFeet(float length) {
+
         return length * _feetToPixel.scaleY();
+    }
+
+    public float viewCenterInFeetX() {
+        return _pixelToFeet.multiplyPointX(_view.width() * 0.5f);
+    }
+
+    public float viewCenterInFeetY() {
+        return _pixelToFeet.multiplyPointY(_view.height() * 0.5f);
     }
 }

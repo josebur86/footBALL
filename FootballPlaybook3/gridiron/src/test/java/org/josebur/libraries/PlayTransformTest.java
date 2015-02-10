@@ -235,7 +235,7 @@ public class PlayTransformTest {
     }
 
     @Test
-    public void feetToPixel_nflSizePlayFieldAndNexus5ScreenResolution_ballSportIsAtCenterPixel() {
+    public void feetToPixel_nflSizePlayFieldAndNexus5ScreenResolution_ballSpotIsAtCenterPixel() {
         ViewPort nexus5PortraitView = new FakeViewPort(1080, 1920);
 
         float playWidth = 160.f;
@@ -246,5 +246,83 @@ public class PlayTransformTest {
 
         assertEquals(540.f, transform.feetToPixelX(play.ballSpotFeetX()), 0.001);
         assertEquals(960.f, transform.feetToPixelY(play.ballSpotFeetY()), 0.001);
+    }
+
+    @Test
+    public void viewCenter_nflSizePlayFieldNexus5ScreenResolution_viewCenterIsAtTheBallSpot() {
+        ViewPort port = new FakeViewPort(1080, 1920); // TODO: create a fake viewport factory.
+
+        float playWidth = 160.f;
+        float playHeight = 300.f;
+
+        PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playHeight);
+        PlayTransform transform = new PlayTransform(play, port);
+
+        assertEquals(86.f, transform.viewCenterInFeetX(), 0.001);
+        assertEquals(186.f, transform.viewCenterInFeetY(), 0.001);
+    }
+
+    @Test
+    public void pan_panLeft100px_viewCenterIsLeftOfTheBallSpot() {
+        ViewPort port = new FakeViewPort(1080, 1920); // TODO: create a fake viewport factory.
+
+        float playWidth = 160.f;
+        float playHeight = 300.f;
+
+        PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playHeight);
+        PlayTransform transform = new PlayTransform(play, port);
+        assertEquals(86.f, transform.viewCenterInFeetX(), 0.001);
+        assertEquals(186.f, transform.viewCenterInFeetY(), 0.001);
+
+        transform.pan(-100, 0);
+        assertEquals(70.07407407, transform.viewCenterInFeetX(), 0.001);
+    }
+
+    @Test
+    public void pan_panRight100px_viewCenterIsRightOfTheBallSpot() {
+        ViewPort port = new FakeViewPort(1080, 1920); // TODO: create a fake viewport factory.
+
+        float playWidth = 160.f;
+        float playHeight = 300.f;
+
+        PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playHeight);
+        PlayTransform transform = new PlayTransform(play, port);
+        assertEquals(86.f, transform.viewCenterInFeetX(), 0.001);
+        assertEquals(186.f, transform.viewCenterInFeetY(), 0.001);
+
+        transform.pan(100, 0);
+        assertEquals(101.9259259, transform.viewCenterInFeetX(), 0.001);
+    }
+
+    @Test
+    public void pan_panUp100px_viewCenterIsAboveTheBallSpot() {
+        ViewPort port = new FakeViewPort(1080, 1920); // TODO: create a fake viewport factory.
+
+        float playWidth = 160.f;
+        float playHeight = 300.f;
+
+        PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playHeight);
+        PlayTransform transform = new PlayTransform(play, port);
+        assertEquals(86.f, transform.viewCenterInFeetX(), 0.001);
+        assertEquals(186.f, transform.viewCenterInFeetY(), 0.001);
+
+        transform.pan(0, -100);
+        assertEquals(170.0740741, transform.viewCenterInFeetY(), 0.001);
+    }
+
+    @Test
+    public void pan_panDown100px_viewCenterIsBelowTheBallSpot() {
+        ViewPort port = new FakeViewPort(1080, 1920); // TODO: create a fake viewport factory.
+
+        float playWidth = 160.f;
+        float playHeight = 300.f;
+
+        PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playHeight);
+        PlayTransform transform = new PlayTransform(play, port);
+        assertEquals(86.f, transform.viewCenterInFeetX(), 0.001);
+        assertEquals(186.f, transform.viewCenterInFeetY(), 0.001);
+
+        transform.pan(0, 100);
+        assertEquals(201.9259259, transform.viewCenterInFeetY(), 0.001);
     }
 }
