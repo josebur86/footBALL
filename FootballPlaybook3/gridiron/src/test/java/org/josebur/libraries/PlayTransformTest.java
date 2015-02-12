@@ -188,8 +188,8 @@ public class PlayTransformTest {
     public void widthFromFeet_nflSizeField_widthMatchesViewWidth() {
         ViewPort portraitView = new FakeViewPort(1080, 1920);
 
-        float playWidth = new NflFieldMeasurements().FullFieldWidth2();
-        float playLength = new NflFieldMeasurements().FullFieldLength2();
+        float playWidth = new NflFieldMeasurements().FullFieldWidth();
+        float playLength = new NflFieldMeasurements().FullFieldLength();
         PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playLength);
 
         PlayTransform transform = new PlayTransform(play, portraitView);
@@ -202,8 +202,8 @@ public class PlayTransformTest {
     public void lengthFromFeet_nflSizeField_lengthMatchesViewHeight() {
         ViewPort portraitView = new FakeViewPort(1080, 1920);
 
-        float playWidth = new NflFieldMeasurements().FullFieldWidth2();
-        float playLength = new NflFieldMeasurements().FullFieldLength2();
+        float playWidth = new NflFieldMeasurements().FullFieldWidth();
+        float playLength = new NflFieldMeasurements().FullFieldLength();
         PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playLength);
 
         PlayTransform transform = new PlayTransform(play, portraitView);

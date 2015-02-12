@@ -13,12 +13,12 @@ public class NflFieldMeasurements implements FieldMeasurements {
     }
 
     @Override
-    public float FullFieldWidth2() {
+    public float FullFieldWidth() {
         return Width() + 2 * BorderSize();
     }
 
     @Override
-    public float FullFieldLength2() {
+    public float FullFieldLength() {
         return Length() + 2 * EndZoneLength() + 2 * BorderSize();
     }
 
@@ -33,7 +33,7 @@ public class NflFieldMeasurements implements FieldMeasurements {
     }
 
     @Override
-    public int getFullFieldFootLine2(int yardLine) {
+    public int getFullFieldFootLine(int yardLine) {
         int feetPerYard = 3;
         return (int)(BorderSize() + EndZoneLength() + yardLine * feetPerYard);
     }

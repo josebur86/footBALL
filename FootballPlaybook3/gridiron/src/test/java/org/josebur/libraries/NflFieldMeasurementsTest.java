@@ -32,13 +32,13 @@ public class NflFieldMeasurementsTest {
     @Test
     public void nflFieldFullWidthIs172FeetWide() {
         FieldMeasurements fm = new NflFieldMeasurements();
-        Assert.assertEquals(172.f, fm.FullFieldWidth2(), 0.1);
+        Assert.assertEquals(172.f, fm.FullFieldWidth(), 0.1);
     }
 
     @Test
     public void nflFieldFullLengthIs372FeetLong() {
         FieldMeasurements fm = new NflFieldMeasurements();
-        Assert.assertEquals(372.f, fm.FullFieldLength2(), 0.1);
+        Assert.assertEquals(372.f, fm.FullFieldLength(), 0.1);
     }
 
     @Test
@@ -46,6 +46,6 @@ public class NflFieldMeasurementsTest {
         FieldMeasurements fm = new NflFieldMeasurements();
 
         int yardLine = 50;
-        Assert.assertEquals(186, fm.getFullFieldFootLine2(yardLine));
+        Assert.assertEquals(186, fm.getFullFieldFootLine(yardLine));
     }
 }

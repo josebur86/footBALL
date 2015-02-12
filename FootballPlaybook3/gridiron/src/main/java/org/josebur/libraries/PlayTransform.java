@@ -16,14 +16,14 @@ public class PlayTransform {
         _view = viewPort;
         _measurements = new NflFieldMeasurements();
 
-        float feetToPixelScale = _view.width() / _measurements.FullFieldWidth2();
+        float feetToPixelScale = _view.width() / _measurements.FullFieldWidth();
 
         // X Offset
-        float fieldWidthInPixels = _measurements.FullFieldWidth2() * feetToPixelScale;
+        float fieldWidthInPixels = _measurements.FullFieldWidth() * feetToPixelScale;
         float offsetX = -(fieldWidthInPixels - _view.width()) * 0.5f;
 
         // Y Offset
-        float fieldLengthInPixels = _measurements.FullFieldLength2() * feetToPixelScale;
+        float fieldLengthInPixels = _measurements.FullFieldLength() * feetToPixelScale;
         float offsetY = -(fieldLengthInPixels - _view.height()) * 0.5f;
 
         _feetToPixel = new Matrix2D()
@@ -42,7 +42,7 @@ public class PlayTransform {
         float xOffset = -((viewCenterInFeetX() - (_view.width() * pixelToFeetScale * 0.5f)) * feetToPixelScale);
 
         // Y Offset
-        float fieldLengthInPixels = _measurements.FullFieldLength2() * feetToPixelScale;
+        float fieldLengthInPixels = _measurements.FullFieldLength() * feetToPixelScale;
         float offsetY = -(fieldLengthInPixels - _view.height()) * 0.5f;
 
         _feetToPixel = new Matrix2D()

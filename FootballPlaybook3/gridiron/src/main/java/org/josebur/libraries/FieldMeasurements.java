@@ -4,11 +4,11 @@ public interface FieldMeasurements {
     float Width();
     float Length();
 
-    float FullFieldWidth2();
-    float FullFieldLength2();
+    float FullFieldWidth();
+    float FullFieldLength();
 
     float EndZoneLength();
     float BorderSize();
 
-    int getFullFieldFootLine2(int yardLine);
+    int getFullFieldFootLine(int yardLine);
 }
