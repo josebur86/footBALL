@@ -4,12 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import org.josebur.libraries.Field;
 import org.josebur.libraries.FieldMeasurements;
+import org.josebur.libraries.NflFieldMeasurements;
 import org.josebur.libraries.PlayFieldProperties;
-import org.josebur.libraries.PlayTransform;
 
 
 public class MainActivity extends Activity implements PlayFieldProperties {
@@ -50,13 +49,15 @@ public class MainActivity extends Activity implements PlayFieldProperties {
 
     @Override
     public float width() {
-        return FieldMeasurements.Width + 2 * FieldMeasurements.BorderSize;
+        FieldMeasurements measurements = new NflFieldMeasurements();
+        return measurements.Width() + 2 * measurements.BorderSize();
     }
 
     @Override
     public float length() {
-        return FieldMeasurements.Length + 2 * FieldMeasurements.BorderSize
-                                        + 2 * FieldMeasurements.EndZoneLength;
+        FieldMeasurements measurements = new NflFieldMeasurements();
+        return measurements.Length() + 2 * measurements.BorderSize()
+                                     + 2 * measurements.EndZoneLength();
     }
 
     @Override

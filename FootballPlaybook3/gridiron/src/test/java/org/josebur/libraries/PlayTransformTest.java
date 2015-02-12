@@ -2,6 +2,7 @@ package org.josebur.libraries;
 
 import org.josebur.libraries.helpers.FakePlayFieldProperties;
 import org.josebur.libraries.helpers.FakeViewPort;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -187,8 +188,8 @@ public class PlayTransformTest {
     public void widthFromFeet_nflSizeField_widthMatchesViewWidth() {
         ViewPort portraitView = new FakeViewPort(1080, 1920);
 
-        float playWidth = FieldMeasurements.FullFieldWidth();
-        float playLength = FieldMeasurements.FullFieldLength();
+        float playWidth = new NflFieldMeasurements().FullFieldWidth2();
+        float playLength = new NflFieldMeasurements().FullFieldLength2();
         PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playLength);
 
         PlayTransform transform = new PlayTransform(play, portraitView);
@@ -201,8 +202,8 @@ public class PlayTransformTest {
     public void lengthFromFeet_nflSizeField_lengthMatchesViewHeight() {
         ViewPort portraitView = new FakeViewPort(1080, 1920);
 
-        float playWidth = FieldMeasurements.FullFieldWidth();
-        float playLength = FieldMeasurements.FullFieldLength();
+        float playWidth = new NflFieldMeasurements().FullFieldWidth2();
+        float playLength = new NflFieldMeasurements().FullFieldLength2();
         PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playLength);
 
         PlayTransform transform = new PlayTransform(play, portraitView);
@@ -324,5 +325,23 @@ public class PlayTransformTest {
 
         transform.pan(0, 100);
         assertEquals(201.9259259, transform.viewCenterInFeetY(), 0.001);
+    }
+
+    @Test
+    @Ignore
+    public void zoom_double_viewCenterIsAtBallSpot() {
+        ViewPort port = new FakeViewPort(1080, 1920); // TODO: create a fake viewport factory.
+
+        float playWidth = 160.f;
+        float playHeight = 300.f;
+
+        PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playHeight);
+        PlayTransform transform = new PlayTransform(play, port);
+        assertEquals(86.f, transform.pixelToFeetX(540), 0.001);
+        assertEquals(172.f, transform.pixelToFeetX(1080), 0.001);
+
+        transform.zoom(2);
+        assertEquals(86.f, transform.pixelToFeetX(540), 0.001);
+        assertEquals(129.0622f, transform.pixelToFeetX(1080), 0.001);
     }
 }
