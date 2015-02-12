@@ -11,10 +11,10 @@ public class PlayTransform {
     private Matrix2D _pixelToFeet;
     private Matrix2D _feetToPixel;
 
-    public PlayTransform(PlayFieldProperties playFieldProperties, ViewPort viewPort) {
+    public PlayTransform(PlayFieldProperties playFieldProperties, ViewPort viewPort, FieldMeasurements measurements) {
         _play = playFieldProperties;
         _view = viewPort;
-        _measurements = new NflFieldMeasurements();
+        _measurements = measurements;
 
         float feetToPixelScale = _view.width() / _measurements.FullFieldWidth();
 
@@ -35,6 +35,10 @@ public class PlayTransform {
         _pixelToFeet = _feetToPixel.invert();
     }
 
+    public PlayTransform(PlayFieldProperties playFieldProperties, ViewPort viewPort) {
+        this(playFieldProperties, viewPort, new NflFieldMeasurements());
+    }
+
     public boolean zoom(float zoomFactor) {
         float feetToPixelScale = _feetToPixel.scaleX() * zoomFactor;
         float pixelToFeetScale = 1.f / feetToPixelScale;
@@ -51,7 +55,7 @@ public class PlayTransform {
                 .translateX(xOffset)
                 .translateY(offsetY);
 
-        _pixelToFeet.invert();
+        _pixelToFeet = _feetToPixel.invert();
 
 //        float feetToPixelScale = _feetToPixel.scaleX() * zoomFactor;
 //

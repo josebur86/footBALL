@@ -327,21 +327,57 @@ public class PlayTransformTest {
         assertEquals(201.9259259, transform.viewCenterInFeetY(), 0.001);
     }
 
-    @Test
-    @Ignore
-    public void zoom_double_viewCenterIsAtBallSpot() {
-        ViewPort port = new FakeViewPort(1080, 1920); // TODO: create a fake viewport factory.
+    private class FakeFieldMeasurements implements FieldMeasurements {
+        @Override
+        public float Width() {
+            return 100;
+        }
 
-        float playWidth = 160.f;
-        float playHeight = 300.f;
+        @Override
+        public float Length() {
+            return 100;
+        }
+
+        @Override
+        public float FullFieldWidth() {
+            return 100;
+        }
+
+        @Override
+        public float FullFieldLength() {
+            return 100;
+        }
+
+        @Override
+        public float EndZoneLength() {
+            return 0;
+        }
+
+        @Override
+        public float BorderSize() {
+            return 0;
+        }
+
+        @Override
+        public int getFullFieldFootLine(int yardLine) {
+            return yardLine;
+        }
+    }
+
+    @Test
+    public void zoom_double_viewCenterIsAtBallSpot() {
+        ViewPort port = new FakeViewPort(100, 100); // TODO: create a fake viewport factory.
+
+        float playWidth = 100.f;
+        float playHeight = 100.f;
 
         PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playHeight);
-        PlayTransform transform = new PlayTransform(play, port);
-        assertEquals(86.f, transform.pixelToFeetX(540), 0.001);
-        assertEquals(172.f, transform.pixelToFeetX(1080), 0.001);
+        PlayTransform transform = new PlayTransform(play, port, new FakeFieldMeasurements());
+        assertEquals(50.f, transform.pixelToFeetX(50), 0.001);
+        assertEquals(100.f, transform.pixelToFeetX(100), 0.001);
 
         transform.zoom(2);
-        assertEquals(86.f, transform.pixelToFeetX(540), 0.001);
-        assertEquals(129.0622f, transform.pixelToFeetX(1080), 0.001);
+        assertEquals(50.f, transform.pixelToFeetX(50), 0.001);
+        assertEquals(75.f, transform.pixelToFeetX(100), 0.001);
     }
 }
