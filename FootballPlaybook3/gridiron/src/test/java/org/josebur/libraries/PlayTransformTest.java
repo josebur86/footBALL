@@ -328,24 +328,33 @@ public class PlayTransformTest {
     }
 
     private class FakeFieldMeasurements implements FieldMeasurements {
+
+        private float _width;
+        private float _length;
+
+        public FakeFieldMeasurements(float width, float length) {
+            _width = width;
+            _length = length;
+        }
+
         @Override
         public float Width() {
-            return 100;
+            return _width;
         }
 
         @Override
         public float Length() {
-            return 100;
+            return _length;
         }
 
         @Override
         public float FullFieldWidth() {
-            return 100;
+            return _width;
         }
 
         @Override
         public float FullFieldLength() {
-            return 100;
+            return _length;
         }
 
         @Override
@@ -366,18 +375,34 @@ public class PlayTransformTest {
 
     @Test
     public void zoom_double_viewCenterIsAtBallSpot() {
-        ViewPort port = new FakeViewPort(100, 100); // TODO: create a fake viewport factory.
-
-        float playWidth = 100.f;
-        float playHeight = 100.f;
-
-        PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playHeight);
-        PlayTransform transform = new PlayTransform(play, port, new FakeFieldMeasurements());
+        int width = 100;
+        int length = 100;
+        ViewPort port = new FakeViewPort(width, length); // TODO: create a fake viewport factory.
+        PlayFieldProperties play = new FakePlayFieldProperties(width, length);
+        PlayTransform transform = new PlayTransform(play, port, new FakeFieldMeasurements(width, length));
         assertEquals(50.f, transform.pixelToFeetX(50), 0.001);
         assertEquals(100.f, transform.pixelToFeetX(100), 0.001);
 
         transform.zoom(2);
         assertEquals(50.f, transform.pixelToFeetX(50), 0.001);
         assertEquals(75.f, transform.pixelToFeetX(100), 0.001);
+    }
+
+    @Test
+    public void panAndZoom_panDown25pxThenDoubleZoom_viewCenterIsPreserved() {
+        int width = 100;
+        int length = 100;
+        ViewPort port = new FakeViewPort(width, length); // TODO: create a fake viewport factory.
+        PlayFieldProperties play = new FakePlayFieldProperties(width, length);
+        PlayTransform transform = new PlayTransform(play, port, new FakeFieldMeasurements(width, length));
+        assertEquals(50.f, transform.pixelToFeetX(50), 0.001);
+        assertEquals(100.f, transform.pixelToFeetX(100), 0.001);
+
+        transform.pan(0, 25);
+        assertEquals(125.f, transform.pixelToFeetY(100), 0.01);
+        assertEquals(75.f, transform.pixelToFeetY(50), 0.01);
+
+        transform.zoom(2);
+        assertEquals(100.f, transform.pixelToFeetY(100), 0.001);
     }
 }
