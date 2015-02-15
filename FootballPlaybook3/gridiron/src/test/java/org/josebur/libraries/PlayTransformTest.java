@@ -259,8 +259,8 @@ public class PlayTransformTest {
         PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playHeight);
         PlayTransform transform = new PlayTransform(play, port);
 
-        assertEquals(86.f, transform.viewCenterInFeetX(), 0.001);
-        assertEquals(186.f, transform.viewCenterInFeetY(), 0.001);
+        assertEquals(86.f, transform.viewCenter().feetX(), 0.001);
+        assertEquals(186.f, transform.viewCenter().feetY(), 0.001);
     }
 
     @Test
@@ -272,11 +272,11 @@ public class PlayTransformTest {
 
         PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playHeight);
         PlayTransform transform = new PlayTransform(play, port);
-        assertEquals(86.f, transform.viewCenterInFeetX(), 0.001);
-        assertEquals(186.f, transform.viewCenterInFeetY(), 0.001);
+        assertEquals(86.f, transform.viewCenter().feetX(), 0.001);
+        assertEquals(186.f, transform.viewCenter().feetY(), 0.001);
 
         transform.pan(-100, 0);
-        assertEquals(70.07407407, transform.viewCenterInFeetX(), 0.001);
+        assertEquals(70.07407407, transform.viewCenter().feetX(), 0.001);
     }
 
     @Test
@@ -288,11 +288,11 @@ public class PlayTransformTest {
 
         PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playHeight);
         PlayTransform transform = new PlayTransform(play, port);
-        assertEquals(86.f, transform.viewCenterInFeetX(), 0.001);
-        assertEquals(186.f, transform.viewCenterInFeetY(), 0.001);
+        assertEquals(86.f, transform.viewCenter().feetX(), 0.001);
+        assertEquals(186.f, transform.viewCenter().feetY(), 0.001);
 
         transform.pan(100, 0);
-        assertEquals(101.9259259, transform.viewCenterInFeetX(), 0.001);
+        assertEquals(101.9259259, transform.viewCenter().feetX(), 0.001);
     }
 
     @Test
@@ -304,11 +304,11 @@ public class PlayTransformTest {
 
         PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playHeight);
         PlayTransform transform = new PlayTransform(play, port);
-        assertEquals(86.f, transform.viewCenterInFeetX(), 0.001);
-        assertEquals(186.f, transform.viewCenterInFeetY(), 0.001);
+        assertEquals(86.f, transform.viewCenter().feetX(), 0.001);
+        assertEquals(186.f, transform.viewCenter().feetY(), 0.001);
 
         transform.pan(0, -100);
-        assertEquals(170.0740741, transform.viewCenterInFeetY(), 0.001);
+        assertEquals(170.0740741, transform.viewCenter().feetY(), 0.001);
     }
 
     @Test
@@ -320,11 +320,11 @@ public class PlayTransformTest {
 
         PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playHeight);
         PlayTransform transform = new PlayTransform(play, port);
-        assertEquals(86.f, transform.viewCenterInFeetX(), 0.001);
-        assertEquals(186.f, transform.viewCenterInFeetY(), 0.001);
+        assertEquals(86.f, transform.viewCenter().feetX(), 0.001);
+        assertEquals(186.f, transform.viewCenter().feetY(), 0.001);
 
         transform.pan(0, 100);
-        assertEquals(201.9259259, transform.viewCenterInFeetY(), 0.001);
+        assertEquals(201.9259259, transform.viewCenter().feetY(), 0.001);
     }
 
     private class FakeFieldMeasurements implements FieldMeasurements {

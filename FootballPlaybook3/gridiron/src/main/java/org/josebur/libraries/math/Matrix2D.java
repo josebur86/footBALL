@@ -56,27 +56,16 @@ public class Matrix2D {
         return (float)_matrix.get(1, 1);
     }
 
-    public float multiplyPointX(float x) {
+    public Point multiplyPoint(float x, float y) {
         DenseMatrix64F point = new DenseMatrix64F(kDim, 1);
         point.set(0, 0, x);
-        point.set(2, 0, 1);
-
-        DenseMatrix64F result = new DenseMatrix64F(kDim, 1);
-        MatrixVectorMult.mult(_matrix, point, result);
-
-        return (float)result.get(0, 0);
-    }
-
-
-    public float multiplyPointY(float y) {
-        DenseMatrix64F point = new DenseMatrix64F(kDim, 1);
         point.set(1, 0, y);
         point.set(2, 0, 1);
 
         DenseMatrix64F result = new DenseMatrix64F(kDim, 1);
         MatrixVectorMult.mult(_matrix, point, result);
 
-        return (float)result.get(1, 0);
+        return new Point((float)result.get(0, 0), (float)result.get(1, 0));
     }
 
     public Matrix2D invert() {

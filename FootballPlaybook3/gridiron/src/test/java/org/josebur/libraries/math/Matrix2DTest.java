@@ -17,7 +17,7 @@ public class Matrix2DTest {
         Matrix2D m = new Matrix2D().scaleX(2.f);
 
         assertFalse(m.isIdentity());
-        assertEquals(16.f, m.multiplyPointX(8.f), 0.1);
+        assertEquals(16.f, m.multiplyPoint(8.f, 0.f).x(), 0.1);
     }
 
     @Test
@@ -25,11 +25,11 @@ public class Matrix2DTest {
         Matrix2D m = new Matrix2D().scaleX(2.f);
 
         assertFalse(m.isIdentity());
-        assertEquals(16.f, m.multiplyPointX(8.f), 0.1);
+        assertEquals(16.f, m.multiplyPoint(8.f, 0.f).x(), 0.1);
 
         m = m.scaleX(0.5f);
         assertTrue(m.isIdentity());
-        assertEquals(8.f, m.multiplyPointX(8.f), 0.1);
+        assertEquals(8.f, m.multiplyPoint(8.f, 0.f).x(), 0.1);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class Matrix2DTest {
         Matrix2D m = new Matrix2D().scaleY(2.f);
 
         assertFalse(m.isIdentity());
-        assertEquals(64.f, m.multiplyPointY(32.f), 0.1);
+        assertEquals(64.f, m.multiplyPoint(0, 32.f).y(), 0.1);
     }
 
     @Test
@@ -45,11 +45,11 @@ public class Matrix2DTest {
         Matrix2D m = new Matrix2D().scaleY(2.f);
 
         assertFalse(m.isIdentity());
-        assertEquals(16.f, m.multiplyPointY(8.f), 0.1);
+        assertEquals(16.f, m.multiplyPoint(0, 8.f).y(), 0.1);
 
         m = m.scaleY(0.5f);
         assertTrue(m.isIdentity());
-        assertEquals(8.f, m.multiplyPointY(8.f), 0.1);
+        assertEquals(8.f, m.multiplyPoint(0, 8.f).y(), 0.1);
     }
 
     @Test
@@ -59,8 +59,9 @@ public class Matrix2DTest {
                 .scaleY(2.f);
 
         assertFalse(m.isIdentity());
-        assertEquals(16.f, m.multiplyPointX(8.f), 0.1);
-        assertEquals(64.f, m.multiplyPointY(32.f), 0.1);
+        Point output = m.multiplyPoint(8.f, 32.f);
+        assertEquals(16.f, output.x(), 0.1);
+        assertEquals(64.f, output.y(), 0.1);
     }
 
     @Test
@@ -68,7 +69,7 @@ public class Matrix2DTest {
         Matrix2D m = new Matrix2D().translateX(100.f);
 
         assertFalse(m.isIdentity());
-        assertEquals(100, m.multiplyPointX(0), 0.1);
+        assertEquals(100, m.multiplyPoint(0, 0).x(), 0.1);
     }
 
     @Test
@@ -76,7 +77,7 @@ public class Matrix2DTest {
         Matrix2D m = new Matrix2D().translateX(100.f).translateX(-50.f);
 
         assertFalse(m.isIdentity());
-        assertEquals(50, m.multiplyPointX(0), 0.1);
+        assertEquals(50, m.multiplyPoint(0, 0).x(), 0.1);
     }
 
     @Test
@@ -84,7 +85,7 @@ public class Matrix2DTest {
         Matrix2D m = new Matrix2D().translateY(200.f);
 
         assertFalse(m.isIdentity());
-        assertEquals(250, m.multiplyPointY(50), 0.1);
+        assertEquals(250, m.multiplyPoint(0, 50).y(), 0.1);
     }
 
     @Test
@@ -92,7 +93,7 @@ public class Matrix2DTest {
         Matrix2D m = new Matrix2D().translateY(200.f).translateY(-100);
 
         assertFalse(m.isIdentity());
-        assertEquals(150, m.multiplyPointY(50), 0.1);
+        assertEquals(150, m.multiplyPoint(0, 50).y(), 0.1);
     }
 
     @Test
@@ -101,9 +102,11 @@ public class Matrix2DTest {
                 .translateX(100.f)
                 .translateY(200.f);
 
+        Point output = m.multiplyPoint(0, 50);
+
         assertFalse(m.isIdentity());
-        assertEquals(100, m.multiplyPointX(0), 0.1);
-        assertEquals(250, m.multiplyPointY(50), 0.1);
+        assertEquals(100, output.x(), 0.1);
+        assertEquals(250, output.y(), 0.1);
     }
 
     @Test
@@ -116,12 +119,12 @@ public class Matrix2DTest {
 
         float x = 5;
         float y = 5;
-        float xx = m.multiplyPointX(x);
-        float yy = m.multiplyPointY(y);
+        Point output = m.multiplyPoint(x, y);
+
         Matrix2D inverted = m.invert();
 
-        assertEquals(x, inverted.multiplyPointX(xx), 0.001);
-        assertEquals(y, inverted.multiplyPointY(yy), 0.001);
+        assertEquals(x, inverted.multiplyPoint(output.x(), output.y()).x(), 0.001);
+        assertEquals(y, inverted.multiplyPoint(output.x(), output.y()).y(), 0.001);
     }
 
     @Test
