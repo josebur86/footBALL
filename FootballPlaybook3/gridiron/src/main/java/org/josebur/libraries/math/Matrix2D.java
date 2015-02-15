@@ -24,15 +24,11 @@ public class Matrix2D {
         return MatrixFeatures.isIdentity(_matrix, 0.1);
     }
 
-    public Matrix2D scaleX(float x) {
-        double orig = _matrix.get(0, 0);
-        _matrix.set(0, 0, orig * x);
-        return this;
-    }
-
-    public Matrix2D scaleY(float y) {
-        double orig = _matrix.get(1, 1);
-        _matrix.set(1, 1, orig * y);
+    public Matrix2D scale(float scale) {
+        double x = _matrix.get(0, 0);
+        double y = _matrix.get(1, 1);
+        _matrix.set(0, 0, x * scale);
+        _matrix.set(1, 1, y * scale);
         return this;
     }
 

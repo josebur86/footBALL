@@ -40,8 +40,7 @@ public class PlayTransform {
         float yOffset = -((viewCenter.feetY() - (_view.height() * pixelToFeetScale * 0.5f)) * feetToPixelScale);
 
         _feetToPixel = new Matrix2D()
-                .scaleX(feetToPixelScale)
-                .scaleY(feetToPixelScale)
+                .scale(feetToPixelScale)
                 .translateX(xOffset)
                 .translateY(yOffset);
 

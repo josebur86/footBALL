@@ -14,7 +14,7 @@ public class Matrix2DTest {
 
     @Test
     public void scaleX_double_xIsDoubled() {
-        Matrix2D m = new Matrix2D().scaleX(2.f);
+        Matrix2D m = new Matrix2D().scale(2.f);
 
         assertFalse(m.isIdentity());
         assertEquals(16.f, m.multiplyPoint(8.f, 0.f).x(), 0.1);
@@ -22,19 +22,19 @@ public class Matrix2DTest {
 
     @Test
     public void scaleX_doubleThenHalf_xRemainsThatSame() {
-        Matrix2D m = new Matrix2D().scaleX(2.f);
+        Matrix2D m = new Matrix2D().scale(2.f);
 
         assertFalse(m.isIdentity());
         assertEquals(16.f, m.multiplyPoint(8.f, 0.f).x(), 0.1);
 
-        m = m.scaleX(0.5f);
+        m = m.scale(0.5f);
         assertTrue(m.isIdentity());
         assertEquals(8.f, m.multiplyPoint(8.f, 0.f).x(), 0.1);
     }
 
     @Test
     public void scaleY_double_yIsDoubled() {
-        Matrix2D m = new Matrix2D().scaleY(2.f);
+        Matrix2D m = new Matrix2D().scale(2.f);
 
         assertFalse(m.isIdentity());
         assertEquals(64.f, m.multiplyPoint(0, 32.f).y(), 0.1);
@@ -42,12 +42,12 @@ public class Matrix2DTest {
 
     @Test
     public void scaleY_doubleThenHalf_yRemainsThatSame() {
-        Matrix2D m = new Matrix2D().scaleY(2.f);
+        Matrix2D m = new Matrix2D().scale(2.f);
 
         assertFalse(m.isIdentity());
         assertEquals(16.f, m.multiplyPoint(0, 8.f).y(), 0.1);
 
-        m = m.scaleY(0.5f);
+        m = m.scale(0.5f);
         assertTrue(m.isIdentity());
         assertEquals(8.f, m.multiplyPoint(0, 8.f).y(), 0.1);
     }
@@ -55,8 +55,7 @@ public class Matrix2DTest {
     @Test
     public void scaleXY_double_xyIsDoubled() {
         Matrix2D m = new Matrix2D()
-                .scaleX(2.f)
-                .scaleY(2.f);
+                .scale(2.f);
 
         assertFalse(m.isIdentity());
         Point output = m.multiplyPoint(8.f, 32.f);
@@ -112,8 +111,7 @@ public class Matrix2DTest {
     @Test
     public void invert_scaleAndTranslate_invertReturnsToOriginalPoint() {
         Matrix2D m = new Matrix2D()
-                .scaleX(2.f)
-                .scaleY(4)
+                .scale(2.f)
                 .translateX(100)
                 .translateY(200);
 
@@ -138,10 +136,9 @@ public class Matrix2DTest {
     @Test
     public void scaleGetter_ScaleSetterHasBeenCalled_ScaleMatchesValuePassedIntoSetter() {
         Matrix2D m = new Matrix2D()
-                .scaleX(0.1234f)
-                .scaleY(0.5678f);
+                .scale(0.1234f);
 
         assertEquals(0.1234f, m.scaleX(), 0.00001);
-        assertEquals(0.5678f, m.scaleY(), 0.00001);
+        assertEquals(0.1234f, m.scaleY(), 0.00001);
     }
 }
