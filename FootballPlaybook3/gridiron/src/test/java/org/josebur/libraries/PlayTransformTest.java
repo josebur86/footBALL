@@ -43,22 +43,19 @@ public class PlayTransformTest {
         PlayTransform transform = new PlayTransform(play, port);
 
         // Top Left
-        float pixelX = transform.feetToPixelX(0.f);
-        float pixelY = transform.feetToPixelY(0.f);
-        assertEquals(0.f, pixelX, 0.001);
-        assertEquals(-58.139, pixelY, 0.001);
+        Point pixel = transform.feetToPixel(0, 0);
+        assertEquals(0.f, pixel.x(), 0.001);
+        assertEquals(-58.139, pixel.y(), 0.001);
 
         // Bottom Right
-        pixelX = transform.feetToPixelX(100.f);
-        pixelY = transform.feetToPixelY(100.f);
-        assertEquals(58.139, pixelX, 0.001);
-        assertEquals(0.f, pixelY, 0.001);
+        pixel = transform.feetToPixel(100, 100);
+        assertEquals(58.139, pixel.x(), 0.001);
+        assertEquals(0.f, pixel.y(), 0.001);
 
         // Middle Center
-        pixelX = transform.feetToPixelX(50.f);
-        pixelY = transform.feetToPixelY(50.f);
-        assertEquals(29.069f, pixelX, 0.001);
-        assertEquals(-29.069, pixelY, 0.001);
+        pixel = transform.feetToPixel(50, 50);
+        assertEquals(29.069f, pixel.x(), 0.001);
+        assertEquals(-29.069, pixel.y(), 0.001);
     }
 
     @Test
@@ -92,22 +89,19 @@ public class PlayTransformTest {
         PlayTransform transform = new PlayTransform(play, port);
 
         // Upper Left Field Corner
-        float pixelX = transform.feetToPixelX(0.f);
-        float pixelY = transform.feetToPixelY(0.f);
-        assertEquals(0.f, pixelX, 0.001);
-        assertEquals(-931.395f, pixelY, 0.001);
+        Point pixel = transform.feetToPixel(0, 0);
+        assertEquals(0.f, pixel.x(), 0.001);
+        assertEquals(-931.395f, pixel.y(), 0.001);
 
         // Lower Right Field Corner
-        pixelX = transform.feetToPixelX(172);
-        pixelY = transform.feetToPixelY(372);
-        assertEquals(1000.f, pixelX, 0.001);
-        assertEquals(1231.395f, pixelY, 0.001);
+        pixel = transform.feetToPixel(172, 372);
+        assertEquals(1000.f, pixel.x(), 0.001);
+        assertEquals(1231.395f, pixel.y(), 0.001);
 
         // Middle Center Of The Field
-        pixelX = transform.feetToPixelX(play.ballSpotFeetX());
-        pixelY = transform.feetToPixelY(play.ballSpotFeetY());
-        assertEquals(500, pixelX, 0.001);
-        assertEquals(150, pixelY, 0.001);
+        pixel = transform.feetToPixel(play.ballSpotFeetX(), play.ballSpotFeetY());
+        assertEquals(500, pixel.x(), 0.001);
+        assertEquals(150, pixel.y(), 0.001);
     }
 
     @Test
@@ -141,22 +135,19 @@ public class PlayTransformTest {
         PlayTransform transform = new PlayTransform(play, port);
 
         // Upper Left Pixel
-        float pixelX = transform.feetToPixelX(0.f);
-        float pixelY = transform.feetToPixelY(50.f);
-        assertEquals(0.f, pixelX, 0.001);
-        assertEquals(104.651f, pixelY, 0.001);
+        Point pixel = transform.feetToPixel(0, 50);
+        assertEquals(0.f, pixel.x(), 0.001);
+        assertEquals(104.651f, pixel.y(), 0.001);
 
         // Lower Right Pixel
-        pixelX = transform.feetToPixelX(100);
-        pixelY = transform.feetToPixelY(250);
-        assertEquals(290.697, pixelX, 0.001);
-        assertEquals(686.046, pixelY, 0.001);
+        pixel = transform.feetToPixel(100, 250);
+        assertEquals(290.697, pixel.x(), 0.001);
+        assertEquals(686.046, pixel.y(), 0.001);
 
         // Middle Center Pixel
-        pixelX = transform.feetToPixelX(play.ballSpotFeetX());
-        pixelY = transform.feetToPixelY(play.ballSpotFeetY());
-        assertEquals(250.f, pixelX, 0.001);
-        assertEquals(500.f, pixelY, 0.001);
+        pixel = transform.feetToPixel(play.ballSpotFeetX(), play.ballSpotFeetY());
+        assertEquals(250.f, pixel.x(), 0.001);
+        assertEquals(500.f, pixel.y(), 0.001);
     }
 
     @Test
@@ -215,16 +206,19 @@ public class PlayTransformTest {
         PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playHeight);
         PlayTransform transform = new PlayTransform(play, nexus5PortraitView);
 
-        assertEquals(540.f, transform.feetToPixelX(play.ballSpotFeetX()), 0.001);
-        assertEquals(960.f, transform.feetToPixelY(play.ballSpotFeetY()), 0.001);
+        Point pixel = transform.feetToPixel(play.ballSpotFeetX(), play.ballSpotFeetY());
+        assertEquals(540.f, pixel.x(), 0.001);
+        assertEquals(960.f, pixel.y(), 0.001);
 
         // Upper Left Field Corner
-        assertEquals(0.f, transform.feetToPixelX(0), 0.001);
-        assertEquals(-207.90f, transform.feetToPixelY(0), 0.01);
+        pixel = transform.feetToPixel(0, 0);
+        assertEquals(0.f, pixel.x(), 0.001);
+        assertEquals(-207.90f, pixel.y(), 0.01);
 
         // Lower Right Field Corner
-        assertEquals(1080.f, transform.feetToPixelX(playWidth), 0.01);
-        assertEquals(2127.90f, transform.feetToPixelY(playHeight), 0.01);
+        pixel = transform.feetToPixel(playWidth, playHeight);
+        assertEquals(1080.f, pixel.x(), 0.01);
+        assertEquals(2127.90f, pixel.y(), 0.01);
     }
 
     @Test
@@ -237,8 +231,9 @@ public class PlayTransformTest {
         PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playHeight);
         PlayTransform transform = new PlayTransform(play, nexus5PortraitView);
 
-        assertEquals(540.f, transform.feetToPixelX(play.ballSpotFeetX()), 0.001);
-        assertEquals(960.f, transform.feetToPixelY(play.ballSpotFeetY()), 0.001);
+        Point pixel = transform.feetToPixel(play.ballSpotFeetX(), play.ballSpotFeetY());
+        assertEquals(540.f, pixel.x(), 0.001);
+        assertEquals(960.f, pixel.y(), 0.001);
     }
 
     @Test
