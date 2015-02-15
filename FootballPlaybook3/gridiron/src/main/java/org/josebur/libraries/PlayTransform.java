@@ -29,7 +29,7 @@ public class PlayTransform {
     }
 
     public boolean zoom(float zoomFactor) {
-        float feetToPixelScale = _feetToPixel.scaleX() * zoomFactor;
+        float feetToPixelScale = _feetToPixel.scale() * zoomFactor;
         float pixelToFeetScale = 1.f / feetToPixelScale;
         return calculateMatrices(feetToPixelScale, pixelToFeetScale, viewCenter());
     }
@@ -67,12 +67,12 @@ public class PlayTransform {
     }
 
     public float widthFromFeet(float width) {
-        return width * _feetToPixel.scaleX();
+        return width * _feetToPixel.scale();
     }
 
     public float lengthFromFeet(float length) {
 
-        return length * _feetToPixel.scaleY();
+        return length * _feetToPixel.scale();
     }
 
     public Position viewCenter() {

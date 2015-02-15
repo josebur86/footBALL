@@ -129,8 +129,7 @@ public class Matrix2DTest {
     public void scaleGetter_ScaleSetterHasNotBeenCalled_ScaleIsOne() {
         Matrix2D m = new Matrix2D();
 
-        assertEquals(1.f, m.scaleX(), 0.01);
-        assertEquals(1.f, m.scaleY(), 0.01);
+        assertEquals(1.f, m.scale(), 0.01);
     }
 
     @Test
@@ -138,7 +137,6 @@ public class Matrix2DTest {
         Matrix2D m = new Matrix2D()
                 .scale(0.1234f);
 
-        assertEquals(0.1234f, m.scaleX(), 0.00001);
-        assertEquals(0.1234f, m.scaleY(), 0.00001);
+        assertEquals(0.1234f, m.scale(), 0.00001);
     }
 }
