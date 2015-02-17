@@ -58,9 +58,9 @@ public class PlayTransform {
         return true;
     }
 
-    public Position pixelToFeet(float x, float y) {
-        Point p = _pixelToFeet.multiplyPoint(x, y);
-        return new Position(p.x(), p.y());
+    public Position pixelToFeet(Pixel p) {
+        Point position = _pixelToFeet.multiplyPoint(p.x(), p.y());
+        return new Position(position.x(), position.y());
     }
 
     public Pixel feetToPixel(Position p) {

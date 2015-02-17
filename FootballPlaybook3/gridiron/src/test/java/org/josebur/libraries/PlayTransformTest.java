@@ -17,17 +17,17 @@ public class PlayTransformTest {
         PlayTransform transform = new PlayTransform(play, port);
 
         // Top Left
-        Position feet = transform.pixelToFeet(0, 0);
+        Position feet = transform.pixelToFeet(new Pixel(0, 0));
         assertEquals(0.f, feet.feetX(), 0.001);
         assertEquals(100.f, feet.feetY(), 0.001);
 
         // Bottom Right
-        feet = transform.pixelToFeet(100, 100);
+        feet = transform.pixelToFeet(new Pixel(100, 100));
         assertEquals(172.f, feet.feetX(), 0.001);
         assertEquals(272.f, feet.feetY(), 0.001);
 
         // Middle Center
-        feet = transform.pixelToFeet(50, 50);
+        feet = transform.pixelToFeet(new Pixel(50, 50));
         assertEquals(86.f, feet.feetX(), 0.001);
         assertEquals(186.f, feet.feetY(), 0.001);
     }
@@ -64,17 +64,17 @@ public class PlayTransformTest {
         PlayTransform transform = new PlayTransform(play, port);
 
         // Upper Left Pixel
-        Position feet = transform.pixelToFeet(0, 0);
+        Position feet = transform.pixelToFeet(new Pixel(0, 0));
         assertEquals(0.f, feet.feetX(), 0.001);
         assertEquals(160.2f, feet.feetY(), 0.001);
 
         // Lower Right Pixel
-        feet = transform.pixelToFeet(1000, 300);
+        feet = transform.pixelToFeet(new Pixel(1000, 300));
         assertEquals(172.f, feet.feetX(), 0.001);
         assertEquals(211.8f, feet.feetY(), 0.001);
 
         // Middle Center Pixel
-        feet = transform.pixelToFeet(500, 150);
+        feet = transform.pixelToFeet(new Pixel(500, 150));
         assertEquals(play.ballSpotFeetX(), feet.feetX(), 0.001);
         assertEquals(play.ballSpotFeetY(), feet.feetY(), 0.001);
     }
@@ -110,17 +110,17 @@ public class PlayTransformTest {
         PlayTransform transform = new PlayTransform(play, port);
 
         // Upper Left Pixel
-        Position feet  = transform.pixelToFeet(0, 0);
+        Position feet  = transform.pixelToFeet(new Pixel(0, 0));
         assertEquals(0.f, feet.feetX(), 0.001);
         assertEquals(14.f, feet.feetY(), 0.001);
 
         // Lower Right Pixel
-        feet = transform.pixelToFeet(500, 1000);
+        feet = transform.pixelToFeet(new Pixel(500, 1000));
         assertEquals(172.f, feet.feetX(), 0.001);
         assertEquals(358.f, feet.feetY(), 0.001);
 
         // Middle Center Pixel
-        feet = transform.pixelToFeet(250, 500);
+        feet = transform.pixelToFeet(new Pixel(250, 500));
         assertEquals(play.ballSpotFeetX(), feet.feetX(), 0.001);
         assertEquals(play.ballSpotFeetY(), feet.feetY(), 0.001);
     }
@@ -155,13 +155,13 @@ public class PlayTransformTest {
 
         PlayTransform transform = new PlayTransform(play, port);
 
-        float feetY = transform.pixelToFeet(0, 0).feetY();
+        float feetY = transform.pixelToFeet(new Pixel(0, 0)).feetY();
         assertEquals(100.f, feetY, 0.001);
 
-        feetY = transform.pixelToFeet(0, 1000).feetY();
+        feetY = transform.pixelToFeet(new Pixel(0, 1000)).feetY();
         assertEquals(272.f, feetY, 0.001);
 
-        feetY = transform.pixelToFeet(0, 500).feetY();
+        feetY = transform.pixelToFeet(new Pixel(0, 500)).feetY();
         assertEquals(186.f, feetY, 0.001);
     }
 
@@ -367,12 +367,12 @@ public class PlayTransformTest {
         ViewPort port = new FakeViewPort(width, length); // TODO: create a fake viewport factory.
         PlayFieldProperties play = new FakePlayFieldProperties(width, length);
         PlayTransform transform = new PlayTransform(play, port, new FakeFieldMeasurements(width, length));
-        assertEquals(50.f, transform.pixelToFeet(50, 0).feetX(), 0.001);
-        assertEquals(100.f, transform.pixelToFeet(100, 0).feetX(), 0.001);
+        assertEquals(50.f, transform.pixelToFeet(new Pixel(50, 0)).feetX(), 0.001);
+        assertEquals(100.f, transform.pixelToFeet(new Pixel(100, 0)).feetX(), 0.001);
 
         transform.zoom(2);
-        assertEquals(50.f, transform.pixelToFeet(50, 0).feetX(), 0.001);
-        assertEquals(75.f, transform.pixelToFeet(100, 0).feetX(), 0.001);
+        assertEquals(50.f, transform.pixelToFeet(new Pixel(50, 0)).feetX(), 0.001);
+        assertEquals(75.f, transform.pixelToFeet(new Pixel(100, 0)).feetX(), 0.001);
     }
 
     @Test
@@ -382,14 +382,14 @@ public class PlayTransformTest {
         ViewPort port = new FakeViewPort(width, length); // TODO: create a fake viewport factory.
         PlayFieldProperties play = new FakePlayFieldProperties(width, length);
         PlayTransform transform = new PlayTransform(play, port, new FakeFieldMeasurements(width, length));
-        assertEquals(50.f, transform.pixelToFeet(50, 0).feetX(), 0.001);
-        assertEquals(100.f, transform.pixelToFeet(100, 0).feetX(), 0.001);
+        assertEquals(50.f, transform.pixelToFeet(new Pixel(50, 0)).feetX(), 0.001);
+        assertEquals(100.f, transform.pixelToFeet(new Pixel(100, 0)).feetX(), 0.001);
 
         transform.pan(0, 25);
-        assertEquals(125.f, transform.pixelToFeet(0, 100).feetY(), 0.01);
-        assertEquals(75.f, transform.pixelToFeet(0, 50).feetY(), 0.01);
+        assertEquals(125.f, transform.pixelToFeet(new Pixel(0, 100)).feetY(), 0.01);
+        assertEquals(75.f, transform.pixelToFeet(new Pixel(0, 50)).feetY(), 0.01);
 
         transform.zoom(2);
-        assertEquals(100.f, transform.pixelToFeet(0, 100).feetY(), 0.001);
+        assertEquals(100.f, transform.pixelToFeet(new Pixel(0, 100)).feetY(), 0.001);
     }
 }
