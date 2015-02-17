@@ -36,14 +36,4 @@ public class FakePlayFieldProperties implements PlayFieldProperties {
     public Position ballSpot() {
         return new Position(_ballSpotX, _ballSpotY);
     }
-
-    @Override
-    public float ballSpotFeetX() {
-        return _ballSpotX;
-    }
-
-    @Override
-    public float ballSpotFeetY() {
-        return _ballSpotY;
-    }
 }

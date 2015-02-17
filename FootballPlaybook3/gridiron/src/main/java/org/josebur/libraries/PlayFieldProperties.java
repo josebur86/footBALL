@@ -5,6 +5,4 @@ public interface PlayFieldProperties {
     float length();
 
     Position ballSpot();
-    float ballSpotFeetX();
-    float ballSpotFeetY();
 }

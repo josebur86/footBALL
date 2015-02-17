@@ -65,14 +65,4 @@ public class MainActivity extends Activity implements PlayFieldProperties {
     public Position ballSpot() {
         return new Position(width() / 2.f, length() / 2.f);
     }
-
-    @Override
-    public float ballSpotFeetX() {
-        return width() / 2.f;
-    }
-
-    @Override
-    public float ballSpotFeetY() {
-        return length() / 2.f;
-    }
 }

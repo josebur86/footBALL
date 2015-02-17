@@ -75,8 +75,7 @@ public class PlayTransformTest {
 
         // Middle Center Pixel
         feet = transform.pixelToFeet(new Pixel(500, 150));
-        assertEquals(play.ballSpotFeetX(), feet.feetX(), 0.001);
-        assertEquals(play.ballSpotFeetY(), feet.feetY(), 0.001);
+        assertEquals(play.ballSpot(), feet);
     }
 
     @Test
@@ -121,8 +120,7 @@ public class PlayTransformTest {
 
         // Middle Center Pixel
         feet = transform.pixelToFeet(new Pixel(250, 500));
-        assertEquals(play.ballSpotFeetX(), feet.feetX(), 0.001);
-        assertEquals(play.ballSpotFeetY(), feet.feetY(), 0.001);
+        assertEquals(play.ballSpot(), feet);
     }
 
     @Test
@@ -176,7 +174,7 @@ public class PlayTransformTest {
         PlayTransform transform = new PlayTransform(play, portraitView);
 
         assertEquals(1080.f, transform.widthFromFeet(playWidth), 0.001);
-        assertEquals(540.f, transform.widthFromFeet(play.ballSpotFeetX()), 0.001);
+        assertEquals(540.f, transform.widthFromFeet(play.ballSpot().feetX()), 0.001);
     }
 
     @Test
@@ -191,7 +189,7 @@ public class PlayTransformTest {
 
 
         assertEquals(2335.81f, transform.lengthFromFeet(playLength), 0.01);
-        assertEquals(1167.90f, transform.lengthFromFeet(play.ballSpotFeetY()), 0.01);
+        assertEquals(1167.90f, transform.lengthFromFeet(play.ballSpot().feetY()), 0.01);
     }
 
     @Test
@@ -229,11 +227,9 @@ public class PlayTransformTest {
         PlayFieldProperties play = new FakePlayFieldProperties(playWidth, playHeight);
         PlayTransform transform = new PlayTransform(play, nexus5PortraitView);
 
-        // FIXME: PlayFieldProperties.ballSpot() should return a Position object.
-        Position ballSpot = new Position(play.ballSpotFeetX(), play.ballSpotFeetY());
-        Pixel pixel = transform.feetToPixel(ballSpot);
-        assertEquals(540.f, pixel.x(), 0.001);
-        assertEquals(960.f, pixel.y(), 0.001);
+        Pixel pixel = transform.feetToPixel(play.ballSpot());
+
+        assertEquals(new Pixel(540.f, 960.f), pixel);
     }
 
     @Test
