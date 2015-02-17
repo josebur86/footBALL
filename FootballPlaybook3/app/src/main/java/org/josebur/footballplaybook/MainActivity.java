@@ -9,6 +9,7 @@ import org.josebur.libraries.Field;
 import org.josebur.libraries.FieldMeasurements;
 import org.josebur.libraries.NflFieldMeasurements;
 import org.josebur.libraries.PlayFieldProperties;
+import org.josebur.libraries.Position;
 
 
 public class MainActivity extends Activity implements PlayFieldProperties {
@@ -58,6 +59,11 @@ public class MainActivity extends Activity implements PlayFieldProperties {
         FieldMeasurements measurements = new NflFieldMeasurements();
         return measurements.Length() + 2 * measurements.BorderSize()
                                      + 2 * measurements.EndZoneLength();
+    }
+
+    @Override
+    public Position ballSpot() {
+        return new Position(width() / 2.f, length() / 2.f);
     }
 
     @Override

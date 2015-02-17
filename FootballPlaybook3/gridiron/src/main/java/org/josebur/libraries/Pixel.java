@@ -1,20 +1,20 @@
 package org.josebur.libraries;
 
-public class Position {
+public class Pixel {
 
     private final float _x;
     private final float _y;
 
-    public Position(float x, float y) {
+    public Pixel(float x, float y) {
         _x = x;
         _y = y;
     }
 
-    public float feetX() {
+    public float x() {
         return _x;
     }
 
-    public float feetY() {
+    public float y() {
         return _y;
     }
 
@@ -23,10 +23,10 @@ public class Position {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Position position = (Position) o;
+        Pixel pixel = (Pixel) o;
 
-        if (Float.compare(position._x, _x) != 0) return false;
-        if (Float.compare(position._y, _y) != 0) return false;
+        if (Float.compare(pixel._x, _x) != 0) return false;
+        if (Float.compare(pixel._y, _y) != 0) return false;
 
         return true;
     }

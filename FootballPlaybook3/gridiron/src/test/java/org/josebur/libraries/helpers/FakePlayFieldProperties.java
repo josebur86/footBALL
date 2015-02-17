@@ -3,6 +3,7 @@ package org.josebur.libraries.helpers;
 import org.josebur.libraries.FieldMeasurements;
 import org.josebur.libraries.NflFieldMeasurements;
 import org.josebur.libraries.PlayFieldProperties;
+import org.josebur.libraries.Position;
 
 public class FakePlayFieldProperties implements PlayFieldProperties {
 
@@ -29,6 +30,11 @@ public class FakePlayFieldProperties implements PlayFieldProperties {
     @Override
     public float length() {
         return _height;
+    }
+
+    @Override
+    public Position ballSpot() {
+        return new Position(_ballSpotX, _ballSpotY);
     }
 
     @Override

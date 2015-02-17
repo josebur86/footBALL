@@ -1,7 +1,5 @@
 package org.josebur.libraries;
 
-import org.josebur.libraries.math.Point;
-
 public class Field {
 
     PlayFieldProperties _play;
@@ -21,42 +19,44 @@ public class Field {
     }
 
     private void drawSidelines(FieldPainter painter, PlayTransform transform) {
-        float top = transform.feetToPixel(0, 0).y();
-        float bottom = transform.feetToPixel(0, _measurements.FullFieldLength()).y();
+        final float top = 0;
+        final float bottom = _measurements.FullFieldLength();
 
         // Left Side
-        float left = transform.feetToPixel(0, 0).x();
-        float right = transform.feetToPixel(_measurements.BorderSize(), 0).x();
-        painter.drawSideline(left, top, right, bottom);
+        Pixel topLeft = transform.feetToPixel(new Position(0, top));
+        Pixel bottomRight = transform.feetToPixel(new Position(_measurements.BorderSize(), bottom));
+        painter.drawSideline(topLeft.x(), topLeft.y(), bottomRight.x(), bottomRight.y());
 
         // Right Side
-        left = transform.feetToPixel(_measurements.FullFieldWidth() - _measurements.BorderSize(), 0).x();
-        right = transform.feetToPixel(_measurements.FullFieldWidth(), 0).x();
-        painter.drawSideline(left, top, right, bottom);
+        topLeft = transform.feetToPixel(new Position(_measurements.FullFieldWidth() - _measurements.BorderSize(), top));
+        bottomRight = transform.feetToPixel(new Position(_measurements.FullFieldWidth(), bottom));
+        painter.drawSideline(topLeft.x(), topLeft.y(), bottomRight.x(), bottomRight.y());
     }
 
     private void drawEndlines(FieldPainter painter, PlayTransform transform) {
-        float left = transform.feetToPixel(_measurements.BorderSize(), 0).x();
-        float right = transform.feetToPixel(_measurements.FullFieldWidth() - _measurements.BorderSize(), 0).x();
+        final float left = _measurements.BorderSize();
+        final float right = _measurements.FullFieldWidth() - _measurements.BorderSize();
 
         // North Side
-        float top = transform.feetToPixel(0, 0).y();
-        float bottom = transform.feetToPixel(0, _measurements.BorderSize()).y();
-        painter.drawEndline(left, top, right, bottom);
+        Pixel topLeft = transform.feetToPixel(new Position(left, 0));
+        Pixel bottomRight = transform.feetToPixel(new Position(right, _measurements.BorderSize()));
+        painter.drawEndline(topLeft.x(), topLeft.y(), bottomRight.x(), bottomRight.y());
 
         //South Side
-        top = transform.feetToPixel(0, _measurements.FullFieldLength() - _measurements.BorderSize()).y();
-        bottom = transform.feetToPixel(0, _measurements.FullFieldLength()).y();
-        painter.drawEndline(left, top, right, bottom);
+        topLeft = transform.feetToPixel(new Position(left, _measurements.FullFieldLength() - _measurements.BorderSize()));
+        bottomRight = transform.feetToPixel(new Position(right, _measurements.FullFieldLength()));
+        painter.drawEndline(topLeft.x(), topLeft.y(), bottomRight.x(), bottomRight.y());
     }
 
     private void drawYardLines(FieldPainter painter, PlayTransform transform) {
-        float left = transform.feetToPixel(_measurements.BorderSize(), 0).x();
-        float right = transform.feetToPixel(_measurements.BorderSize() + _measurements.Width(), 0).x();
+        final float left = _measurements.BorderSize();
+        final float right = _measurements.BorderSize() + _measurements.Width();
 
         for (int yard = 0; yard <= 100; yard += 5) {
-            float fieldPosition = transform.feetToPixel(0, _measurements.getFullFieldFootLine(yard)).y();
-            painter.drawYardLine(left, right, fieldPosition);
+            float fieldPosition = _measurements.getFullFieldFootLine(yard);
+            Pixel leftYard = transform.feetToPixel(new Position(left, fieldPosition));
+            Pixel rightYard = transform.feetToPixel(new Position(right, fieldPosition));
+            painter.drawYardLine(leftYard.x(), rightYard.x(), leftYard.y());
         }
     }
 }
