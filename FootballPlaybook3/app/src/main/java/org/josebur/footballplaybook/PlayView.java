@@ -13,6 +13,7 @@ import android.view.View;
 
 import org.josebur.libraries.Field;
 import org.josebur.libraries.FieldPainter;
+import org.josebur.libraries.Pixel;
 import org.josebur.libraries.PlayFieldProperties;
 import org.josebur.libraries.PlayTransform;
 import org.josebur.libraries.ViewPort;
@@ -127,8 +128,9 @@ public class PlayView extends View implements ViewPort {
         }
 
         @Override
-        public void drawSideline(float left, float top, float right, float bottom) {
-            _canvas.drawRect(left, top, right, bottom, _borderPaint);
+        public void drawSideline(Pixel topLeft, Pixel bottomRight) {
+            _canvas.drawRect(topLeft.x(), topLeft.y(),
+                    bottomRight.x(), bottomRight.y(), _borderPaint);
         }
 
         @Override

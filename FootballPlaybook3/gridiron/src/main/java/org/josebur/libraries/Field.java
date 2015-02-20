@@ -25,12 +25,12 @@ public class Field {
         // Left Side
         Pixel topLeft = transform.feetToPixel(new Position(0, top));
         Pixel bottomRight = transform.feetToPixel(new Position(_measurements.BorderSize(), bottom));
-        painter.drawSideline(topLeft.x(), topLeft.y(), bottomRight.x(), bottomRight.y());
+        painter.drawSideline(topLeft, bottomRight);
 
         // Right Side
         topLeft = transform.feetToPixel(new Position(_measurements.FullFieldWidth() - _measurements.BorderSize(), top));
         bottomRight = transform.feetToPixel(new Position(_measurements.FullFieldWidth(), bottom));
-        painter.drawSideline(topLeft.x(), topLeft.y(), bottomRight.x(), bottomRight.y());
+        painter.drawSideline(topLeft, bottomRight);
     }
 
     private void drawEndlines(FieldPainter painter, PlayTransform transform) {
