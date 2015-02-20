@@ -27,5 +27,6 @@ public class FieldTest {
         verify(mockPainter).drawEndline(new Pixel(37.674f, 2090.233f), new Pixel(1042.326f, 2127.907f));
 
         verify(mockPainter, times(21)).drawYardLine(anyFloat(), anyFloat(), anyFloat());
+        verify(mockPainter).drawYardLine(anyFloat(), anyFloat(), eq(960.f));
     }
 }

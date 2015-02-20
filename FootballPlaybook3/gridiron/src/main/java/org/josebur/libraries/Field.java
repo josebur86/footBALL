@@ -47,12 +47,13 @@ public class Field {
     private void drawYardLines(FieldPainter painter, PlayTransform transform) {
         Position left = new Position(_field.BorderSize(), _field.getFullFieldFootLine(0));
         Position right = left.shiftX(_field.Width());
-        for (int yard = 0; yard <= 100; yard += 5) {
+        final int yardIncrement = 5;
+        for (int yard = 0; yard <= 100; yard += yardIncrement) {
             Pixel rightPixel = transform.feetToPixel(right);
             painter.drawYardLine(transform.feetToPixel(left).x(), rightPixel.x(), rightPixel.y());
 
-            left = left.shiftY(_field.FeetPerYard());
-            right = right.shiftY(_field.FeetPerYard());
+            left = left.shiftY(yardIncrement * _field.FeetPerYard());
+            right = right.shiftY(yardIncrement * _field.FeetPerYard());
         }
     }
 }
