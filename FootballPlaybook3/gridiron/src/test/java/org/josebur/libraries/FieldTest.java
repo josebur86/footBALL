@@ -23,8 +23,8 @@ public class FieldTest {
         verify(mockPainter).drawSideline(new Pixel(0.f, -207.907f), new Pixel(37.674f, 2127.907f));
         verify(mockPainter).drawSideline(new Pixel(1042.326f, -207.907f), new Pixel(1080.f, 2127.907f));
 
-        verify(mockPainter).drawEndline(37.674f, -207.907f, 1042.326f, -170.233f);
-        verify(mockPainter).drawEndline(37.674f, 2090.233f, 1042.326f, 2127.907f);
+        verify(mockPainter).drawEndline(new Pixel(37.674f, -207.907f), new Pixel(1042.326f, -170.233f));
+        verify(mockPainter).drawEndline(new Pixel(37.674f, 2090.233f), new Pixel(1042.326f, 2127.907f));
 
         verify(mockPainter, times(21)).drawYardLine(anyFloat(), anyFloat(), anyFloat());
     }

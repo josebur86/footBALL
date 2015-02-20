@@ -40,12 +40,12 @@ public class Field {
         // North Side
         Pixel topLeft = transform.feetToPixel(new Position(left, 0));
         Pixel bottomRight = transform.feetToPixel(new Position(right, _measurements.BorderSize()));
-        painter.drawEndline(topLeft.x(), topLeft.y(), bottomRight.x(), bottomRight.y());
+        painter.drawEndline(topLeft, bottomRight);
 
         //South Side
         topLeft = transform.feetToPixel(new Position(left, _measurements.FullFieldLength() - _measurements.BorderSize()));
         bottomRight = transform.feetToPixel(new Position(right, _measurements.FullFieldLength()));
-        painter.drawEndline(topLeft.x(), topLeft.y(), bottomRight.x(), bottomRight.y());
+        painter.drawEndline(topLeft, bottomRight);
     }
 
     private void drawYardLines(FieldPainter painter, PlayTransform transform) {

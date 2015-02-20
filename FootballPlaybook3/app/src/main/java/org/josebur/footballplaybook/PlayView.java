@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -134,8 +133,9 @@ public class PlayView extends View implements ViewPort {
         }
 
         @Override
-        public void drawEndline(float left, float top, float right, float bottom) {
-            _canvas.drawRect(left, top, right, bottom, _borderPaint);
+        public void drawEndline(Pixel topLeft, Pixel bottomRight) {
+            _canvas.drawRect(topLeft.x(), topLeft.y(),
+                    bottomRight.x(), bottomRight.y(), _borderPaint);
         }
 
         @Override
