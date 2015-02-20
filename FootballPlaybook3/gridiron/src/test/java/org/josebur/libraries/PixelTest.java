@@ -1,15 +1,16 @@
 package org.josebur.libraries;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class PixelTest {
     @Test
     public void pixelValuesArePreserved() {
         Pixel p = new Pixel(100.f, 200.f);
 
-        Assert.assertEquals(100.f, p.x(), 0.001);
-        Assert.assertEquals(200.f, p.y(), 0.001);
+        assertEquals(100.f, p.x(), 0.001);
+        assertEquals(200.f, p.y(), 0.001);
     }
 
     @Test
@@ -18,11 +19,28 @@ public class PixelTest {
         Pixel b = new Pixel(100, 200);
         Pixel c = new Pixel(300, 400);
 
-        Assert.assertTrue(a.equals(a));
-        Assert.assertTrue(a.equals(b));
-        Assert.assertTrue(b.equals(a));
-        Assert.assertFalse(a.equals(c));
-        Assert.assertFalse(a.equals(null));
-        Assert.assertFalse(a.equals("Pixel"));
+        assertTrue(a.equals(a));
+        assertTrue(a.equals(b));
+        assertTrue(b.equals(a));
+        assertFalse(a.equals(c));
+        assertFalse(a.equals(null));
+        assertFalse(a.equals("Pixel"));
+    }
+
+    @Test
+    public void pixelEqualAsLongAsThreeDecimalPlacesAreEqual() {
+        Pixel a = new Pixel(1.234f, 0.f);
+        Pixel b = new Pixel(1.23411f, 0.f);
+
+        assertTrue(a.equals(b));
+    }
+
+    @Test
+    public void pixelWillRoundUpTheThirdDecimalWhenTheFourthIsHalf() {
+        Pixel a = new Pixel(1.234f, 0.f);
+        Pixel b = new Pixel(1.2345f, 0.f);
+
+        assertFalse(a.equals(b));
+        assertEquals(new Pixel(1.235f, 0.f), b);
     }
 }
