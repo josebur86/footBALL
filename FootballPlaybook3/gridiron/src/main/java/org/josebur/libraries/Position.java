@@ -13,6 +13,12 @@ public class Position {
         _y = new BigDecimal(y).setScale(kDecimals, BigDecimal.ROUND_HALF_UP);
     }
 
+    private Position(BigDecimal x, BigDecimal y)
+    {
+        _x = x;
+        _y = y;
+    }
+
     public float feetX() {
         return _x.floatValue();
     }
@@ -47,5 +53,13 @@ public class Position {
                 "_x=" + _x +
                 ", _y=" + _y +
                 '}';
+    }
+
+    public Position shiftX(float feet) {
+        return new Position(_x.add(new BigDecimal(feet)), _y);
+    }
+
+    public Position shiftY(float feet) {
+        return new Position(_x, _y.add(new BigDecimal(feet)));
     }
 }

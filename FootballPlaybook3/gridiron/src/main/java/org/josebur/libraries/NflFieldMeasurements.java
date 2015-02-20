@@ -3,6 +3,11 @@ package org.josebur.libraries;
 public class NflFieldMeasurements implements FieldMeasurements {
 
     @Override
+    public float FeetPerYard() {
+        return 3;
+    }
+
+    @Override
     public float Width() {
         return 160.f;
     }
@@ -34,7 +39,6 @@ public class NflFieldMeasurements implements FieldMeasurements {
 
     @Override
     public int getFullFieldFootLine(int yardLine) {
-        int feetPerYard = 3;
-        return (int)(BorderSize() + EndZoneLength() + yardLine * feetPerYard);
+        return (int)(BorderSize() + EndZoneLength() + yardLine * FeetPerYard());
     }
 }

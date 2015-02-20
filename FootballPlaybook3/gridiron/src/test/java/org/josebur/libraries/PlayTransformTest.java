@@ -299,6 +299,11 @@ public class PlayTransformTest {
         }
 
         @Override
+        public float FeetPerYard() {
+            return 3;
+        }
+
+        @Override
         public float Width() {
             return _width;
         }

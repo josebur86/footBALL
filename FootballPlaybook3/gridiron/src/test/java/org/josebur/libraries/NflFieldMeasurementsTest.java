@@ -6,6 +6,12 @@ import org.junit.Test;
 public class NflFieldMeasurementsTest {
 
     @Test
+    public void aYardIsThreeFeet() {
+        FieldMeasurements fm = new NflFieldMeasurements();
+        Assert.assertEquals(3.f, fm.FeetPerYard(), 0.001);
+    }
+
+    @Test
     public void nflFieldIs160FeetWide() {
         FieldMeasurements fm = new NflFieldMeasurements();
         Assert.assertEquals(160.f, fm.Width(), 0.1);

@@ -1,6 +1,8 @@
 package org.josebur.libraries;
 
 public interface FieldMeasurements {
+    float FeetPerYard();
+
     float Width();
     float Length();
 

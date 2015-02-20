@@ -2,12 +2,12 @@ package org.josebur.libraries;
 
 public class Field {
 
-    PlayFieldProperties _play;
-    FieldMeasurements _measurements;
+    private PlayFieldProperties _play;
+    private FieldMeasurements _field ;
 
     public Field(PlayFieldProperties play) {
         _play = play;
-        _measurements = new NflFieldMeasurements();
+        _field = new NflFieldMeasurements();
     }
 
     public void draw(FieldPainter painter, PlayTransform transform) {
@@ -19,44 +19,40 @@ public class Field {
     }
 
     private void drawSidelines(FieldPainter painter, PlayTransform transform) {
-        final float top = 0;
-        final float bottom = _measurements.FullFieldLength();
-
         // Left Side
-        Pixel topLeft = transform.feetToPixel(new Position(0, top));
-        Pixel bottomRight = transform.feetToPixel(new Position(_measurements.BorderSize(), bottom));
-        painter.drawSideline(topLeft, bottomRight);
+        Position topLeft = new Position(0, 0);
+        Position bottomRight = topLeft.shiftX(_field.BorderSize()).shiftY(_field.FullFieldLength());
+        painter.drawSideline(transform.feetToPixel(topLeft), transform.feetToPixel(bottomRight));
 
         // Right Side
-        topLeft = transform.feetToPixel(new Position(_measurements.FullFieldWidth() - _measurements.BorderSize(), top));
-        bottomRight = transform.feetToPixel(new Position(_measurements.FullFieldWidth(), bottom));
-        painter.drawSideline(topLeft, bottomRight);
+        float xShiftFeet = _field.Width() + _field.BorderSize();
+        topLeft = topLeft.shiftX(xShiftFeet);
+        bottomRight = bottomRight.shiftX(xShiftFeet);
+        painter.drawSideline(transform.feetToPixel(topLeft), transform.feetToPixel(bottomRight));
     }
 
     private void drawEndlines(FieldPainter painter, PlayTransform transform) {
-        final float left = _measurements.BorderSize();
-        final float right = _measurements.FullFieldWidth() - _measurements.BorderSize();
-
         // North Side
-        Pixel topLeft = transform.feetToPixel(new Position(left, 0));
-        Pixel bottomRight = transform.feetToPixel(new Position(right, _measurements.BorderSize()));
-        painter.drawEndline(topLeft, bottomRight);
+        Position topLeft = new Position(_field.BorderSize(), 0);
+        Position bottomRight = topLeft.shiftX(_field.Width()).shiftY(_field.BorderSize());
+        painter.drawEndline(transform.feetToPixel(topLeft), transform.feetToPixel(bottomRight));
 
         //South Side
-        topLeft = transform.feetToPixel(new Position(left, _measurements.FullFieldLength() - _measurements.BorderSize()));
-        bottomRight = transform.feetToPixel(new Position(right, _measurements.FullFieldLength()));
-        painter.drawEndline(topLeft, bottomRight);
+        float yShiftFeet = _field.FullFieldLength() - _field.BorderSize();
+        topLeft = topLeft.shiftY(yShiftFeet);
+        bottomRight = bottomRight.shiftY(yShiftFeet);
+        painter.drawEndline(transform.feetToPixel(topLeft), transform.feetToPixel(bottomRight));
     }
 
     private void drawYardLines(FieldPainter painter, PlayTransform transform) {
-        final float left = _measurements.BorderSize();
-        final float right = _measurements.BorderSize() + _measurements.Width();
-
+        Position left = new Position(_field.BorderSize(), _field.getFullFieldFootLine(0));
+        Position right = left.shiftX(_field.Width());
         for (int yard = 0; yard <= 100; yard += 5) {
-            float fieldPosition = _measurements.getFullFieldFootLine(yard);
-            Pixel leftYard = transform.feetToPixel(new Position(left, fieldPosition));
-            Pixel rightYard = transform.feetToPixel(new Position(right, fieldPosition));
-            painter.drawYardLine(leftYard.x(), rightYard.x(), leftYard.y());
+            Pixel rightPixel = transform.feetToPixel(right);
+            painter.drawYardLine(transform.feetToPixel(left).x(), rightPixel.x(), rightPixel.y());
+
+            left = left.shiftY(_field.FeetPerYard());
+            right = right.shiftY(_field.FeetPerYard());
         }
     }
 }
