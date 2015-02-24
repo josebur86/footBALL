@@ -54,4 +54,20 @@ public class NflFieldMeasurementsTest {
         int yardLine = 50;
         Assert.assertEquals(186, fm.getFullFieldFootLine(yardLine));
     }
+
+    @Test
+    public void hashMarksAreTwoFeetLong() {
+        FieldMeasurements fm = new NflFieldMeasurements();
+
+        float hashLength = 2.f;
+        Assert.assertEquals(hashLength, fm.HashLength(), 0.1);
+    }
+
+    @Test
+    public void sideLineToHashLengthIs68FeetAnd9Inches() {
+        FieldMeasurements fm = new NflFieldMeasurements();
+
+        float length = 68.75f;
+        Assert.assertEquals(length, fm.SideLineToHashLength(), 0.1);
+    }
 }

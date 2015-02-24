@@ -13,4 +13,7 @@ public interface FieldMeasurements {
     float BorderSize();
 
     int getFullFieldFootLine(int yardLine);
+
+    float HashLength();
+    float SideLineToHashLength();
 }

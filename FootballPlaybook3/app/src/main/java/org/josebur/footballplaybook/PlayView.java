@@ -142,6 +142,11 @@ public class PlayView extends View implements ViewPort {
         public void drawYardLine(float left, float right, float fieldPosition) {
             _canvas.drawLine(left, fieldPosition, right, fieldPosition, _linePaint);
         }
+
+        @Override
+        public void drawHashMark(float left, float right, float fieldPosition) {
+            _canvas.drawLine(left, fieldPosition, right, fieldPosition, _linePaint);
+        }
     }
 
     @Override

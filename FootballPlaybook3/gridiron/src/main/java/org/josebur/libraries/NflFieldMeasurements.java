@@ -41,4 +41,14 @@ public class NflFieldMeasurements implements FieldMeasurements {
     public int getFullFieldFootLine(int yardLine) {
         return (int)(BorderSize() + EndZoneLength() + yardLine * FeetPerYard());
     }
+
+    @Override
+    public float HashLength() {
+        return 2.f;
+    }
+
+    @Override
+    public float SideLineToHashLength() {
+        return 68.75f;
+    }
 }

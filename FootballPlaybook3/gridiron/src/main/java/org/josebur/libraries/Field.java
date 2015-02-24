@@ -16,6 +16,7 @@ public class Field {
         drawSidelines(painter, transform);
         drawEndlines(painter, transform);
         drawYardLines(painter, transform);
+        drawHashLines(painter, transform);
     }
 
     private void drawSidelines(FieldPainter painter, PlayTransform transform) {
@@ -55,5 +56,33 @@ public class Field {
             left = left.shiftY(yardIncrement * _field.FeetPerYard());
             right = right.shiftY(yardIncrement * _field.FeetPerYard());
         }
+    }
+
+    private void drawHashLines(FieldPainter painter, PlayTransform transform) {
+        float yardLinePixel = _field.getFullFieldFootLine(1);
+
+        // Draw Left Side Line Hash
+        Position left = new Position(_field.BorderSize() + 1, yardLinePixel);
+        Position right = left.shiftX(_field.HashLength());
+        Pixel rightPixel = transform.feetToPixel(right);
+        painter.drawHashMark(transform.feetToPixel(left).x(), rightPixel.x(), rightPixel.y());
+
+        // Draw Right Side Line Hash
+        right = new Position(_field.FullFieldWidth() - _field.BorderSize() - 1, yardLinePixel);
+        left = right.shiftX(-_field.HashLength());
+        rightPixel = transform.feetToPixel(right);
+        painter.drawHashMark(transform.feetToPixel(left).x(), rightPixel.x(), rightPixel.y());
+
+        // Draw Left Mid-field Hash
+        left = new Position(_field.BorderSize() + _field.SideLineToHashLength(), yardLinePixel);
+        right = left.shiftX(_field.HashLength());
+        rightPixel = transform.feetToPixel(right);
+        painter.drawHashMark(transform.feetToPixel(left).x(), rightPixel.x(), rightPixel.y());
+
+        // Draw Right Mid-field Hash
+        right = new Position(_field.FullFieldWidth() - _field.BorderSize() - _field.SideLineToHashLength(), yardLinePixel);
+        left = right.shiftX(-_field.HashLength());
+        rightPixel = transform.feetToPixel(right);
+        painter.drawHashMark(transform.feetToPixel(left).x(), rightPixel.x(), rightPixel.y());
     }
 }

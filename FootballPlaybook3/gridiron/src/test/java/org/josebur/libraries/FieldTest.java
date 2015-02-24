@@ -28,5 +28,7 @@ public class FieldTest {
 
         verify(mockPainter, times(21)).drawYardLine(anyFloat(), anyFloat(), anyFloat());
         verify(mockPainter).drawYardLine(anyFloat(), anyFloat(), eq(960.f));
+
+        verify(mockPainter, times(4)).drawHashMark(anyFloat(), anyFloat(), anyFloat());
     }
 }

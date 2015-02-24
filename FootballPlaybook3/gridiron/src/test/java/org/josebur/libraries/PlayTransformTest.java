@@ -334,6 +334,16 @@ public class PlayTransformTest {
         }
 
         @Override
+        public float HashLength() {
+            return 0;
+        }
+
+        @Override
+        public float SideLineToHashLength() {
+            return 0;
+        }
+
+        @Override
         public int getFullFieldFootLine(int yardLine) {
             return yardLine;
         }

@@ -6,4 +6,5 @@ public interface FieldPainter {
     void drawEndline(Pixel topLeft, Pixel bottomRight);
 
     void drawYardLine(float left, float right, float fieldPosition);
+    void drawHashMark(float left, float right, float fieldPosition);
 }
