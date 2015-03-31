@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Debug;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -94,9 +93,7 @@ public class PlayView extends View implements ViewPort {
         if (_field == null || _playTransform == null) return;
 
         _painter.setCanvas(canvas);
-//        Debug.startMethodTracing("PlayView");
         _field.draw(_painter, _playTransform);
-//        Debug.stopMethodTracing();
     }
 
     private class CanvasFieldPainter implements FieldPainter {

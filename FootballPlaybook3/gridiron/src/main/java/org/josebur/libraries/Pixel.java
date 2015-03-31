@@ -2,15 +2,10 @@ package org.josebur.libraries;
 
 public class Pixel {
 
-//    private final static int kDecimals = 3;
-//    private final BigDecimal _x;
-//    private final BigDecimal _y;
     private final float _x;
     private final float _y;
 
     public Pixel(float x, float y) {
-//        _x = new BigDecimal(x).setScale(kDecimals, BigDecimal.ROUND_HALF_UP);
-//        _y = new BigDecimal(y).setScale(kDecimals, BigDecimal.ROUND_HALF_UP);
         _x = x;
         _y = y;
     }
@@ -30,20 +25,17 @@ public class Pixel {
 
         Pixel pixel = (Pixel) o;
 
-//        if (pixel._x.compareTo(_x) != 0) return false;
-//        if (pixel._y.compareTo(_y) != 0) return false;
-        if (Float.compare(pixel._x, _x) != 0) return false;
-        if (Float.compare(pixel._y, _y) != 0) return false;
+        if (floatCompare(pixel._x, _x) != 0) return false;
+        if (floatCompare(pixel._y, _y) != 0) return false;
 
         return true;
     }
 
-//    @Override
-//    public int hashCode() {
-//        int result = _x.hashCode();
-//        result = 31 * result + _y.hashCode();
-//        return result;
-//    }
+    private int floatCompare(float f1, float f2) {
+        if (Math.abs(f1 - f2) < 0.001) return 0;
+
+        return Float.compare(f1, f2);
+    }
 
     @Override
     public int hashCode() {

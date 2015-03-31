@@ -2,25 +2,13 @@ package org.josebur.libraries;
 
 public class Position {
 
-//    private final static int kDecimals = 3;
-//    private final BigDecimal _x;
-//    private final BigDecimal _y;
-
     private final float _x;
     private final float _y;
 
     public Position(float x, float y) {
-//        _x = new BigDecimal(x).setScale(kDecimals, BigDecimal.ROUND_HALF_UP);
-//        _y = new BigDecimal(y).setScale(kDecimals, BigDecimal.ROUND_HALF_UP);
         _x = x;
         _y = y;
     }
-
-//    private Position(BigDecimal x, BigDecimal y)
-//    {
-//        _x = x;
-//        _y = y;
-//    }
 
     public float feetX() {
         return _x;
@@ -37,12 +25,16 @@ public class Position {
 
         Position position = (Position) o;
 
-//        if (position._x.compareTo(_x) != 0) return false;
-//        if (position._y.compareTo(_y) != 0) return false;
-        if (Float.compare(position._x, _x) != 0) return false;
-        if (Float.compare(position._y, _y) != 0) return false;
+        if (floatCompare(position._x, _x) != 0) return false;
+        if (floatCompare(position._y, _y) != 0) return false;
 
         return true;
+    }
+
+    private int floatCompare(float f1, float f2) {
+        if (Math.abs(f1 - f2) < 0.001) return 0;
+
+        return Float.compare(f1, f2);
     }
 
     @Override

@@ -34,13 +34,4 @@ public class PixelTest {
 
         assertTrue(a.equals(b));
     }
-
-    @Test
-    public void pixelWillRoundUpTheThirdDecimalWhenTheFourthIsHalf() {
-        Pixel a = new Pixel(1.234f, 0.f);
-        Pixel b = new Pixel(1.2345f, 0.f);
-
-        assertFalse(a.equals(b));
-        assertEquals(new Pixel(1.235f, 0.f), b);
-    }
 }
